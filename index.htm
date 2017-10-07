@@ -151,19 +151,82 @@
       var a = [];
 
       a.push({
-        id: 'the-path',
-        name: 'The path',
-        content: '<img src="pin2.png" style="width:100%"/><img src="pin.png" style="width:100%"/>',
-        x: 3600,
-        y: 2450,
+        id: 'towel',
+        name: 'towel',
+        content: 'Cup of Tea on Edge of Counter.',
+        longitude: 6.017,
+        latitude: -0.532,
         image: '/example/pin2.png',
         width: 32,
         height: 32,
         anchor: 'bottom center'
       });
-
-
-
+      a.push({
+        id: 'pan',
+        name: 'pan',
+        content: 'Pan placed on front hob with reachable handle.',
+        longitude: 6.251,
+        latitude: -0.444,
+        image: '/example/pin2.png',
+        width: 32,
+        height: 32,
+        anchor: 'bottom center'
+      });
+      a.push({
+        id: 'bleach',
+        name: 'bleach',
+        content: '.',
+        longitude: 0.848,
+        latitude: -0.625,
+        image: '/example/pin2.png',
+        width: 32,
+        height: 32,
+        anchor: 'bottom center'
+      });
+      a.push({
+        id: 'washingPowder',
+        name: 'washingPowder',
+        content: 'Household cleaning products account for 20% of all admissions to hospital due to poisoning.',
+        longitude: 1.365,
+        latitude: -0.395,
+        image: '/example/pin2.png',
+        width: 32,
+        height: 32,
+        anchor: 'bottom center'
+      });
+      a.push({
+        id: 'dogFood',
+        name: 'dogFood',
+        content: 'Children will eat dog food.',
+        longitude: 3.217,
+        latitude: -1.0625,
+        image: '/example/pin2.png',
+        width: 32,
+        height: 32,
+        anchor: 'bottom center'
+      });
+      a.push({
+        id: 'iron',
+        name: 'iron',
+        content: 'Iron placed on the radiator.',
+        longitude: 4.415,
+        latitude: -0.384,
+        image: '/example/pin2.png',
+        width: 32,
+        height: 32,
+        anchor: 'bottom center'
+      });
+      a.push({
+        id: 'pills',
+        name: 'pills',
+        content: 'Ingestion and poisoning.',
+        longitude: 5.693,
+        latitude: -0.416,
+        image: '/example/pin2.png',
+        width: 32,
+        height: 32,
+        anchor: 'bottom center'
+      });
       return a;
     }())
   });
@@ -182,6 +245,7 @@
         deletable: true
       }
     });
+    console.log('Xposition: '+ e.longitude + 'Yposition: '+ e.latitude )
   });
 
   PSV.on('select-marker', function(marker, dblclick) {
@@ -199,11 +263,11 @@
   });
 
   PSV.on('over-marker', function(marker) {
-    console.log('over', marker.id);
+
   });
 
   PSV.on('leave-marker', function(marker) {
-    console.log('leave', marker.id);
+
   });
 </script>
 
