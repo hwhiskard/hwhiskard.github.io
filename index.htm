@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="../dist/photo-sphere-viewer.css">
+  <link rel="stylesheet" href="/dist/photo-sphere-viewer.css">
 
   <style>
     html, body {
@@ -30,14 +30,14 @@
 
 <div id="photosphere"></div>
 
-<script src="../bower_components/three.js-master/build/three.js"></script>
-<script src="../bower_components/D.js/lib/D.js"></script>
-<script src="../bower_components/uEvent-master/uevent.js"></script>
-<script src="../bower_components/doT-master-1/doT.js"></script>
-<script src="../bower_components/three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
-<script src="../bower_components/three.js-master/examples/js/renderers/Projector.js"></script>
-<script src="../bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
-<script src="../dist/photo-sphere-viewer.js"></script>
+<script src="/bower_components/three.js-master/build/three.js"></script>
+<script src="/bower_components/D.js/lib/D.js"></script>
+<script src="/bower_components/uEvent-master/uevent.js"></script>
+<script src="/bower_components/doT-master-1/doT.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/Projector.js"></script>
+<script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+<script src="/dist/photo-sphere-viewer.js"></script>
 
 <!-- text used for the marker description -->
 <script type="text/template" id="pin-content">
@@ -92,7 +92,7 @@
 <script>
   var panos = [
     {
-      url: 'kitchen_messy.JPG',
+      url: '/example/kitchen_messy.JPG',
       desc: 'An unsafe kitchen',
       target: {
         longitude: 3.848,
@@ -105,7 +105,7 @@
     container: 'photosphere',
     panorama: panos[0].url,
     caption: panos[0].desc,
-    loading_img: 'photosphere-logo.gif',
+    loading_img: '/example/photosphere-logo.gif',
     longitude_range: [-7 * Math.PI / 8, 7 * Math.PI / 8],
     latitude_range: [-3 * Math.PI / 4, 3 * Math.PI / 4],
     anim_speed: '-2rpm',
@@ -156,7 +156,7 @@
         content: '<img src="pin2.png" style="width:100%"/><img src="pin.png" style="width:100%"/>',
         x: 3600,
         y: 2450,
-        image: 'pin2.png',
+        image: '/example/pin2.png',
         width: 32,
         height: 32,
         anchor: 'bottom center'
@@ -174,7 +174,7 @@
       tooltip: 'Generated marker',
       longitude: e.longitude,
       latitude: e.latitude,
-      image: 'pin.png',
+      image: '/example/pin.png',
       width: 32,
       height: 32,
       anchor: 'bottom center',
@@ -192,7 +192,7 @@
       else {
         PSV.updateMarker({
           id: marker.id,
-          image: 'pin2.png'
+          image: '/example/pin2.png'
         });
       }
     }
