@@ -40,42 +40,7 @@
 <script src="/dist/photo-sphere-viewer.js"></script>
 
 <!-- text used for the marker description -->
-<script type="text/template" id="pin-content">
-  <h1>HTML Ipsum Presents</h1>
 
-  <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas.
-    Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas
-    semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien
-    ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi.
-    Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a
-      href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
-
-  <h2>Header Level 2</h2>
-
-  <ol>
-    <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-    <li>Aliquam tincidunt mauris eu risus.</li>
-  </ol>
-
-  <blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet
-    congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus
-    est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
-
-  <h3>Header Level 3</h3>
-
-  <ul>
-    <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-    <li>Aliquam tincidunt mauris eu risus.</li>
-  </ul>
-
-  <pre><code>
-#header h1 a {
-	display: block;
-	width: 300px;
-	height: 80px;
-}
-</code></pre>
-</script>
 
 <!-- pattern used for the polygon marker -->
 <svg id="patterns">
@@ -152,101 +117,140 @@
 
       a.push({
         id: 'towel',
-        name: 'towel',
-        content: 'Cup of Tea on Edge of Counter.',
+        tooltip: 'Cup of Tea on Edge of Counter',
+        content: 'Reachable towel, may result in scalding. May cause serious pain and scarring',
         longitude: 6.017,
         latitude: -0.532,
-        image: '/example/pin2.png',
-        width: 32,
-        height: 32,
-        anchor: 'bottom center'
+        image: '/example/fire.png',
+        width: 100,
+        height: 100
+
       });
       a.push({
         id: 'pan',
-        name: 'pan',
-        content: 'Pan placed on front hob with reachable handle.',
+        tooltip: 'Pan placed on front hob with a reachable handle.',
+        content: 'Young children are curious about cooking and will grab what they can reach, could cause scalding..',
         longitude: 6.251,
         latitude: -0.444,
-        image: '/example/pin2.png',
-        width: 32,
-        height: 32,
-        anchor: 'bottom center'
+        image: '/example/fire.png',
+        width: 100,
+        height: 100
+
       });
       a.push({
         id: 'bleach',
-        name: 'bleach',
-        content: '.',
+        tooltip: 'Open cupboard with reachable cleaning products.',
+        content: 'Cupboard open with cleaning products easily accessible.',
         longitude: 0.848,
         latitude: -0.625,
-        image: '/example/pin2.png',
-        width: 32,
-        height: 32,
-        anchor: 'bottom center'
+        image: '/example/poison.png',
+        width: 100,
+        height: 100
+
       });
       a.push({
         id: 'washingPowder',
-        name: 'washingPowder',
+        tooltip: 'Washing powder on the work surface.',
         content: 'Household cleaning products account for 20% of all admissions to hospital due to poisoning.',
         longitude: 1.365,
         latitude: -0.395,
-        image: '/example/pin2.png',
-        width: 32,
-        height: 32,
-        anchor: 'bottom center'
+        image: '/example/poison.png',
+        width: 100,
+        height: 100
+
       });
       a.push({
-        id: 'dogFood',
-        name: 'dogFood',
-        content: 'Children will eat dog food.',
+        id: 'catFood',
+        tooltip: 'Cat food on the floor',
+        content: 'Children can choke on dog biscuits, whilst dirty litter trays can cause illness.',
         longitude: 3.217,
         latitude: -1.0625,
-        image: '/example/pin2.png',
-        width: 32,
-        height: 32,
-        anchor: 'bottom center'
+        image: '/example/poison.png',
+        width: 100,
+        height: 100
+
       });
       a.push({
         id: 'iron',
-        name: 'iron',
-        content: 'Iron placed on the radiator.',
+        tooltip: 'Iron being stored on the radiator',
+        content: 'Ovens, hobs, irons and hair straighteners can cause a deep burn on contact.',
         longitude: 4.415,
         latitude: -0.384,
-        image: '/example/pin2.png',
-        width: 32,
-        height: 32,
-        anchor: 'bottom center'
+        image: '/example/fire.png',
+        width: 100,
+        height: 100
+
       });
       a.push({
         id: 'pills',
-        name: 'pills',
-        content: 'Ingestion and poisoning.',
+        tooltip: 'Pills left on the work surface.',
+        content: 'Medicines are at risk of being ingested by children, resulting in poisoning.',
         longitude: 5.693,
         latitude: -0.416,
-        image: '/example/pin2.png',
-        width: 32,
-        height: 32,
-        anchor: 'bottom center'
+        image: '/example/poison.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'fridge',
+        tooltip: 'Fridge magnet can be swallowed.',
+        content: 'Magnets and button batteries can be dangerous if swallowed.',
+        longitude: 5.535,
+        latitude: -0.684,
+        image: '/example/poison.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'gloves',
+        tooltip: 'Oven gloves next to the oven are a fire risk.',
+        content: 'Cooking appliances cause a large proportion of house fires in the UK. Find a place to store towels/ gloves away from the cooker.',
+        longitude: 0.222,
+        latitude: -0.541,
+        image: '/example/poison.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'kettle',
+        tooltip: 'Kettle on the edge of the work surface.',
+        content: 'Cordless kettles are dangerous, as they are easy to carry around and spill very hot water..',
+        longitude: 0.222,
+        latitude: -0.541,
+        image: '/example/poison.png',
+        width: 100,
+        height: 100
+
       });
       return a;
     }())
   });
 
-  PSV.on('click', function(e) {
-    PSV.addMarker({
-      id: '#' + Math.random(),
-      tooltip: 'Generated marker',
-      longitude: e.longitude,
-      latitude: e.latitude,
-      image: '/example/pin.png',
-      width: 32,
-      height: 32,
-      anchor: 'bottom center',
-      data: {
-        deletable: true
-      }
-    });
-    console.log('Xposition: '+ e.longitude + 'Yposition: '+ e.latitude )
+  PSV.on('panorama-loaded', function()
+  {
+
+  PSV.mesh.rotateZ( -0.03);
+  PSV.render();
   });
+  //   PSV.on('click', function(e) {
+  //  PSV.addMarker({
+  //    id: '#' + Math.random(),
+  //    tooltip: 'Generated marker',
+  //    longitude: e.longitude,
+  //    latitude: e.latitude,
+  //    image: '/example/pin.png',
+  //    width: 32,
+  //    height: 32,
+  //    anchor: 'bottom center',
+  //    data: {
+  //      deletable: true
+  //    }
+  //  });
+  //  console.log('Xposition: '+ e.longitude + 'Yposition: '+ e.latitude )
+  //});
 
   PSV.on('select-marker', function(marker, dblclick) {
     if (marker.data && marker.data.deletable) {
