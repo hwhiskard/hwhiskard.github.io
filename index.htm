@@ -217,16 +217,18 @@
         title: 'This button is disabled',
         content: '❌',
         onClick: (function() {
-
-          return function(){
-
-            for (a in PSV.hud.markers)
-            {
-              PSV.hideMarker(a)
-            }
-
+        return function() {
+          if (PSV.doControls.enabled = true)
+          {
+          PSV.doControls.enabled = false;
+          }
+          else
+          {
+            PSV.doControls.enabled = true;
+          }
+          console.log(PSV.doControls.enabled);
         }
-          }())
+      }())
       },
       'caption',
       'gyroscope',
