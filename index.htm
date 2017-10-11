@@ -214,7 +214,7 @@
       },
       {
         id: 'disabled',
-        title: 'Toggle Gyroscope',
+        title: 'This button is disabled',
         content: '❌',
         onClick: (function() {
         return function() {
@@ -235,6 +235,13 @@
       'fullscreen'
     ]
   });
+
+PSV.hud.container.addEventListener( 'touchstart', function( e ) {
+  for (a in PSV.hud.markers)
+  {
+    PSV.hideMarker(a)
+  }
+});
 
   PSV.on('panorama-loaded', function()
   {
