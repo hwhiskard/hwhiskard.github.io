@@ -226,7 +226,8 @@
           {
             PSV.doControls.enabled = true;
           }
-          console.log(PSV.doControls.enabled);
+
+
         }
       }())
       },
@@ -237,15 +238,12 @@
   });
 
 PSV.hud.container.addEventListener( 'touchstart', function( e ) {
-  for (a in PSV.hud.markers)
-  {
-    PSV.hideMarker(a)
-  }
+PSV.doControls.alphaOffsetAngle +=1;
 });
 
   PSV.on('panorama-loaded', function()
   {
-
+  console.log(PSV)
   PSV.mesh.rotateZ( -0.03);
   PSV.render();
   });
