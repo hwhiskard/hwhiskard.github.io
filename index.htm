@@ -218,14 +218,7 @@
         content: '❌',
         onClick: (function() {
         return function() {
-          if (PSV.doControls.enabled == true)
-          {
-          PSV.doControls.enabled = false;
-          }
-          else
-          {
-            PSV.doControls.enabled = true;
-          }
+
 
 
         }
@@ -238,7 +231,7 @@
   });
 
 PSV.hud.container.addEventListener( 'touchstart', function( e ) {
-PSV.doControls.alphaOffsetAngle +=1;
+PSV.doControls.alphaOffsetAngle = 10;
 });
 
   PSV.on('panorama-loaded', function()
@@ -295,8 +288,6 @@ PSV.doControls.alphaOffsetAngle +=1;
   });
 </script>
 
-<script>
-  document.write('<script src="//' + location.host.split(':')[0] + ':35729/livereload.js" async defer><' + '/script>');
-</script>
+
 </body>
 </html>
