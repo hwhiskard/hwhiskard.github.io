@@ -225,41 +225,25 @@
         }
       }())
       },
+      'fullscreen',
       'caption',
-      'fullscreen'
+
     ]
   });
 
 PSV.hud.container.addEventListener( 'touchstart', function( e ) {
-panos[0].target.offsetAngstart = PSV.doControls.alpha;
+  panos[0].target.offsetAngstart = PSV.doControls.alpha;
 });
 PSV.hud.container.addEventListener( 'touchend', function( e ) {
-panos[0].target.offsetAngend = PSV.doControls.alpha;
-PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+  panos[0].target.offsetAngend = PSV.doControls.alpha;
+  PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
 });
 
   PSV.on('panorama-loaded', function()
   {
-  console.log(PSV)
-  PSV.mesh.rotateZ( -0.03);
-  PSV.render();
+    PSV.mesh.rotateZ( -0.03);
+    PSV.render();
   });
-  //   PSV.on('click', function(e) {
-  //  PSV.addMarker({
-  //    id: '#' + Math.random(),
-  //    tooltip: 'Generated marker',
-  //    longitude: e.longitude,
-  //    latitude: e.latitude,
-  //    image: '/example/pin.png',
-  //    width: 32,
-  //    height: 32,
-  //    anchor: 'bottom center',
-  //    data: {
-  //      deletable: true
-  //    }
-  //  });
-  //  console.log('Xposition: '+ e.longitude + 'Yposition: '+ e.latitude )
-  //});
 
   PSV.on('select-marker', function(marker, dblclick) {
     if (marker.data && marker.data.deletable) {
