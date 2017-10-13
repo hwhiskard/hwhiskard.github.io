@@ -231,7 +231,7 @@ panos[0].target.offsetAngstart = PSV.doControls.alpha;
 PSV.hud.container.addEventListener( 'touchend', function( e ) {
 PSV.doControls.enabled = true
 panos[0].target.offsetAngend = PSV.doControls.alpha;
-PSV.doControls.alphaOffsetAngle = - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
 });
 
   PSV.on('panorama-loaded', function()
