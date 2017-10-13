@@ -217,14 +217,18 @@
         title: 'This button is disabled',
         content: '❌',
         onClick: (function() {
-        return function() {
-        if (panos[0].offsetAng == '')
+        return function()
         {
-        panos[0].offsetAng = PSV.doControls.alpha;
-        }
-        else{
-        PSV.doControls.alphaOffsetAngle = - panos[0].offsetAng;
-        }
+          if (panos[0].target.offsetAng == "")
+            {
+            console.log(panos[0].target.offsetAng);
+            panos[0].target.offsetAng = PSV.doControls.alpha;
+
+            }
+          else
+          {
+            PSV.doControls.alphaOffsetAngle = - panos[0].offsetAng;
+          }
         }
       }())
       },
