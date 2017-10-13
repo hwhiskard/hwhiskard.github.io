@@ -61,7 +61,9 @@
       desc: 'An unsafe kitchen',
       target: {
         longitude: 3.848,
-        latitude: -0.244
+        latitude: -0.244,
+        offsetAngstart: '',
+        offsetAngend: ''
       }
     }
   ];
@@ -222,9 +224,15 @@
     ]
   });
 
-//PSV.hud.container.addEventListener( 'touchstart', function( e ) {
-//PSV.doControls.alphaOffsetAngle = - panos[0].offsetAng;
-//});
+PSV.hud.container.addEventListener( 'touchstart', function( e ) {
+PSV.doControls.enabled = false
+panos[0].target.offsetAngstart = PSV.doControls.alpha;
+});
+PSV.hud.container.addEventListener( 'touchend', function( e ) {
+PSV.doControls.enabled = true
+panos[0].target.offsetAngend = PSV.doControls.alpha;
+PSV.doControls.alphaOffsetAngle = - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+});
 
   PSV.on('panorama-loaded', function()
   {
