@@ -193,13 +193,11 @@
       });
       return a;
     }()),
-    navbar: [
-      'autorotate', 'zoom', 'download', 'markers',
-      'spacer-1',
+    navbar: [ 'gyroscope', 'markers',
       {
-        title: 'Change image',
+        title: 'Initiate changing Photosphere position.',
         className: 'custom-button',
-        content: '↻',
+        content: '→',
         onClick: (function()
         {
           return function()
@@ -210,8 +208,8 @@
       },
       {
         id: 'disabled',
-        title: 'This button is disabled',
-        content: '❌',
+        title: 'Set Desired Photosphere position.',
+        content: '⌖',
         onClick: (function() {
         return function()
         {
@@ -220,7 +218,6 @@
       }())
       },
       'caption',
-      'gyroscope',
       'fullscreen'
     ]
   });
