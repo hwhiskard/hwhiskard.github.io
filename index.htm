@@ -248,8 +248,10 @@
 
 
   });
-  PSV.doControls.deviceOrientation.beta =  PSV.doControls.deviceOrientation.beta - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
-PSV.on
+  PSV.on('position-updated',function(){
+    PSV.doControls.deviceOrientation.beta =  PSV.doControls.deviceOrientation.beta - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+  });
+
   PSV.on('panorama-loaded', function()
   {
     PSV.mesh.rotateZ( -0.03);
