@@ -245,9 +245,10 @@
     panos[0].target.offsetAngend = PSV.doControls.alpha;
     PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
     panos[0].target.offsetBetaEnd = PSV.doControls.deviceOrientation.beta;
-    PSV.mesh.rotateX( - panos[0].target.offsetAngend + panos[0].target.offsetAngstart );
-  });
+    PSV.doControls.deviceOrientation.beta =  PSV.doControls.deviceOrientation.beta - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
 
+  });
+PSV.on
   PSV.on('panorama-loaded', function()
   {
     PSV.mesh.rotateZ( -0.03);
