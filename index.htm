@@ -64,7 +64,9 @@
         longitude: 3.848,
         latitude: -0.244,
         offsetAngstart: '',
-        offsetAngend: ''
+        offsetAngend: '',
+        offsetBetaStart: '',
+        offsetBetaEnd: ''
       }
     }
   ];
@@ -232,13 +234,19 @@
     ]
   });
 
-PSV.hud.container.addEventListener( 'touchstart', function( e ) {
-  panos[0].target.offsetAngstart = PSV.doControls.alpha;
-});
-PSV.hud.container.addEventListener( 'touchend', function( e ) {
-  panos[0].target.offsetAngend = PSV.doControls.alpha;
-  PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
-});
+  PSV.hud.container.addEventListener( 'touchstart', function( e )
+  {
+    panos[0].target.offsetAngstart = PSV.doControls.alpha;
+    panos[0].target.offsetBetaStart = PSV.doControls.deviceOrientation.beta;
+  });
+
+  PSV.hud.container.addEventListener( 'touchend', function( e )
+  {
+    panos[0].target.offsetAngend = PSV.doControls.alpha;
+    PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+    panos[0].target.offsetBetaEnd = PSV.doControls.deviceOrientation.beta;
+    PSV.mesh.rotateX( - panos[0].target.offsetAngend + panos[0].target.offsetAngstart );
+  });
 
   PSV.on('panorama-loaded', function()
   {
