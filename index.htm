@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/dist/photo-sphere-viewer.css">
+
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    #photosphere {
+      width: 100%;
+      height: 100%;
+    }
+
+    .psv-button.custom-button {
+      font-size: 22px;
+      line-height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="photosphere"></div>
+<div class="center" ></div>
+
+<script src="/bower_components/three.js-master/build/three.js"></script>
+<script src="/bower_components/D.js/lib/D.js"></script>
+<script src="/bower_components/uEvent-master/uevent.js"></script>
+<script src="/bower_components/doT-master-1/doT.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/Projector.js"></script>
+<script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+<script src="/dist/photo-sphere-viewer.js"></script>
+ <script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+<!-- text used for the marker description -->
+
+
+<!-- pattern used for the polygon marker -->
+<svg id="patterns">
+  <defs>
+    <pattern id="dots" x="10" y="10" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="10" style="stroke: none; fill: rgba(255,0,0,0.4)"/>
+    </pattern>
+    <pattern id="points" x="10" y="10" width="15" height="15" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="0.8" style="stroke: none; fill: red"/>
+    </pattern>
+  </defs>
+</svg>
+
+<script>
+  var panos = [
+    {
+      url: '/example/kitchen_messy.JPG',
+      desc: 'An unsafe kitchen',
+      target: {
+        longitude: 3.848,
+        latitude: -0.244,
+        offsetAngstart: '',
+        offsetAngend: '',
+      }
+    }
+  ];
+
+  var PSV = new PhotoSphereViewer({
+    container: 'photosphere',
+    panorama: panos[0].url,
+    caption: panos[0].desc,
+    loading_img: '/example/photosphere-logo.gif',
+    anim_speed: '-2rpm',
+    default_fov: 50,
+    fisheye: true,
+    move_speed: 1.1,
+    time_anim: false,
+    gyroscope: true,
+
+    markers: (function() {
+      var a = [];
+
+      a.push({
+        id: 'towel',
+        tooltip: 'Cup of Tea on Edge of Counter',
+        content: 'Reachable towel, may result in scalding. May cause serious pain and scarring',
+        longitude: 6.017,
+        latitude: -0.532,
+        image: '/example/fire2.png',
+        width: 80,
+        height: 80
+
+      });
+      a.push({
+        id: 'pan',
+        tooltip: 'Pan placed on front hob with a reachable handle.',
+        content: 'Young children are curious about cooking and will grab what they can reach, could cause scalding..',
+        longitude: 6.251,
+        latitude: -0.444,
+        image: '/example/fire2.png',
+        width: 80,
+        height: 80
+
+      });
+      a.push({
+        id: 'bleach',
+        tooltip: 'Open cupboard with reachable cleaning products.',
+        content: 'Cupboard open with cleaning products easily accessible.',
+        longitude: 0.848,
+        latitude: -0.625,
+        image: '/example/poison3.png',
+        width: 80,
+        height: 80
+
+      });
+      a.push({
+        id: 'washingPowder',
+        tooltip: 'Washing powder on the work surface.',
+        content: 'Household cleaning products account for 20% of all admissions to hospital due to poisoning.',
+        longitude: 1.365,
+        latitude: -0.395,
+        image: '/example/poison3.png',
+        width: 80,
+        height: 80
+
+      });
+      a.push({
+        id: 'catFood',
+        tooltip: 'Cat food on the floor',
+        content: 'Children can choke on dog biscuits, whilst dirty litter trays can cause illness.',
+        longitude: 3.217,
+        latitude: -1.0625,
+        image: '/example/choking2.png',
+        width: 80,
+        height: 80
+
+      });
+      a.push({
+        id: 'iron',
+        tooltip: 'Iron being stored on the radiator',
+        content: 'Ovens, hobs, irons and hair straighteners can cause a deep burn on contact.',
+        longitude: 4.415,
+        latitude: -0.384,
+        image: '/example/fire2.png',
+        width: 80,
+        height: 80
+
+      });
+      a.push({
+        id: 'pills',
+        tooltip: 'Pills left on the work surface.',
+        content: 'Medicines are at risk of being ingested by children, resulting in poisoning.',
+        longitude: 5.693,
+        latitude: -0.416,
+        image: '/example/poison3.png',
+        width: 80,
+        height: 80
+
+      });
+      a.push({
+        id: 'fridge',
+        tooltip: 'Fridge magnet can be swallowed.',
+        content: 'Magnets and button batteries can be dangerous if swallowed.',
+        longitude: 5.535,
+        latitude: -0.684,
+        image: '/example/choking2.png',
+        width: 50,
+        height: 50
+
+      });
+      a.push({
+        id: 'gloves',
+        tooltip: 'Oven gloves next to the oven are a fire risk.',
+        content: 'Cooking appliances cause a large proportion of house fires in the UK. Find a place to store towels/ gloves away from the cooker.',
+        longitude: 0.222,
+        latitude: -0.541,
+        image: '/example/poison3.png',
+        width: 80,
+        height: 80
+
+      });
+      a.push({
+        id: 'kettle',
+        tooltip: 'Kettle on the edge of the work surface.',
+        content: 'Cordless kettles are dangerous, as they are easy to carry around and spill very hot water..',
+        longitude: 1.174,
+        latitude: -0.254,
+        image: '/example/poison3.png',
+        width: 80,
+        height: 80
+
+      });
+      return a;
+    }()),
+    navbar: [ 'gyroscope', 'markers',
+      {
+        title: 'Initiate changing Photosphere position.',
+        className: 'custom-button',
+        content: '↻',
+        onClick: (function()
+        {
+          return function()
+          {
+            for (a in PSV.hud.markers)
+            {
+              PSV.showMarker(a)
+            }
+          }
+        }())
+      },
+      {
+        id: 'disabled',
+        title: 'Set Desired Photosphere position.',
+        content: '❌',
+        onClick: (function() {
+        return function()
+        {
+          for (a in PSV.hud.markers)
+          {
+            PSV.hideMarker(a)
+          }
+        }
+      }())
+      },
+      'fullscreen',
+      'caption',
+
+    ]
+  });
+
+  PSV.hud.container.addEventListener( 'touchstart', function( e )
+  {
+    panos[0].target.offsetAngstart = PSV.doControls.alpha;
+  
+  });
+
+  PSV.hud.container.addEventListener( 'touchend', function( e )
+  {
+    panos[0].target.offsetAngend = PSV.doControls.alpha;
+    PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+
+
+
+  });
+
+  PSV.on('panorama-loaded', function()
+  {
+    PSV.mesh.rotateZ( -0.03);
+    PSV.render();
+  });
+
+  PSV.on('select-marker', function(marker, dblclick) {
+    if (marker.data && marker.data.deletable) {
+      if (dblclick) {
+        PSV.removeMarker(marker);
+      }
+      else {
+        PSV.updateMarker({
+          id: marker.id,
+          image: '/example/pin2.png'
+        });
+      }
+    }
+  });
+
+  PSV.on('over-marker', function(marker) {
+    PSV.updateMarker(
+    { id: marker.id,
+      width: 100,
+      height: 100
+    })
+  });
+
+  PSV.on('leave-marker', function(marker) {
+    PSV.updateMarker(
+    { id: marker.id,
+      width: 80,
+      height: 80
+    })
+  });
+</script>
+
+
+</body>
+</html>
