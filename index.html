@@ -95,92 +95,32 @@
                 });
               }, false);
 
-			        // add some points of interest (poi) for each of the compass points
-			        awe.pois.add({ id:'north', position: { x:0, y:0, z:200 } });
-			        awe.pois.add({ id:'north_east', position: { x:200, y:0, z:200 } });
-			        awe.pois.add({ id:'east', position: { x:200, y:0, z:0 } });
-			        awe.pois.add({ id:'south_east', position: { x:200, y:0, z:-200 } });
-			        awe.pois.add({ id:'south', position: { x:0, y:0, z:-200 } });
-			        awe.pois.add({ id:'south_west', position: { x:-200, y:0, z:-200 } });
-			        awe.pois.add({ id:'west', position: { x:-200, y:0, z:0 } });
-			        awe.pois.add({ id:'north_west', position: { x:-200, y:0, z:200 } });
-
-			        // add projections to each of the pois
-			        awe.projections.add({
-			          id:'n',
-			          geometry:{ shape:'cube', x:50, y:50, z:50 },
-                rotation:{ x:30, y:30, z:0 },
-			          material:{
-			            type: 'phong',
-			            color:0xFF0000,
-			          },
-			        }, { poi_id: 'north' });
-
-			        awe.projections.add({
-			          id:'ne',
-			          geometry:{ shape:'sphere', radius:10 },
-			          material:{
-			            type: 'phong',
-			            color:0xCCCCCC,
-			          },
-			        }, { poi_id: 'north_east' });
-
-			        awe.projections.add({
-			          id:'e',
-			          geometry:{ shape:'cube', x:50, y:50, z:50 },
-                rotation:{ x:30, y:30, z:0 },
-			          material:{
-			            type: 'phong',
-			            color:0x00FF00,
-			          },
-			        }, { poi_id: 'east' });
-
-			        awe.projections.add({
-			          id:'se',
-			          geometry:{ shape:'sphere', radius:10 },
-			          material:{
-			            type: 'phong',
-			            color:0xCCCCCC,
-			          },
-			        }, { poi_id: 'south_east' });
-
-			        awe.projections.add({
-			          id:'s',
-			          geometry:{ shape:'cube', x:50, y:50, z:50 },
-                rotation:{ x:30, y:30, z:0 },
-			          material:{
-			            type: 'phong',
-			            color:0xFFFFFF,
-			          },
-			        }, { poi_id: 'south' });
-
-			        awe.projections.add({
-			          id:'sw',
-			          geometry:{ shape:'sphere', radius:10 },
-			          material:{
-			            type: 'phong',
-			            color:0xCCCCCC,
-			          },
-			        }, { poi_id: 'south_west' });
-
-			        awe.projections.add({
-			          id:'w',
-			          geometry:{ shape:'cube', x:50, y:50, z:50 },
-                rotation:{ x:30, y:30, z:0 },
-			          material:{
-			            type: 'phong',
-			            color:0x0000FF,
-			          },
-			        }, { poi_id: 'west' });
-
-			        awe.projections.add({
-			          id:'nw',
-			          geometry:{ shape:'sphere', radius:10 },
-			          material:{
-			            type: 'phong',
-			            color:0xCCCCCC,
-			          },
-			        }, { poi_id: 'north_west' });
+							var new_x = 0, // start pov position at x:0
+    new_z = 0, // start the pov position at z:0
+    duration = 3, // make the animation run for 3 seconds
+    step_size = 360/(duration*61), // if duration == 1 & rAF runs at ~60hz
+    circle_radius = 400,
+    angle = 0,
+    target_poi_id = "fixedObj", // set the poi you want to circle around
+      target_poi_x = awe.pois.view(target_poi_id).position.x,
+      target_poi_z = awe.pois.view(target_poi_id).position.z;
+awe.pov().update({
+  position:{ x:1 }, // set an arbitrary non zero position update but override it below
+  animation: {
+        duration: duration,
+        persist: 0, // change this to 1 if you don't want to reset to how you started
+        step_callback:function(io) {  // setup a callback on each step
+          angle += step_size; // update the current angle
+          new_x = Math.sin(THREE.Math.degToRad(angle))*circle_radius ; // calculate the x based on angle
+          new_z = Math.cos(THREE.Math.degToRad(angle))*circle_radius ; // calculate the z based on angle
+          awe.pov().update({ position:{ x:target_poi_x+new_x, z:target_poi_z+new_z } }); // update offset from the poi you're circling
+          io.object.look_at_poi({ id:target_poi_id  }); // make the pov look at the poi you're circling
+        },
+        end_callback:function(io) {
+          io.object.look_at_poi({ id:target_poi_id  }); // if you don't persist then reset orientation here
+        }
+    }
+});
 
             },
           },
