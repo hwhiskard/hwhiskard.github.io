@@ -1,63 +1,137 @@
-# Photo Sphere Viewer
+awe.js
+======
 
-[![Bower version](https://img.shields.io/bower/v/Photo-Sphere-Viewer.svg?style=flat-square)](http://photo-sphere-viewer.js.org)
-[![NPM version](https://img.shields.io/npm/v/photo-sphere-viewer.svg?style=flat-square)](https://www.npmjs.com/package/photo-sphere-viewer)
-[![Build Status](https://img.shields.io/travis/mistic100/Photo-Sphere-Viewer/master.svg?style=flat-square)](https://travis-ci.org/mistic100/Photo-Sphere-Viewer)
-[![Dependencies Status](https://david-dm.org/mistic100/Photo-Sphere-Viewer/status.svg?style=flat-square)](https://david-dm.org/mistic100/Photo-Sphere-Viewer)
+awe.media is hiring
+-------------------
+If you're an experienced javascript developer and you're interested in pushing the boundaries of Virtual and Augmented Reality or Computer Vision then contact us through `jobs [ at ] awe.media`.
 
-Photo Sphere Viewer is a JavaScript library that allows you to display 360×180 degrees panoramas on any web page. Panoramas must use the equirectangular projection and can be taken with the Google Camera, the Ricoh Theta or any 360° camera.
+What is awe.js?
+---------------
+It's the quickest and easiest way to create Augmented Web applications.
 
-Forked from [JeremyHeleine/Photo-Sphere-Viewer](https://github.com/JeremyHeleine/Photo-Sphere-Viewer).
+If you want to see what an awe.js app looks like just visit https://awe.media and setup a free demo.
 
-## Documentation
-[photo-sphere-viewer.js.org](http://photo-sphere-viewer.js.org)
+Here's a few short videos that show you just how easy it is to create an awe app.
+- Add a 360° photo or video background https://youtu.be/B2mQaeXyXDw
+- Add 3D objects, images or videos https://youtu.be/LxVRBxC-SHY
+- Add interactivity https://youtu.be/3N2NZfCCuLY 
 
-## Dependencies
- * [three.js](http://threejs.org)
- * [doT.js](http://olado.github.io/doT)
- * [uEvent](https://github.com/mistic100/uEvent)
- * [D.js](http://malko.github.io/D.js)
+Or checkout some of our older demos showing showing different uses of awe.js 
+- Location based AR http://youtu.be/OJHgBSRJNJY
+- Marker based AR http://youtu.be/X_XR9VbQPeE
+- Oculus Rift based AR http://youtu.be/kIHih4Cc1ag
+- Leap Motion Sensor AR http://youtu.be/mDbvPU4aokQ
+- Google Glass AR http://youtu.be/M97E2m6dRO4
 
-## Install
+awe.js docs
+-----------
+Checkout the docs in our [wiki](https://github.com/awe-media/awe.js/wiki).
 
-#### Manually
+What is the Augmented Web?
+--------------------------
+It's what comes after html5!
 
-[Download the latest release](https://github.com/mistic100/Photo-Sphere-Viewer/releases)
+It uses WebRTC, WebGL, WebVR and the modern sensor APIs to bring Augmented Reality and so much more to the web platform. It will completely change the way you and your users see the web.
 
-#### With Bower
 
-```bash
-$ bower install Photo-Sphere-Viewer
+How do you create an awe.js app?
+--------------------------------
+Just add a `<script src='js/awe.js'></script>` tag to your html page to turn that page into an Augmented Web application.
+
+Now you are ready to create adaptive Augmented Web Experiences. `awe.js` allows you to easily create and manage 3d objects, add and manage Video and Audio streams and integrate automatic handling of sensor driven data feeds.
+
+See the `examples/` and their plugins for more details.
+
+To initialize your `awe.js` application just call: 
+
+```
+awe.init({
+  ...
+});
 ```
 
-#### With npm
+Once the `awe_ready` event is fired then your `awe.js` app is ready to start. Then you can call `awe.setup_scene()` to setup your scene. NOTE: This must be called after `awe_ready` has been fired.
 
-```bash
-$ npm install photo-sphere-viewer
+To see this working try loading `examples/basic/index.html` in a suitable standards compliant browser.
+
+How do you add objects to your scene?
+-------------------------------------
+The `awe.js` API is consistently built upon a simple CRUD like model but the common actions are named `list`, `add`, `view`, `update` and `delete` - see the `v8.js` file included in the top of `js/awe.js` for more detailed information.
+
+Each `awe.js` application consists of a 3d scene and into that scene you can add points of interest or pois. Each poi marks out a point in space that is important or useful for some reason. This can be the location of an object or it might be a point where a recognised object or marker is currently sitting. Then you can attach different types of media (e.g. 3d objects, videos, images and sounds) to each poi and these pieces of media are called projections.
+
+To add an object (point of interest) into your scene just call:
+
+```
+awe.pois.add({ id: 'my_first_poi' });
 ```
 
-#### Via CDN
+To see all the points of interest in the scene call:
 
-Photo Sphere Viewer is available on [jsDelivr](https://cdn.jsdelivr.net/npm/photo-sphere-viewer/dist/) and [unpkg](https://unpkg.com/photo-sphere-viewer/dist/)
+```
+awe.pois.list();
+```
 
-## Build
+To see the first poi you created call: 
 
-#### Prerequisites
- * NodeJS + NPM: `apt-get install nodejs-legacy npm`
- * Ruby Dev: `apt-get install ruby-dev`
- * Grunt CLI: `npm install -g grunt-cli`
- * Bower: `npm install -g bower`
- * SASS: `gem install sass`
+```
+var poi = awe.pois.view('my_first_poi');
+```
 
-#### Run
+To see all the projections in the scene call:
 
-Install Node and Bower dependencies `npm install & bower install` then run `grunt` in the root directory to generate production files inside `dist`.
+```
+awe.projections.list();
+```
 
-#### Other commands
+To rotate a poi and all it's children projections just call:
 
- * `grunt test` to run jshint/jscs/scsslint.
- * `grunt serve` to open the example page with automatic build and livereload.
- * `grunt jsdoc` to generate the documentation.
+```
+awe.pois.update({
+  data:{
+    rotation:{
+      y:180
+    }
+  },
+  where:{
+    id:'my_first_poi'
+  }
+});
+```
 
-## License
-This library is available under the MIT license.
+NOTE: It's important that you only manipulate your pois and projections using the `awe.js` interface (e.g. `awe.pois.update({ data:{...}, where:{...} }`) otherwise you will miss out on all the `awe.js` automagic goodness.
+
+
+Example pois.add data structure 
+-------------------------------
+```
+{
+  id: 'poi_name',
+  scale: { x:1, y:1, z:1 },
+  position: { x:1, y:1, z:1 },
+  rotation: { x:0, y:0, z:0 },
+  visible: true,
+}
+```
+
+Example projections.add data structure  
+--------------------------------------
+```
+{
+  id: 'projection_name',
+  scale: { x:1, y:1, z:1 },
+  position: { x:1, y:1, z:1 },
+  rotation: { x:0, y:0, z:0 },
+  geometry: { shape:'cube', x:10, y:10, z:10 },
+  material: { color:0xFF0000, opacity:1.0, transparent:true, wireframe:false, fog:true },
+  texture: { path:'example.jpg' },
+  visible: true,
+  cast_shadow: true,
+  receive_shadow: true,
+},
+{
+  poi_id:'poi_name',
+}
+```
+
+Welcome to the future of the web - the Augmented Web!
