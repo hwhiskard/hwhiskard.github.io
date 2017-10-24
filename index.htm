@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/dist/photo-sphere-viewer.css">
+  <link rel="stylesheet" href="bootstrap-slider-master/dist/css/bootstrap-slider.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="jquery-3.2.1.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+  <script src="bootstrap-slider-master/dist/bootstrap-slider.js"></script>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    #photosphere {
+      width: 100%;
+      height: 100%;
+    }
+    #myModal {
+      text-align: center;
+      height: 300px;
+
+    }
+    #ex1Slider .slider-selection {
+	background: #BABABA;
+    }
+    .psv-button.custom-button {
+      font-size: 22px;
+      line-height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="photosphere"></div>
+
+<!-- Modal Window content -->
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Select marker type</h4>
+      </div>
+      <div class="modal-body">
+      <div class="btn-group btn-group-justified">
+        <a href="#" id='selectPoison' class="btn btn-primary" data-dismiss="modal">Poison <br/>  <img src="/example/poison2.png" alt="Poison" style="float:centre;width:60px;height:60px;">  </a>
+        <a href="#" id='selectChoking' class="btn btn-primary" data-dismiss="modal">Choking <br/>  <img src="/example/choking.png" alt="Choking" style="float:centre;width:55px;height:55px;"></a>
+        <a href="#" id='selectFire' class="btn btn-primary" data-dismiss="modal">Fire <br/>  <img src="/example/fire.png" alt="Fire" style="float:centre;width:60px;height:60px;" ></a>
+      </div>
+      <h4 class="modal-title">Risk Factor</h4>
+      <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5"/>
+     </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="/bower_components/three.js-master/build/three.js"></script>
+<script src="/bower_components/D.js/lib/D.js"></script>
+<script src="/bower_components/uEvent-master/uevent.js"></script>
+<script src="/bower_components/doT-master-1/doT.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/Projector.js"></script>
+<script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+<script src="/dist/photo-sphere-viewer.js"></script>
+ <script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+ <script src="/bower_components/three.js-master/examples/js/renderers/CSS3DRenderer.js"></script>
+ <script src='/threex.htmlmixer-master/threex.htmlmixer.js'></script>
+
+<!-- text used for the marker description -->
+
+
+<!-- pattern used for the polygon marker -->
+<svg id="patterns">
+  <defs>
+    <pattern id="dots" x="10" y="10" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="10" style="stroke: none; fill: rgba(255,0,0,0.4)"/>
+    </pattern>
+    <pattern id="points" x="10" y="10" width="15" height="15" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="0.8" style="stroke: none; fill: red"/>
+    </pattern>
+  </defs>
+</svg>
+
+<script>
+  var panos = [
+    {
+      url: '/example/images/2.JPG',
+      desc: 'An unsafe kitchen',
+      target: {
+        longitude: 3.848,
+        latitude: -0.244,
+        offsetAng: '',
+        clickX: '',
+        clickY: '',
+        risk: 5
+      }
+    }
+  ];
+
+  var PSV = new PhotoSphereViewer({
+    container: 'photosphere',
+    panorama: panos[0].url,
+    caption: panos[0].desc,
+    loading_img: '/example/photosphere-logo.gif',
+    anim_speed: '-2rpm',
+    default_fov: 50,
+    fisheye: true,
+    move_speed: 1.1,
+    time_anim: false,
+    gyroscope: true,
+
+    markers: (function() {
+      var a = [];
+
+      a.push({
+        id: 'towel',
+        tooltip: 'Cup of Tea on Edge of Counter',
+        content: 'Reachable towel, may result in scalding. May cause serious pain and scarring',
+        longitude: 0.34,
+        latitude: -0.33,
+        image: '/example/fire.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'pan',
+        tooltip: 'Pan placed on front hob with a reachable handle.',
+        content: 'Young children are curious about cooking and will grab what they can reach, could cause scalding..',
+        longitude: 0.156,
+        latitude: -0.313,
+        image: '/example/fire.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'bleach',
+        tooltip: 'Open cupboard with reachable cleaning products.',
+        content: 'Cupboard open with cleaning products easily accessible.',
+        longitude: 0.949,
+        latitude: -0.194,
+        image: '/example/poison2.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'washingPowder',
+        tooltip: 'Washing powder on the work surface.',
+        content: 'Household cleaning products account for 20% of all admissions to hospital due to poisoning.',
+        longitude: 1.365,
+        latitude: -0.395,
+        image: '/example/poison2.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'catFood',
+        tooltip: 'Cat food on the floor',
+        content: 'Children can choke on dog biscuits, whilst dirty litter trays can cause illness.',
+        longitude: 3.033,
+        latitude: -0.878,
+        image: '/example/choking.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'iron',
+        tooltip: 'Iron being stored on the radiator',
+        content: 'Ovens, hobs, irons and hair straighteners can cause a deep burn on contact.',
+        longitude: 4.35,
+        latitude: -0.248,
+        image: '/example/fire.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'pills',
+        tooltip: 'Pills left on the work surface.',
+        content: 'Medicines are at risk of being ingested by children, resulting in poisoning.',
+        longitude: 5.83,
+        latitude: -0.296,
+        image: '/example/poison2.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'fridge',
+        tooltip: 'Fridge magnet can be swallowed.',
+        content: 'Magnets and button batteries can be dangerous if swallowed.',
+        longitude: 5.595,
+        latitude: -0.572,
+        image: '/example/choking.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'gloves',
+        tooltip: 'Oven gloves next to the oven are a fire risk.',
+        content: 'Cooking appliances cause a large proportion of house fires in the UK. Find a place to store towels/ gloves away from the cooker.',
+        longitude: 6.141,
+        latitude: -0.32,
+        image: '/example/poison2.png',
+        width: 100,
+        height: 100
+
+      });
+      a.push({
+        id: 'kettle',
+        tooltip: 'Kettle on the edge of the work surface.',
+        content: 'Cordless kettles are dangerous, as they are easy to carry around and spill very hot water..',
+        longitude: 1.174,
+        latitude: -0.254,
+        image: '/example/poison2.png',
+        width: 100,
+        height: 100
+
+      });
+      return a;
+    }()),
+    navbar: [
+      'autorotate', 'zoom', 'download', 'markers',
+      'spacer-1',
+      {
+        title: 'Change image',
+        className: 'custom-button',
+        content: '↻',
+        onClick: (function()
+        {
+          return function()
+          {
+
+            for (a in PSV.hud.markers)
+            {
+              PSV.showMarker(a)
+            }
+          }
+        }())
+      },
+      {
+        id: 'disabled',
+        title: 'This button is disabled',
+        content: '❌',
+        onClick: (function() {
+        return function() {
+
+          for (a in PSV.hud.markers)
+          {
+            PSV.hideMarker(a)
+              console.log(PSV.panel)
+          }
+        }
+      }())
+      },
+      {
+        id: 'hide',
+        title: 'Find the Hazards',
+        content: '◎',
+        onClick: (function() {
+        return function() {
+            console.log('hello');
+            PSV.showPanel('heya');
+        }
+      }())
+    },
+    {
+      id: 'hide',
+      title: 'Add Modal',
+      content: '+',
+      onClick: (function() {
+      return function() {
+        console.log('h');
+      }
+    }())
+  },
+      'caption',
+      'gyroscope',
+      'fullscreen'
+    ],
+    panel: {color: 'white'}
+  });
+
+  PSV.hud.container.addEventListener( 'touchstart', function( e )
+  {
+    panos[0].target.offsetAngstart = PSV.doControls.alpha;
+  });
+
+  PSV.hud.container.addEventListener( 'touchend', function( e )
+  {
+    panos[0].target.offsetAngend = PSV.doControls.alpha;
+    PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+  });
+
+  PSV.on('panorama-loaded', function()
+  {
+    PSV.mesh.rotateY(110);
+    PSV.render();
+  });
+
+  PSV.on('click', function(e) {
+    var modal = document.getElementById('myModal');
+    modal.style.height = '400px';
+    panos[0].target.clickX = e.longitude;
+    panos[0].target.clickY = e.latitude;
+
+    var maxWidth = PSV.container.clientWidth;
+    var maxHeight =  PSV.container.clientHeight;
+    var clickX = 100 * (maxWidth/2 - e.client_x)/ maxWidth ;
+
+    if (e.client_y < (maxHeight - 1.5 *parseInt(modal.style.height))){
+      var clickY = 100 * (e.client_y)/ maxHeight ;
+    }
+    else{
+      var clickY = 100 * (e.client_y - 0.6 * parseInt(modal.style.height))/ maxHeight ;
+    }
+
+
+    modal.style.right = clickX+'%';
+    modal.style.top = clickY+'%';
+
+    $('#myModal').modal('show');
+  });
+
+  $('#selectChoking').on('click', function (e) {
+    createMarker('choking');
+  });
+
+  $('#selectPoison').on('click', function (e) {
+    createMarker('poison2');
+  });
+  $('#selectFire').on('click', function (e) {
+    createMarker('fire');
+  });
+
+  $('#ex1').slider({
+  	formatter: function(value) {
+  		return 'Current value: ' + value;
+  	}
+  });
+  $("#ex1").on("slide", function(slideEvt) {
+  	panos[0].target.risk = slideEvt.value;
+  });
+
+function createMarker( value ){
+  if (panos[0].target.risk < 3)
+  {
+    panos[0].target.risk = 3;
+  }
+  var size = 150 * (panos[0].target.risk)/10
+  PSV.addMarker({
+     id: '#' + Math.random(),
+     tooltip: 'Generated marker',
+     longitude: panos[0].target.clickX,
+     latitude: panos[0].target.clickY,
+     image: '/example/' + value + '.png',
+     width: size,
+     height: size,
+     anchor: 'bottom center',
+     data: {
+       deletable: true
+     }
+})
+}
+
+  //  PSV.addMarker({
+  //    id: '#' + Math.random(),
+  //    tooltip: 'Generated marker',
+  //    longitude: e.longitude,
+  //    latitude: e.latitude,
+  //    image: '/example/pin.png',
+  //    width: 32,
+  //    height: 32,
+  //    anchor: 'bottom center',
+  //    data: {
+  //      deletable: true
+  //    }
+  //  });
+  //  console.log('Xposition: '+ e.longitude + 'Yposition: '+ e.latitude )
+  //});
+
+  // you create the new object
+
+
+PSV.on('select-marker', function(marker, dblclick) {
+    if (marker.data && marker.data.deletable) {
+      if (dblclick) {
+        PSV.removeMarker(marker);
+      }
+      else {
+        PSV.updateMarker({
+          id: marker.id,
+          image: '/example/pin2.png'
+        });
+      }
+    }
+  });
+
+  PSV.on('over-marker', function(marker) {
+    PSV.updateMarker(
+    { id: marker.id,
+      width: 150,
+      height: 150
+    })
+  });
+
+  PSV.on('leave-marker', function(marker) {
+    PSV.updateMarker(
+    { id: marker.id,
+      width: 100,
+      height: 100
+    })
+  });
+</script>
+
+</body>
+</html>
