@@ -106,7 +106,8 @@
         offsetAng: '',
         clickX: '',
         clickY: '',
-        risk: 5
+        risk: 5,
+        addMarkers:''
       }
     }
   ];
@@ -285,12 +286,17 @@
     },
     {
       id: 'hide',
-      title: 'Add Modal',
+      title: 'Add Markers',
       content: '+',
       onClick: (function() {
       return function() {
-        console.log('h');
-      }
+        if (panos[0].target.addMarkers == '')
+        {
+          panos[0].target.addMarkers = 1;
+        }
+        else {
+          panos[0].target.addMarkers = '';
+        }
     }())
   },
       'caption',
