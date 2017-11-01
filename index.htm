@@ -47,20 +47,35 @@
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Select marker type</h4>
-      </div>
-      <div class="modal-body">
-      <div class="btn-group btn-group-justified">
-        <a href="#" id='selectPoison' class="btn btn-primary" data-dismiss="modal">Poison <br/>  <img src="/example/poison2.png" alt="Poison" style="float:centre;width:60px;height:60px;">  </a>
-        <a href="#" id='selectChoking' class="btn btn-primary" data-dismiss="modal">Choking <br/>  <img src="/example/choking.png" alt="Choking" style="float:centre;width:55px;height:55px;"></a>
-        <a href="#" id='selectFire' class="btn btn-primary" data-dismiss="modal">Fire <br/>  <img src="/example/fire.png" alt="Fire" style="float:centre;width:60px;height:60px;" ></a>
-      </div>
-      <h4 class="modal-title">Risk Factor</h4>
-      <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5"/>
+        <div class="modal-body">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">What is the risk type?</h4>
+
+          <div class="btn-group btn-group-justified">
+              <a href="#" id='selectPoison' class="btn btn-primary" >Poison <br/>  <img src="/example/poison2.png" alt="Poison" style="float:centre;width:60px;height:60px;">  </a>
+              <a href="#" id='selectChoking' class="btn btn-primary" >Choking <br/>  <img src="/example/choking.png" alt="Choking" style="float:centre;width:55px;height:55px;"></a>
+              <a href="#" id='selectFire' class="btn btn-primary" >Fire <br/>  <img src="/example/fire.png" alt="Fire" style="float:centre;width:60px;height:60px;" ></a>
+         </div>
+
+         <h4 class="modal-title">How severe is the risk?</h4>
+         <font size="5">Low </font> <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5"/> <font size="5"> High </font>
+
+         <div class="form-group">
+            <h4 class="modal-title">Describe the risk</h4>
+            <textarea class="form-control" id="hazardDescription" rows="2"></textarea>
+         </div>
+         <div class="form-group">
+            <h4 class="modal-title">How can this be prevented?</h4>
+            <textarea class="form-control" id="prevention" rows="2"></textarea>
+         </div>
+         <div class="form-group">
+            <h4 class="modal-title">What are the dangers associated?</h4>
+            <textarea class="form-control" id="prevention" rows="2"></textarea>
+         </div>
      </div>
-      <div class="modal-footer">
+
+     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -268,7 +283,6 @@
           for (a in PSV.hud.markers)
           {
             PSV.hideMarker(a)
-              console.log(PSV.panel)
           }
         }
       }())
@@ -279,14 +293,13 @@
         content: '◎',
         onClick: (function() {
         return function() {
-            console.log('hello');
             PSV.showPanel('heya');
         }
       }())
     },
     {
-      id: 'hide',
-      title: 'Add Markers',
+      id: 'Add',
+      title: 'Add Marker',
       content: '+',
       onClick: (function() {
       return function() {
@@ -300,6 +313,19 @@
       }
     }())
   },
+  {
+    id: 'hide',
+    title: 'Hide and Seek',
+    content: '@',
+    onClick: (function() {
+    return function() {
+      for (a in PSV.hud.markers)
+      {
+        PSV.hideMarker(a)
+      }
+    }
+  }())
+},
       'caption',
       'gyroscope',
       'fullscreen'
@@ -325,6 +351,8 @@
   });
 
   PSV.on('click', function(e) {
+    if (panos[0].target.addMarkers == 1)
+    {
     var modal = document.getElementById('myModal');
     modal.style.height = '400px';
     panos[0].target.clickX = e.longitude;
@@ -346,7 +374,9 @@
     modal.style.top = clickY+'%';
 
     $('#myModal').modal('show');
+  }
   });
+
 
   $('#selectChoking').on('click', function (e) {
     createMarker('choking');
@@ -368,12 +398,13 @@
   	panos[0].target.risk = slideEvt.value;
   });
 
+
 function createMarker( value ){
   if (panos[0].target.risk < 3)
   {
     panos[0].target.risk = 3;
   }
-  var size = 150 * (panos[0].target.risk)/10
+  var size = 150 * (panos[0].target.risk)/10;
   PSV.addMarker({
      id: '#' + Math.random(),
      tooltip: 'Generated marker',
@@ -389,40 +420,33 @@ function createMarker( value ){
 })
 }
 
-  //  PSV.addMarker({
-  //    id: '#' + Math.random(),
-  //    tooltip: 'Generated marker',
-  //    longitude: e.longitude,
-  //    latitude: e.latitude,
-  //    image: '/example/pin.png',
-  //    width: 32,
-  //    height: 32,
-  //    anchor: 'bottom center',
-  //    data: {
-  //      deletable: true
-  //    }
-  //  });
-  //  console.log('Xposition: '+ e.longitude + 'Yposition: '+ e.latitude )
-  //});
-
-  // you create the new object
-
-
-
+//PSV.on('select-marker', function(marker, dblclick) {
+//    if (marker.data && marker.data.deletable) {
+//      if (dblclick) {
+//        PSV.removeMarker(marker);
+//      }
+//      else {
+//        PSV.updateMarker({
+//          id: marker.id,
+//          image: '/example/pin2.png'
+//        });
+//      }
+//    }
+//  });
 
   PSV.on('over-marker', function(marker) {
     PSV.updateMarker(
     { id: marker.id,
-      width: 150,
-      height: 150
+      width: 1.5* marker.width,
+      height: 1.5 * marker.height
     })
   });
 
   PSV.on('leave-marker', function(marker) {
     PSV.updateMarker(
     { id: marker.id,
-      width: 100,
-      height: 100
+      width: marker.width/1.5,
+      height: marker.height/1.5
     })
   });
 </script>
