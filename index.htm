@@ -42,7 +42,7 @@
 
 <!-- Modal Window content -->
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="clickModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -65,23 +65,70 @@
             <h4 class="modal-title">Describe the risk</h4>
             <textarea class="form-control" id="hazardDescription" rows="2"></textarea>
          </div>
+
          <div class="form-group">
             <h4 class="modal-title">How can this be prevented?</h4>
             <textarea class="form-control" id="prevention" rows="2"></textarea>
          </div>
+
          <div class="form-group">
             <h4 class="modal-title">What are the dangers associated?</h4>
             <textarea class="form-control" id="prevention" rows="2"></textarea>
          </div>
-     </div>
+      </div>
 
-     <div class="modal-footer">
+      <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
   </div>
 </div>
+
+
+
+
+
+
+<div id="marker" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header" >
+      <div id="markerIcon"></div>
+      <div id="titleHere"></div>
+      </div>
+
+        <div class="modal-body">
+        <h3> Epidemiology/ awareness education</h3>
+        <div id="awareness"></div>
+        <h3> Prevention Advice</h3>
+        <div id="advice"></div>
+        <h3> Extra Information</h3>
+        <div id="extra"></div>
+        </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="popOver" class="popover">
+    <div class="arrow"></div>
+    <h3 class="popover-title">Bottom</h3>
+    <div class="popover-content">
+        <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam.
+            Pellentesque ornare sem lacinia quam venenatis vestibulum.
+        </p>
+    </div>
+</div>
+
+
+
 
 <script src="/bower_components/three.js-master/build/three.js"></script>
 <script src="/bower_components/D.js/lib/D.js"></script>
@@ -143,115 +190,161 @@
       var a = [];
 
       a.push({
-        id: 'towel',
-        tooltip: 'Cup of Tea on Edge of Counter',
-        content: 'Reachable towel, may result in scalding. May cause serious pain and scarring',
+        id: 'tea',
+        title:'Tea',
+        tooltip: 'A cup of tea on the edge of the kitchen work surface, on a tea towel which hangsover the edge of the surface',
         longitude: 0.34,
         latitude: -0.33,
-        image: '/example/fire.png',
-        width: 100,
-        height: 100
-
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
       });
       a.push({
         id: 'pan',
-        tooltip: 'Pan placed on front hob with a reachable handle.',
-        content: 'Young children are curious about cooking and will grab what they can reach, could cause scalding..',
+        title:'Pan',
+        tooltip: 'A pan of boiling water, on the front ring of the hob, with the handle accessible',
         longitude: 0.156,
         latitude: -0.313,
-        image: '/example/fire.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
 
       });
       a.push({
         id: 'bleach',
-        tooltip: 'Open cupboard with reachable cleaning products.',
-        content: 'Cupboard open with cleaning products easily accessible.',
+        title:'Bleach',
+        tooltip: 'Cleaning products on work surface',
         longitude: 0.949,
         latitude: -0.194,
-        image: '/example/poison2.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
 
       });
       a.push({
         id: 'washingPowder',
-        tooltip: 'Washing powder on the work surface.',
-        content: 'Household cleaning products account for 20% of all admissions to hospital due to poisoning.',
+        title:'Washing Powder',
+        tooltip: 'Washing machine liquid capsules left accessible on the washing machine',
         longitude: 1.365,
         latitude: -0.395,
-        image: '/example/poison2.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
 
       });
       a.push({
         id: 'catFood',
-        tooltip: 'Cat food on the floor',
-        content: 'Children can choke on dog biscuits, whilst dirty litter trays can cause illness.',
+        title:'Cat Food',
+        tooltip: 'Cat food in bowl on the floor, dirty litter trays',
         longitude: 3.033,
         latitude: -0.878,
-        image: '/example/choking.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'choking'
 
       });
       a.push({
         id: 'iron',
+        title:'Iron',
         tooltip: 'Iron being stored on the radiator',
-        content: 'Ovens, hobs, irons and hair straighteners can cause a deep burn on contact.',
         longitude: 4.35,
         latitude: -0.248,
-        image: '/example/fire.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
 
       });
       a.push({
         id: 'pills',
-        tooltip: 'Pills left on the work surface.',
-        content: 'Medicines are at risk of being ingested by children, resulting in poisoning.',
+        title:'Pills',
+        tooltip: 'Paracetamol left on the work surface.',
         longitude: 5.83,
         latitude: -0.296,
-        image: '/example/poison2.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
 
       });
       a.push({
         id: 'fridge',
-        tooltip: 'Fridge magnet can be swallowed.',
-        content: 'Magnets and button batteries can be dangerous if swallowed.',
+        title:'Fridge',
+        tooltip: 'Fridge magnets (ingestion and choking risk)',
         longitude: 5.595,
         latitude: -0.572,
-        image: '/example/choking.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'choking'
 
       });
       a.push({
         id: 'gloves',
-        tooltip: 'Oven gloves next to the oven are a fire risk.',
-        content: 'Cooking appliances cause a large proportion of house fires in the UK. Find a place to store towels/ gloves away from the cooker.',
+        title:'Oven Gloves',
+        tooltip: 'Oven glove on the front ring, tea towel hanging from the oven door',
         longitude: 6.141,
         latitude: -0.32,
-        image: '/example/poison2.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
 
       });
       a.push({
         id: 'kettle',
+        title:'Kettle',
         tooltip: 'Kettle on the edge of the work surface.',
-        content: 'Cordless kettles are dangerous, as they are easy to carry around and spill very hot water..',
         longitude: 1.174,
         latitude: -0.254,
-        image: '/example/poison2.png',
-        width: 100,
-        height: 100
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
 
       });
+
+      a.push({
+        id: 'toys',
+        title:'Toys',
+        tooltip: 'Toys placed on the floor.',
+        longitude: 4.847,
+        latitude: -0.919,
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+      a.push({
+        id: 'knife',
+        title:'Knife',
+        tooltip: 'Knife placed by the edge of the counter.',
+        longitude: 1.032,
+        latitude: -0.272,
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+      a.push({
+        id: 'cupboard',
+        title:'Unlocked Cupboard',
+        tooltip: 'Cupboard containing cleaning products is not locked.',
+        longitude: 0.672,
+        latitude: -0.367,
+        image: '/example/circleMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+      });
+
       return a;
     }()),
     navbar: [
@@ -333,6 +426,97 @@
     panel: {color: 'white'}
   });
 
+markerInfo = {
+    tea: 'A cup of tea on the edge of the kitchen work surface, on a tea towel which hangsover the edge of the surface',
+    pan: 'A pan of boiling water, on the front ring of the hob, with the handle accessible',
+    bleach: 'Cleaning products on work surface',
+    washingPowder: 'Washing machine liquid capsules left accessible on the washing machine',
+    catFood: 'Cat food in bowl on the floor, dirty litter trays',
+    iron: 'Iron being stored on the radiator',
+    pills: 'Paracetamol left on the work surface',
+    fridge: 'Fridge magnets (ingestion and choking risk)',
+    gloves: 'Oven glove on the front ring, tea towel hanging from the oven door',
+    kettle: 'Kettle on the edge of kitchen work surface',
+    toys:'',
+    knife: '',
+    cupboard: ''
+};
+awareness = {
+    tea:    ['Over half of  burns to young children are due to hot drink scalds',
+                'Although scalds rarely kill they cause considerable pain, often need lengthy treatment and may result in lifelong scarring.'],
+    kettle: ['Cordless kettles are dangerous they are easy to carry around and can spill very hot water'],
+    pan:    ['Young children are curious about cooking and will grab what they can reach'],
+    iron:   ['Contact burns account for 1/3 of burns to children.','Ovens, hobs, irons, hair straighteners and radiators can cause a deep burn on brief contact.'],
+    gloves: ['There were about 31,300 house fires in the UK in 2014/2015.', 'Cooking appliances caused 50% of these house.'],
+    pills: ['Every day, 15 young children are admitted to hospital with suspected poisoning','Medicines are the cause of over 70% of poisoning admissions and common painkillers are a main cause.'],
+    bleach: ['Household cleaning products account for 20% of all admissions to hospital due to poisoning'],
+    washingPowder:['Colourful detergent capsules can be attractive to young children.'],
+    catFood: ['Cat or dog food itself is not poisonous but biscuits can be a choking hazard to babies and young children.','Dirty cat litter can spread diseases.'],
+    fridge: ['Magnets and button batteries can be dangerous if swallowed.'],
+    toys: [],
+    knife: [],
+    cupboard: []
+    };
+
+advice = {
+  tea:    ['Place hot drinks out of the reach of young children.','Think about a ‘safe tea’ zone in your house which everyone knows about and where you place all hot drinks.'],
+  kettle: ['Keep kettles out of reach of young children.','Keep young children and kettles apart to avoid splash injuries.'],
+  pan:    ['Place pans on the back burners of the cooker','Don’t put children on the work surface','Teaching children not to climb on things in the kitchen reduces the risk of scalding.','Correct first aid after a scald injury, no matter how minor, can greatly improve the long-term  effects of the injury.'],
+  iron:   ['Irons & hair straighteners stay very hot after use. Put them somewhere safe and away from children.','Fit safety gates to prevent children entering a room where an iron or hairstraightener may be in use or cooling down.','Correct first aid after a burn injury, no matter how minor, can greatly improve the long-term  effects of the injury.'],
+  gloves: ['Prevention – choose a place where tea /hand towels and oven gloves are kept away from the cooker.'],
+  pills: ['Keep all medicines in cupboards at or above adult eye level.','Keep medicines in their original container/blister pack.'],
+  bleach: ['Put all products and household chemicals out of reach of young children when you are using them.','Put all products and household chemicals away, in a cupboard with a child safety lock or in a cupboard at/above eye level.'],
+  washingPowder:['Store capsules or liquids in cupboards at or above adult eye level.'],
+  catFood: ['Using safety gates to prevent children getting to areas where an animal is being fed, can prevent such ingestion risks.','Keep cat litter and young children separate from each other.'],
+  fridge: ['Keep magnets out of reach of young children.','Dispose of button batteries safely'],
+  toys: [],
+  knife: [],
+  cupboard: []
+  };
+
+  extra = {
+    tea:    [ '<a href= "https://youtu.be/g3xyMQhhCv4"> https://youtu.be/g3xyMQhhCv4 </href>' ],
+    kettle: ['<a href= "http://capt.org.uk/get-involved/quizzes/kitchen-safety-quiz"> http://capt.org.uk/get-involved/quizzes/kitchen-safety-quiz </href>'],
+    pan:    [' <a href= "http://www.capt.org.uk/sites/default/files/one%20step%20ahead%20wall%20chart.pdf">http://www.capt.org.uk/sites/default/files/one%20step%20ahead%20wall%20chart.pdf </href>'],
+    iron:   [''],
+    gloves: ['<a href= "http://www.avonfire.gov.uk/our-services/home-fire-safety-visits"> http://www.avonfire.gov.uk/our-services/home-fire-safety-visits </href>'],
+    pills: ['<a href="http://www.capt.org.uk/resources/talking-about-poisons"> http://www.capt.org.uk/resources/talking-about-poisons </href>'],
+    bleach: ['<a href="http://www.capt.org.uk/sites/default/files/filepicker/1/what%20might%20poison%20your%20child.pdf">http://www.capt.org.uk/sites/default/files/filepicker/1/what%20might%20poison%20your%20child.pdf </href>'],
+    washingPowder:['<a href="http://www.rospa.com/home-safety/advice/product/liquid-laundry-capsules/ ">http://www.rospa.com/home-safety/advice/product/liquid-laundry-capsules</href>"','<a href="https://www.youtube.com/watch?v=hUdrJZO-QIw">https://www.youtube.com/watch?v=hUdrJZO-QIw</href>'],
+    catFood: [''],
+    fridge: ['<a href="https://www.england.nhs.uk/wp-content/uploads/2014/12/psa-button-batteries.pdf">https://www.england.nhs.uk/wp-content/uploads/2014/12/psa-button-batteries.pdf</href>'],
+    toys: [''],
+    knife: [''],
+    cupboard: ['']
+
+    };
+
+PSV.on('select-marker', function(marker)
+{
+      var text = markerInfo[marker.id];
+      console.log(text);
+      $('#titleHere').empty();
+      $('<h2>' + marker.title + '</h2>').appendTo('#titleHere');
+      console.log(awareness[marker.id].length);
+      $('#markerIcon').empty();
+      $('<img src= \"example/' + marker.pic + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
+      $('#awareness').empty();
+      for(a in awareness[marker.id]){
+      $('<p>' + awareness[marker.id][a] + '</p>').appendTo('#awareness');
+      }
+      $('#advice').empty();
+      for(a in advice[marker.id]){
+      $('<p>' + advice[marker.id][a] + '</p>').appendTo('#advice');
+      }
+      $('#extra').empty();
+      for(a in extra[marker.id]){
+      $('<p>' + extra[marker.id][a] + '</p>').appendTo('#extra');
+      }
+      $('#marker').modal('show');
+});
+
+
+
   PSV.hud.container.addEventListener( 'touchstart', function( e )
   {
     panos[0].target.offsetAngstart = PSV.doControls.alpha;
@@ -351,9 +535,10 @@
   });
 
   PSV.on('click', function(e) {
+    console.log(e.longitude,e.latitude);
     if (panos[0].target.addMarkers == 1)
     {
-    var modal = document.getElementById('myModal');
+    var modal = document.getElementById('clickModal');
     modal.style.height = '400px';
     panos[0].target.clickX = e.longitude;
     panos[0].target.clickY = e.latitude;
@@ -373,7 +558,7 @@
     modal.style.right = clickX+'%';
     modal.style.top = clickY+'%';
 
-    $('#myModal').modal('show');
+    $('#clickModal').modal('show');
   }
   });
 
@@ -434,12 +619,29 @@ function createMarker( value ){
 //    }
 //  });
 
+PSV.on('zoom-updated', function()
+{
+  var zoom = PSV.getZoomLevel();
+  if (zoom < PSV.config.default_fov){
+    for (m in PSV.hud.markers)
+    {
+      PSV.updateMarker(
+      { id: m,
+        width: 30 + 10* (zoom/ PSV.config.default_fov) ,
+        height:30 + 10* (zoom/ PSV.config.default_fov)
+      })
+    }
+
+  }
+});
+
   PSV.on('over-marker', function(marker) {
     PSV.updateMarker(
     { id: marker.id,
       width: 1.5* marker.width,
       height: 1.5 * marker.height
     })
+
   });
 
   PSV.on('leave-marker', function(marker) {
@@ -448,7 +650,11 @@ function createMarker( value ){
       width: marker.width/1.5,
       height: marker.height/1.5
     })
+
   });
+
+
+
 </script>
 
 </body>
