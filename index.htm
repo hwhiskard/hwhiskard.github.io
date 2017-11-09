@@ -500,7 +500,7 @@ PSV.on('select-marker', function(marker)
       $('<h2>' + marker.tooltip.content + '</h2>').appendTo('#titleHere');
       console.log(awareness[marker.id].length);
       $('#markerIcon').empty();
-      $('<img src= \"example/' + marker.pic + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
+      $('<img src= \"example/' + marker.pic + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
       $('#awareness').empty();
       for(a in awareness[marker.id]){
       $('<p>' + awareness[marker.id][a] + '</p>').appendTo('#awareness');
