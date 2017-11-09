@@ -296,18 +296,18 @@
         pic: 'fire'
 
       });
-      a.push({
-        id: 'kettle',
-        title:'Kettle',
-        tooltip: 'Kettle on the edge of the work surface.',
-        longitude: 1.174,
-        latitude: -0.254,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'fire'
-
-      });
+//      a.push({
+//        id: 'kettle',
+//        title:'Kettle',
+//        tooltip: 'Kettle on the edge of the work surface.',
+//        longitude: 1.174,
+//        latitude: -0.254,
+//        image: '/example/whiteMarker.png',
+//        width: 40,
+//        height: 40,
+//        pic: 'fire'
+//
+//      });
 
       a.push({
         id: 'toys',
@@ -497,7 +497,7 @@ PSV.on('select-marker', function(marker)
       var text = markerInfo[marker.id];
       console.log(text);
       $('#titleHere').empty();
-      $('<h2>' + marker.tooltip.content + '</h2>').appendTo('#titleHere');
+      $('<h3>' + marker.tooltip.content + '</h3>').appendTo('#titleHere');
       console.log(awareness[marker.id].length);
       $('#markerIcon').empty();
       $('<img src= \"example/' + marker.pic + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
