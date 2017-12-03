@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/dist/photo-sphere-viewer.css">
+  <link rel="stylesheet" href="bootstrap-slider.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="jquery-3.2.1.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+  <script src="bootstrap-slider.js"></script>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    #photosphere {
+      width: 100%;
+      height: 100%;
+    }
+    #myModal {
+      text-align: center;
+      height: 300px;
+
+    }
+    #ex1Slider .slider-selection {
+	background: #BABABA;
+    }
+    .psv-button.custom-button {
+      font-size: 22px;
+      line-height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="photosphere"></div>
+
+<!-- Modal Window content -->
+<!-- Modal -->
+<div id="clickModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-body">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">What is the risk type?</h4>
+
+          <div class="btn-group btn-group-justified">
+              <a href="#" id='selectPoison' class="btn btn-primary" >Poison <br/>  <img src="/example/poison2.png" alt="Poison" style="float:centre;width:60px;height:60px;">  </a>
+              <a href="#" id='selectChoking' class="btn btn-primary" >Choking <br/>  <img src="/example/choking.png" alt="Choking" style="float:centre;width:55px;height:55px;"></a>
+              <a href="#" id='selectFire' class="btn btn-primary" >Fire <br/>  <img src="/example/fire.png" alt="Fire" style="float:centre;width:60px;height:60px;" ></a>
+         </div>
+
+         <h4 class="modal-title">How severe is the risk?</h4>
+         <font size="5">Low </font> <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5"/> <font size="5"> High </font>
+
+         <div class="form-group">
+            <h4 class="modal-title">Describe the risk</h4>
+            <textarea class="form-control" id="hazardDescription" rows="2"></textarea>
+         </div>
+
+         <div class="form-group">
+            <h4 class="modal-title">How can this be prevented?</h4>
+            <textarea class="form-control" id="prevention" rows="2"></textarea>
+         </div>
+
+         <div class="form-group">
+            <h4 class="modal-title">What are the dangers associated?</h4>
+            <textarea class="form-control" id="prevention" rows="2"></textarea>
+         </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+<div id="marker" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header" >
+      <div id="markerIcon"></div>
+      <div id="titleHere"></div>
+      </div>
+
+        <div class="modal-body">
+        <h4> Potential Danger</h4>
+        <div id="awareness"></div>
+        <h4> How can it be Prevented?</h4>
+        <div id="advice"></div>
+        <h4> Further Information</h4>
+        <div id="extra"></div>
+        </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="popOver" class="popover">
+    <div class="arrow"></div>
+    <h3 class="popover-title">Bottom</h3>
+    <div class="popover-content">
+        <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam.
+            Pellentesque ornare sem lacinia quam venenatis vestibulum.
+        </p>
+    </div>
+</div>
+
+
+
+
+<script src="/bower_components/three.js-master/build/three.js"></script>
+<script src="/bower_components/D.js/lib/D.js"></script>
+<script src="/bower_components/uEvent-master/uevent.js"></script>
+<script src="/bower_components/doT-master-1/doT.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/Projector.js"></script>
+<script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+<script src="/dist/photo-sphere-viewer.js"></script>
+ <script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+ <script src="/bower_components/three.js-master/examples/js/renderers/CSS3DRenderer.js"></script>
+ <script src='/threex.htmlmixer-master/threex.htmlmixer.js'></script>
+
+<!-- text used for the marker description -->
+
+
+<!-- pattern used for the polygon marker -->
+<svg id="patterns">
+  <defs>
+    <pattern id="dots" x="10" y="10" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="10" style="stroke: none; fill: rgba(255,0,0,0.4)"/>
+    </pattern>
+    <pattern id="points" x="10" y="10" width="15" height="15" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="0.8" style="stroke: none; fill: red"/>
+    </pattern>
+  </defs>
+</svg>
+
+<script>
+  var panos = [
+    {
+      url: '/example/images/2.JPG',
+      desc: 'An unsafe kitchen',
+      target: {
+        longitude: 3.848,
+        latitude: -0.244,
+        offsetAng: '',
+        clickX: '',
+        clickY: '',
+        risk: 5,
+        addMarkers:''
+      }
+    }
+  ];
+
+  var PSV = new PhotoSphereViewer({
+    container: 'photosphere',
+    panorama: panos[0].url,
+    caption: panos[0].desc,
+    loading_img: '/example/photosphere-logo.gif',
+    anim_speed: '-2rpm',
+    default_fov: 50,
+    fisheye: true,
+    move_speed: 1.1,
+    time_anim: false,
+    gyroscope: true,
+
+    markers: (function() {
+      var a = [];
+
+      a.push({
+        id: 'tea',
+        title:'Tea',
+        tooltip: 'A cup of tea on the edge of the kitchen work surface, on a tea towel which hangsover the edge of the surface',
+        longitude: 0.34,
+        latitude: -0.33,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+      });
+      a.push({
+        id: 'pan',
+        title:'Pan',
+        tooltip: 'A pan of boiling water, on the front ring of the hob, with the handle accessible',
+        longitude: 0.156,
+        latitude: -0.313,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+      a.push({
+        id: 'bleach',
+        title:'Bleach',
+        tooltip: 'Cleaning products on work surface',
+        longitude: 0.949,
+        latitude: -0.194,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
+
+      });
+      a.push({
+        id: 'washingPowder',
+        title:'Washing Powder',
+        tooltip: 'Washing machine liquid capsules left accessible on the washing machine',
+        longitude: 1.365,
+        latitude: -0.395,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
+
+      });
+      a.push({
+        id: 'catFood',
+        title:'Cat Food',
+        tooltip: 'Cat food in bowl on the floor, dirty litter trays',
+        longitude: 3.033,
+        latitude: -0.878,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'choking'
+
+      });
+      a.push({
+        id: 'iron',
+        title:'Iron',
+        tooltip: 'Iron being stored on the radiator',
+        longitude: 4.35,
+        latitude: -0.248,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+      a.push({
+        id: 'pills',
+        title:'Pills',
+        tooltip: 'Paracetamol left on the work surface.',
+        longitude: 5.83,
+        latitude: -0.296,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
+
+      });
+      a.push({
+        id: 'fridge',
+        title:'Fridge',
+        tooltip: 'Fridge magnets (ingestion and choking risk)',
+        longitude: 5.595,
+        latitude: -0.572,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'choking'
+
+      });
+      a.push({
+        id: 'gloves',
+        title:'Oven Gloves',
+        tooltip: 'Oven glove on the front ring, tea towel hanging from the oven door',
+        longitude: 6.141,
+        latitude: -0.32,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+    //  a.push({
+    //    id: 'kettle',
+    //    title:'Kettle',
+    //    tooltip: 'Kettle on the edge of the work surface.',
+  //      longitude: 1.174,
+  //      latitude: -0.254,
+  //      image: '/example/whiteMarker.png',
+  //      width: 40,
+  //      height: 40,
+  //      pic: 'fire'
+//
+  //    });
+
+      a.push({
+        id: 'toys',
+        title:'Toys',
+        tooltip: 'Toys placed on the floor.',
+        longitude: 4.847,
+        latitude: -0.919,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+      a.push({
+        id: 'knife',
+        title:'Knife',
+        tooltip: 'Knife placed by the edge of the counter.',
+        longitude: 1.032,
+        latitude: -0.272,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+      a.push({
+        id: 'cupboard',
+        title:'Unlocked Cupboard',
+        tooltip: 'Cupboard containing cleaning products is not locked.',
+        longitude: 0.672,
+        latitude: -0.367,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+      });
+
+      return a;
+    }()),
+    navbar: [
+      'autorotate', 'zoom', 'download', 'markers',
+      'spacer-1',
+      {
+        title: 'Change image',
+        className: 'custom-button',
+        content: '↻',
+        onClick: (function()
+        {
+          return function()
+          {
+
+            for (a in PSV.hud.markers)
+            {
+              PSV.showMarker(a)
+            }
+          }
+        }())
+      },
+      {
+        id: 'disabled',
+        title: 'This button is disabled',
+        content: '❌',
+        onClick: (function() {
+        return function() {
+
+          for (a in PSV.hud.markers)
+          {
+            PSV.hideMarker(a)
+          }
+        }
+      }())
+      },
+      {
+        id: 'hide',
+        title: 'Find the Hazards',
+        content: '◎',
+        onClick: (function() {
+        return function() {
+            PSV.showPanel('heya');
+        }
+      }())
+    },
+    {
+      id: 'Add',
+      title: 'Add Marker',
+      content: '+',
+      onClick: (function() {
+      return function() {
+        if (panos[0].target.addMarkers == '')
+        {
+          panos[0].target.addMarkers = 1;
+        }
+        else {
+          panos[0].target.addMarkers = '';
+        }
+      }
+    }())
+  },
+  {
+    id: 'hide',
+    title: 'Hide and Seek',
+    content: '@',
+    onClick: (function() {
+    return function() {
+      for (a in PSV.hud.markers)
+      {
+        PSV.hideMarker(a)
+      }
+    }
+  }())
+},
+      'caption',
+      'gyroscope',
+      'fullscreen'
+    ],
+    panel: {color: 'white'}
+  });
+
+markerInfo = {
+    tea: 'A cup of tea on the edge of the kitchen work surface, on a tea towel which hangsover the edge of the surface',
+    pan: 'A pan of boiling water, on the front ring of the hob, with the handle accessible',
+    bleach: 'Cleaning products on work surface',
+    washingPowder: 'Washing machine liquid capsules left accessible on the washing machine',
+    catFood: 'Cat food in bowl on the floor, dirty litter trays',
+    iron: 'Iron being stored on the radiator',
+    pills: 'Paracetamol left on the work surface',
+    fridge: 'Fridge magnets (ingestion and choking risk)',
+    gloves: 'Oven glove on the front ring, tea towel hanging from the oven door',
+    kettle: 'Kettle on the edge of kitchen work surface',
+    toys:'',
+    knife: '',
+    cupboard: ''
+};
+awareness = {
+    tea:    ['Over half of  burns to young children are due to hot drink scalds',
+                'Although scalds rarely kill they cause considerable pain, often need lengthy treatment and may result in lifelong scarring.'],
+    kettle: ['Cordless kettles are dangerous they are easy to carry around and can spill very hot water'],
+    pan:    ['Young children are curious about cooking and will grab what they can reach'],
+    iron:   ['Contact burns account for 1/3 of burns to children.','Ovens, hobs, irons, hair straighteners and radiators can cause a deep burn on brief contact.'],
+    gloves: ['There were about 31,300 house fires in the UK in 2014/2015.', 'Cooking appliances caused 50% of these house.'],
+    pills: ['Every day, 15 young children are admitted to hospital with suspected poisoning','Medicines are the cause of over 70% of poisoning admissions and common painkillers are a main cause.'],
+    bleach: ['Household cleaning products account for 20% of all admissions to hospital due to poisoning'],
+    washingPowder:['Colourful detergent capsules can be attractive to young children.'],
+    catFood: ['Cat or dog food itself is not poisonous but biscuits can be a choking hazard to babies and young children.','Dirty cat litter can spread diseases.'],
+    fridge: ['Magnets and button batteries can be dangerous if swallowed.'],
+    toys: [],
+    knife: [],
+    cupboard: []
+    };
+
+advice = {
+  tea:    ['Place hot drinks out of the reach of young children.','Think about a ‘safe tea’ zone in your house which everyone knows about and where you place all hot drinks.'],
+  kettle: ['Keep kettles out of reach of young children.','Keep young children and kettles apart to avoid splash injuries.'],
+  pan:    ['Place pans on the back burners of the cooker','Don’t put children on the work surface','Teaching children not to climb on things in the kitchen reduces the risk of scalding.','Correct first aid after a scald injury, no matter how minor, can greatly improve the long-term  effects of the injury.'],
+  iron:   ['Irons & hair straighteners stay very hot after use. Put them somewhere safe and away from children.','Fit safety gates to prevent children entering a room where an iron or hairstraightener may be in use or cooling down.','Correct first aid after a burn injury, no matter how minor, can greatly improve the long-term  effects of the injury.'],
+  gloves: ['Prevention – choose a place where tea /hand towels and oven gloves are kept away from the cooker.'],
+  pills: ['Keep all medicines in cupboards at or above adult eye level.','Keep medicines in their original container/blister pack.'],
+  bleach: ['Put all products and household chemicals out of reach of young children when you are using them.','Put all products and household chemicals away, in a cupboard with a child safety lock or in a cupboard at/above eye level.'],
+  washingPowder:['Store capsules or liquids in cupboards at or above adult eye level.'],
+  catFood: ['Using safety gates to prevent children getting to areas where an animal is being fed, can prevent such ingestion risks.','Keep cat litter and young children separate from each other.'],
+  fridge: ['Keep magnets out of reach of young children.','Dispose of button batteries safely'],
+  toys: [],
+  knife: [],
+  cupboard: []
+  };
+
+  extra = {
+    tea:    [ '<a href= "https://youtu.be/g3xyMQhhCv4">Hot Drinks Harms Video</href>' ],
+    kettle: ['<a href= "http://capt.org.uk/get-involved/quizzes/kitchen-safety-quiz"> Kitchen Safety Quiz </href>'],
+    pan:    [' <a href= "http://www.capt.org.uk/sites/default/files/one%20step%20ahead%20wall%20chart.pdf">One Step Ahead Poster </href>'],
+    iron:   [''],
+    gloves: ['<a href= "http://www.avonfire.gov.uk/our-services/home-fire-safety-visits"> Avon Fire Safety Visits </href>'],
+    pills: ['<a href="http://www.capt.org.uk/resources/talking-about-poisons"> Talking about Poison </href>'],
+    bleach: ['<a href="http://www.capt.org.uk/sites/default/files/filepicker/1/what%20might%20poison%20your%20child.pdf">What might poison your child? </href>'],
+    washingPowder:['<a href="http://www.rospa.com/home-safety/advice/product/liquid-laundry-capsules/ ">Liquid Laundry Capsule Safety Warning</href>"','<a href="https://www.youtube.com/watch?v=hUdrJZO-QIw">Ariel Safety Warning</href>'],
+    catFood: [''],
+    fridge: ['<a href="https://www.england.nhs.uk/wp-content/uploads/2014/12/psa-button-batteries.pdf">Ingestion of Button Batteries Warning</href>'],
+    toys: [''],
+    knife: [''],
+    cupboard: ['']
+
+    };
+
+PSV.on('select-marker', function(marker)
+{
+      console.log(marker);
+      var text = markerInfo[marker.id];
+      console.log(text);
+      $('#titleHere').empty();
+      $('<h2>' + marker.tooltip.content + '</h2>').appendTo('#titleHere');
+      console.log(awareness[marker.id].length);
+      $('#markerIcon').empty();
+      $('<img src= \"example/' + marker.pic + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
+      $('#awareness').empty();
+      for(a in awareness[marker.id]){
+      $('<p>' + awareness[marker.id][a] + '</p>').appendTo('#awareness');
+      }
+      $('#advice').empty();
+      for(a in advice[marker.id]){
+      $('<p>' + advice[marker.id][a] + '</p>').appendTo('#advice');
+      }
+      $('#extra').empty();
+      for(a in extra[marker.id]){
+      $('<p>' + extra[marker.id][a] + '</p>').appendTo('#extra');
+      }
+      $('#marker').modal('show');
+});
+
+
+
+  PSV.hud.container.addEventListener( 'touchstart', function( e )
+  {
+    panos[0].target.offsetAngstart = PSV.doControls.alpha;
+  });
+
+  PSV.hud.container.addEventListener( 'touchend', function( e )
+  {
+    panos[0].target.offsetAngend = PSV.doControls.alpha;
+    PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+  });
+
+  PSV.on('panorama-loaded', function()
+  {
+    PSV.mesh.rotateY(110);
+    PSV.render();
+  });
+
+  PSV.on('click', function(e) {
+    console.log(e.longitude,e.latitude);
+    if (panos[0].target.addMarkers == 1)
+    {
+    var modal = document.getElementById('clickModal');
+    modal.style.height = '400px';
+    panos[0].target.clickX = e.longitude;
+    panos[0].target.clickY = e.latitude;
+
+    var maxWidth = PSV.container.clientWidth;
+    var maxHeight =  PSV.container.clientHeight;
+    var clickX = 100 * (maxWidth/2 - e.client_x)/ maxWidth ;
+
+    if (e.client_y < (maxHeight - 1.5 *parseInt(modal.style.height))){
+      var clickY = 100 * (e.client_y)/ maxHeight ;
+    }
+    else{
+      var clickY = 100 * (e.client_y - 0.6 * parseInt(modal.style.height))/ maxHeight ;
+    }
+
+
+    modal.style.right = clickX+'%';
+    modal.style.top = clickY+'%';
+
+    $('#clickModal').modal('show');
+  }
+  });
+
+
+  $('#selectChoking').on('click', function (e) {
+    createMarker('choking');
+  });
+
+  $('#selectPoison').on('click', function (e) {
+    createMarker('poison2');
+  });
+  $('#selectFire').on('click', function (e) {
+    createMarker('fire');
+  });
+
+  $('#ex1').slider({
+  	formatter: function(value) {
+  		return 'Current value: ' + value;
+  	}
+  });
+  $("#ex1").on("slide", function(slideEvt) {
+  	panos[0].target.risk = slideEvt.value;
+  });
+
+
+function createMarker( value ){
+  if (panos[0].target.risk < 3)
+  {
+    panos[0].target.risk = 3;
+  }
+  var size = 150 * (panos[0].target.risk)/10;
+  PSV.addMarker({
+     id: '#' + Math.random(),
+     tooltip: 'Generated marker',
+     longitude: panos[0].target.clickX,
+     latitude: panos[0].target.clickY,
+     image: '/example/' + value + '.png',
+     width: size,
+     height: size,
+     anchor: 'bottom center',
+     data: {
+       deletable: true
+     }
+})
+}
+
+//PSV.on('select-marker', function(marker, dblclick) {
+//    if (marker.data && marker.data.deletable) {
+//      if (dblclick) {
+//        PSV.removeMarker(marker);
+//      }
+//      else {
+//        PSV.updateMarker({
+//          id: marker.id,
+//          image: '/example/pin2.png'
+//        });
+//      }
+//    }
+//  });
+
+PSV.on('zoom-updated', function()
+{
+  var zoom = PSV.getZoomLevel();
+  if (zoom < PSV.config.default_fov){
+    for (m in PSV.hud.markers)
+    {
+      PSV.updateMarker(
+      { id: m,
+        width: 30 + 10* (zoom/ PSV.config.default_fov) ,
+        height:30 + 10* (zoom/ PSV.config.default_fov)
+      })
+    }
+
+  }
+});
+
+  PSV.on('over-marker', function(marker) {
+    PSV.updateMarker(
+    { id: marker.id,
+      width: 1.5* marker.width,
+      height: 1.5 * marker.height
+    })
+
+  });
+
+  PSV.on('leave-marker', function(marker) {
+    PSV.updateMarker(
+    { id: marker.id,
+      width: marker.width/1.5,
+      height: marker.height/1.5
+    })
+
+  });
+
+
+
+</script>
+
+</body>
+</html>
