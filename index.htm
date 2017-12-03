@@ -639,7 +639,7 @@
       $('#markerDiv').empty();
       $('<div class="row"><div class="standardColumn tableHead" >Hazard Name</div><div class="thinColumn tableHead">Type</div><div class="thinColumn tableHead">Risk</div><div class="standardColumn tableHead">Danger</div><div class="standardColumn tableHead">Prevention</div><div class="fatColumn tableHead">Extra Information</div> </div><div style="height:50px;"></div>').appendTo('#markerDiv');
       for (i= 0;i< hazardDescriptionExample.length;i++){
-        $('<div class="row"><div style="height:50px;"></div><div class="hazardColumn" ><b>' + hazardDescriptionExample[i] + '</b></div><div class="thinColumn" >' + '<img src= \"example/' + typeExample[i] + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> '+'</div> <div class="thinColumn">' + riskExample[i] +
+        $('<div class="row"><div style="height:50px;"></div><div class="hazardColumn" ><b>' + hazardDescriptionExample[i] + '</b></div><div class="thinColumn" >' + '<img src= \"example/' + typeExample[i] + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> '+'</div> <div class="thinColumn">' + riskExample[i] +
         ' </div><div class="dangerColumn">'+ hazardDangersExample[i] + '</div><div class="preventionColumn">' + hazardPreventionExample[i] + '</div> <div id="image' + i +'" class="fatColumn"><canvas id="' + i + '"> </canvas></div></div>').appendTo('#markerDiv');
         cropPhotosphere(i,hazardCoordsExample[i][0],hazardCoordsExample[i][1]);
     };
@@ -660,7 +660,7 @@ return function() {
   $('#markerDiv').empty();
   $('<div class="row"><div class="standardColumn tableHead" >Hazard Name</div><div class="thinColumn tableHead">Type</div><div class="thinColumn tableHead">Risk</div><div class="standardColumn tableHead">Danger</div><div class="standardColumn tableHead">Prevention</div><div class="fatColumn tableHead">Extra Information</div> </div><div style="height:50px;"></div>').appendTo('#markerDiv');
   for (i= 0;i< hazardDescription.length;i++){
-    $('<div class="row"><div style="height:50px;"></div><div class="hazardColumn" ><b>' + hazardDescription[i] + '</b></div><div class="thinColumn" >' + '<img src= \"example/' + type[i] + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> '+'</div> <div class="thinColumn">' + risk[i] +
+    $('<div class="row"><div style="height:50px;"></div><div class="hazardColumn" ><b>' + hazardDescription[i] + '</b></div><div class="thinColumn" >' + '<img src= \"example/' + type[i] + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> '+'</div> <div class="thinColumn">' + risk[i] +
     ' </div><div class="dangerColumn">'+ hazardDangers[i] + '</div><div class="preventionColumn">' + hazardPrevention[i] + '</div> <div id="image' + i +'" class="fatColumn"><canvas id="' + i + '"> </canvas></div></div>').appendTo('#markerDiv');
     cropPhotosphere(i,hazardCoords[i][0],hazardCoords[i][1]);
 };
@@ -800,7 +800,7 @@ PSV.on('select-marker', function(marker)
         $('<h2>' + hazardDescriptionExample[marker.num] + '</h2>').appendTo('#titleHere');
 
         $('#markerIcon').empty();
-        $('<img src= \"example/' + marker.pic + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
+        $('<img src= \"example/' + marker.pic + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
         $('#awareness').empty();
         $('#risk').empty();
         $('<p> <b>Risk: </b>' + riskExample[marker.num] + '</p>').appendTo('#risk');
@@ -814,7 +814,7 @@ PSV.on('select-marker', function(marker)
       $('<h2>' + hazardDescription[marker.number - 1] + '</h2>').appendTo('#titleHere');
 
       $('#markerIcon').empty();
-      $('<img src= \"example/' + marker.pic + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
+      $('<img src= \"example/' + marker.pic + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
       $('#awareness').empty();
       $('#risk').empty();
       $('<p> <b>Risk: </b>' + risk[marker.number -1] + '</p>').appendTo('#risk');
