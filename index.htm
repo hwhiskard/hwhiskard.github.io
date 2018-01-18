@@ -1,1167 +1,1326 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/dist/photo-sphere-viewer.css">
-  <link rel="stylesheet" href="bootstrap-slider.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="jquery-3.2.1.js"></script>
-  <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-  <script src="bootstrap-slider.js"></script>
-      <link rel="stylesheet" href="css/style.css">
-  <style>
-  @media screen {
-  #printSection {
-      display: inline;
-  }
-}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/dist/photo-sphere-viewer.css">
+    <link rel="stylesheet" href="bootstrap-slider.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="jquery-3.2.1.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="bootstrap-slider.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 
-@media print {
-  body * {
-    visibility:hidden;
-  }
-  #printSection, #printSection * {
-    visibility:visible;
+    <style>
+      @media screen {
+        #printSection {
+          display: inline;
+        }
+       }
+
+      @media print {
+       body * {
+        visibility:hidden;
+       }
+       #printSection, #printSection * {
+         visibility:visible;
+         -webkit-print-color-adjust: exact !important;
+        }
+       #printSection {
+        position:absolute;
+        left:0;
+        top:0;
         -webkit-print-color-adjust: exact !important;
-  }
-  #printSection {
-    position:absolute;
-    left:0;
-    top:0;
-    -webkit-print-color-adjust: exact !important;
-  }
-}
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      margin: 0;
-      padding: 0;
-    }
-
-    #photosphere {
-      width: 92.5%;
-      height: 100%;
-      float: left;
-    }
-    #sideBar{
-      background-color: #5495ff;
-      width: 7.5%;
-      height: 100%;
-      float: right;
-      padding-top: 15px;
-      text-align: center;
-      color: white;
-      font-size: 200%;
-    }
-    #myModal {
-      text-align: center;
-      height: 300px;
-
-    }
-    #ex1Slider .slider-selection {
-	background: #BABABA;
-    }
-    .psv-button.custom-button {
-      font-size: 22px;
-      line-height: 20px;
-    }
-
-    #title {
-      background-color: #489d9a;
-      color: white;
-      font-size: 2em;
-      padding-left: 1px;
-      font: "Open Sans", sans-serif;
-    }
-    #chartLabels {
-      border-collapse: separate;
-      text-align: left;
-    }
-    #markerDiv {
-        width: 100%;
-    }
-    #pieChart{
-      display: block;
-      margin: 0 auto;
-      width: 33%;
-      height: 350px;
-      float:right;
-      vertical-align: bottom;
-    }
-    #barChart{
-      display: block;
-      margin: 0 auto;
-      width: 33%;
-      height: 350px;
-      float:right;
-      vertical-align: bottom;
-    }
-    #roomDiv{
-      padding: 1%;
-      width: 33%;
-      height: 350px;
-      float:left;
-      vertical-align: middle;
-    }
-    #roomIcon{
-      display: block;
-      margin: auto;
-      width: 50%;
-      padding: 10px;
-    }
-    #roomPic{
-      width: 80%;
-    }
-    #risk,#awareness,#advice{
-      font-size: 2em;
-    }
-    h1 {
-        text-align: center;
-    }
-    h4 {
-        text-align: center;
-        font-size: 3em;
-    }
-    h5 {
-        text-align: left;
-        font-size: 2em;
-    }
-
-    canvas{
-      border:1px solid #000000;
-      width: 90%;
-      float: center;
-    }
-    .modal-lg{
-    width: 90% !important;
-    margin: auto;
-    }
-    .modal-header{
-      background-color: #489d9a;
-      color: white;
-    }
-    .modal-body{
-      font-size: 1em;
-    }
-    .modal-footer{
-      background-color: #489d9a;
-      color: white;
-      font-size: 1em;
-    }
-    .threeColumn {
-        float: left;
-        width: 33%;
-    }
-    .standardColumn {
-      float: left;
-      width: 16.67%;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      font-size: 150%;
-    }
-    .hazardColumn {
-      float: left;
-      width: 16.67%;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      font-size: 200%;
-    }
-    .dangerColumn {
-      float: left;
-      width: 16.67%;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      font-size: 150%;
-    }
-    .preventionColumn {
-      float: left;
-      width: 16.67%;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      font-size: 150%;
-    }
-    .thinColumn {
-      float: left;
-      width: 10%;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      font-size: 200%;
+       }
       }
-    .fatColumn {
-      float: left;
-      width: 28%;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+
+      #photosphere {
+        width: 92.5%;
+        height: 100%;
+        float: left;
+      }
+      #sideBar{
+        background-color: #5495ff;
+        width: 7.5%;
+        height: 100%;
+        float: right;
+        padding-top: 15px;
+        text-align: center;
+        color: white;
+        font-size: 200%;
+      }
+      #ex1Slider .slider-selection {
+  	     background: #BABABA;
+      }
+      .psv-button.custom-button {
+        font-size: 22px;
+        line-height: 20px;
+      }
+
+      #title {
+        background-color: #489d9a;
+        color: white;
+        font-size: 2em;
+        padding-left: 1px;
+        font: "Open Sans", sans-serif;
+      }
+      #chartLabels {
+        border-collapse: separate;
+        text-align: left;
+      }
+      #markerDiv {
+          width: 100%;
+      }
+      #pieChart{
+        display: block;
+        margin: 0 auto;
+        float:right;
+        vertical-align: bottom;
+        height:180px;
+      }
+      #barChart{
+        display: block;
+        margin: 0 auto;
+        float:right;
+        vertical-align: bottom;
+        height:180px;
+      }
+
+      #roomDiv{
+        padding: 1%;
+        width: 33%;
+        height: 350px;
+        float:left;
+        vertical-align: middle;
+      }
+
+      #roomIcon{
+        display: block;
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+      }
+      #plusSign{
+        display: block;
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+      }
+
+      #posterBody{
+        margin-left: 0px !important;
+        margin-bottom: 0px !important;
+      }
+
+      #roomPic{
+        width: 80%;
+      }
+      #risk,#awareness,#advice{
+        font-size: 1.2em;
+      }
+      #posterPic{
+        padding: 0px;
+        background-color:lavender;
+         margin-top: 1.5%;
+      }
+      #row1,#row2{
+      color: white;
+      }
+      h1 {
+          text-align: center;
+      }
+      h4 {
+          text-align: center;
+          font-size: 1em;
+      }
+      h5 {
+          text-align: left;
+          font-size: 1em;
+      }
+
+      canvas{
+        border:1px solid #000000;
+        display: block;
+        width: 100%
+      }
+
+      .modal-content  {
+        border-radius: 1rem 1rem 1rem 1rem;
+      }
+
+      .modal-lg{
+        width:90%;
+        height: 100% !important;
+        max-width: 1191px !important;
+        min-width: 30cm;
+        margin: auto;
+      }
+      .modal-header{
+        background-color: #ff3232;
+        color: white;
+        border-radius: 1rem 1rem 0 0;
+      }
+      .modal-body{
+        font-size: 1em;
+        padding: 0;
+        margin-left: 10px;
+        margin-bottom: 20px;
+      }
+      .modal-footer{
+        background-color: #ff3232;
+        color: white;
+        font-size: 1em;
+        border-radius: 0 0 1rem 1rem;
+      }
+      .tableHead{
+        padding: 0% 1% !important;
+        font-size: 200%;
+        font-weight: bold;
+      }
+      /* Clear floats after the columns */
+      .row:after {
+          content: "";
+          display: table;
+          clear: both;
+      }
+      .posterInfo{
+        font-size: 1.4em;
+        margin-top: 10px;
+        vertical-align: top;
+      }
+      .posterTextLeft{
+        font-size: 1em;
+        vertical-align: top;
+        margin-top:7px;
+      }
+
+      .posterTextRight{
+        padding-left: 10px !important;
+        vertical-align: top;
+        margin-top:7px;
+        padding-right: 5px !important;
+      }
+
+      .col-sm-10,.col-sm-2,.col-sm-6,.col-sm-8,.col-sm-4,.col-sm-12{
+        padding: 0;
+        color: white;
+      }
+      .col-container {
+      display: table !important;
+      }
+      .img{
+        position: relative;
+        top: 2%;
+        transform: translateY(2%);
+        padding-left: 10px;
+      }
+      .row {
+      margin-right: 0px;
+      margin-left:  0px;
     }
-    .tableHead{
-      padding: 0% 1% !important;
-      font-size: 200%;
-      font-weight: bold;
+    .image-upload > input
+{
+    display: none;
+}
+    li {
+        padding-left: 1.28571429em;
+        text-indent: -1.28571429em;
     }
-    /* Clear floats after the columns */
-    .row:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-  </style>
-</head>
-<body>
+    </style>
+  </head>
+  <body>
 
-  <script src="/bower_components/three.js-master/build/three.js"></script>
-  <script src="/bower_components/D.js/lib/D.js"></script>
-  <script src="/bower_components/uEvent-master/uevent.js"></script>
-  <script src="/bower_components/doT-master-1/doT.js"></script>
-  <script src="/bower_components/three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
-  <script src="/bower_components/three.js-master/examples/js/renderers/Projector.js"></script>
-  <script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
-  <script src="/dist/photo-sphere-viewer.js"></script>
-  <script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
-  <script src="/bower_components/three.js-master/examples/js/renderers/CSS3DRenderer.js"></script>
-  <script src='/threex.htmlmixer-master/threex.htmlmixer.js'></script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/bower_components/three.js-master/build/three.js"></script>
+    <script src="/bower_components/D.js/lib/D.js"></script>
+    <script src="/bower_components/uEvent-master/uevent.js"></script>
+    <script src="/bower_components/doT-master-1/doT.js"></script>
+    <script src="/bower_components/three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
+    <script src="/bower_components/three.js-master/examples/js/renderers/Projector.js"></script>
+    <script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+    <script src="/dist/photo-sphere-viewer.js"></script>
+    <script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+    <script src="/bower_components/three.js-master/examples/js/renderers/CSS3DRenderer.js"></script>
+    <script src='/threex.htmlmixer-master/threex.htmlmixer.js'></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
-<div id="photosphere"></div>
-<div id="sideBar">
-  Select Room
-  <input id="roomIcon" type="image" src="example/kitchen.png" onclick="loadPhotograph( '/example/images/2.JPG' );" />
-  <input id="roomIcon" type="image" src="example/livingRoom.png" onclick="loadPhotograph( '/example/images/4.JPG' );" />
-  <input id="roomIcon" type="image" src="example/bedRoom.png" onclick="loadPhotograph( '/example/images/5.JPG' );" />
-  <input id="roomIcon" type="image" src="example/bathRoom.png" onclick="loadPhotograph( '/example/images/2.JPG' );" />
-</div>
-<!-- Modal Window content -->
-<!-- Modal -->
-<div id="clickModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-        <div class="modal-body">
-
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">What is the risk type?</h4>
-          <form>
-          <div class="btn-group btn-group-justified">
-              <a href="#" id='selectPoison' class="btn btn-primary" >Poison <br/>  <img src="/example/poison.png" alt="Poison" style="float:centre;width:60px;height:60px;">  </a>
-              <a href="#" id='selectChoking' class="btn btn-primary" >Choking <br/>  <img src="/example/choking.png" alt="Choking" style="float:centre;width:55px;height:55px;"></a>
-              <a href="#" id='selectFire' class="btn btn-primary" >Burn <br/>  <img src="/example/fire.png" alt="Fire" style="float:centre;width:60px;height:60px;" ></a>
-              <a href="#" id='selectCut' class="btn btn-primary" >Cut <br/>  <img src="/example/cut.png" alt="Cut" style="float:centre;width:60px;height:60px;" ></a>
-              <a href="#" id='selectTrip' class="btn btn-primary" >Trip <br/>  <img src="/example/trip.png" alt="Trip" style="float:centre;width:60px;height:60px;" ></a>
-              <a href="#" id='selectElectrical' class="btn btn-primary" >Electrical <br/>  <img src="/example/electrical.png" alt="Electrical" style="float:centre;width:60px;height:60px;" ></a>
-         </div>
-
-         <h4 class="modal-title">How severe is the risk?</h4>
-         <font size="5">Low </font> <input id="riskSlide" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5"/> <font size="5"> High </font>
-
-         <div class="form-group">
-            <h4 class="modal-title">Describe the risk</h4>
-            <textarea class="form-control" id="hazardDescription" rows="2"></textarea>
-         </div>
-
-         <div class="form-group">
-            <h4 class="modal-title">How can this be prevented?</h4>
-            <textarea class="form-control" id="prevention" rows="2"></textarea>
-         </div>
-
-         <div class="form-group">
-            <h4 class="modal-title">What are the dangers associated?</h4>
-            <textarea class="form-control" id="dangers" rows="2"></textarea>
-         </div>
-       </form>
+    <div id="photosphere"></div>
+    <div id="sideBar">
+      Select Room
+      <div id="icons">
+        <input id="roomIcon" type="image" src="example/kitchen.PNG" onclick="loadPhotograph( '/example/images/2.JPG' );" />
+        <input id="roomIcon" type="image" src="example/livingRoom.PNG" onclick="loadPhotograph( '/example/images/4.JPG' );" />
+        <input id="roomIcon" type="image" src="example/bedRoom.PNG" onclick="loadPhotograph( '/example/images/5.JPG' );" />
+        <input id="roomIcon" type="image" src="example/bathRoom.PNG" onclick="loadPhotograph( '/example/images/2.JPG' );" />
       </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Submit</button>
+      <div class="image-upload">
+          <label for="file-input">
+              <img id="plusSign" src="example/whitePlus.PNG"/>
+          </label>
+          <input id="file-input" type="file" onchange="previewFile()"/>
       </div>
     </div>
+    <!-- Modal Window content -->
+    <!-- Modal -->
+    <div id="clickModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
 
-  </div>
-</div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
 
-<div id="marker" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">What is the risk type?</h4>
+              <form>
+              <div class="btn-group btn-group-justified">
+                  <a href="#" id='selectPoison' class="btn btn-primary" >Poison <br/>  <img src="/example/poison.png" alt="Poison" style="float:centre;width:60px;height:60px;">  </a>
+                  <a href="#" id='selectChoking' class="btn btn-primary" >Choking <br/>  <img src="/example/choking.png" alt="Choking" style="float:centre;width:55px;height:55px;"></a>
+                  <a href="#" id='selectFire' class="btn btn-primary" >Burn <br/>  <img src="/example/fire.png" alt="Fire" style="float:centre;width:60px;height:60px;" ></a>
+                  <a href="#" id='selectCut' class="btn btn-primary" >Cut <br/>  <img src="/example/cut.png" alt="Cut" style="float:centre;width:60px;height:60px;" ></a>
+                  <a href="#" id='selectTrip' class="btn btn-primary" >Trip <br/>  <img src="/example/trip.png" alt="Trip" style="float:centre;width:60px;height:60px;" ></a>
+                  <a href="#" id='selectElectrical' class="btn btn-primary" >Electrical <br/>  <img src="/example/electrical.png" alt="Electrical" style="float:centre;width:60px;height:60px;" ></a>
+             </div>
 
-    <!-- Modal content-->
-    <div class="modal-content" >
-      <div class="modal-header" >
-      <div id="markerIcon"></div>
-      <div id="titleHere"></div>
-      </div>
+             <h4 class="modal-title">How severe is the risk?</h4>
+             <font size="5">Low </font> <input id="riskSlide" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5"/> <font size="5"> High </font>
 
-        <div class="modal-body">
-        <div id="risk"></div>
-        <h5> How can it be Prevented?</h5>
-        <div id="awareness"></div>
-        <h5> Potential Danger</h5>
-        <div id="advice"></div>
-        <div id="extra"></div>
+             <div class="form-group">
+                <h4 class="modal-title">Describe the risk</h4>
+                <textarea class="form-control" id="hazardDescription" rows="2"></textarea>
+             </div>
+
+             <div class="form-group">
+                <h4 class="modal-title">How can this be prevented?</h4>
+                <textarea class="form-control" id="prevention" rows="2"></textarea>
+             </div>
+
+             <div class="form-group">
+                <h4 class="modal-title">What are the dangers associated?</h4>
+                <textarea class="form-control" id="dangers" rows="2"></textarea>
+             </div>
+           </form>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Submit</button>
+          </div>
         </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
-  </div>
-</div>
-
-<div id="poster" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
-
-    <!-- Modal content-->
-        <div id="posterContent" class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Evaluation Summary</h4>
+    <div id="marker" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" >
+          <div class="modal-header" >
+            <div id="markerIcon"></div>
+            <div id="titleHere"></div>
           </div>
+
           <div class="modal-body">
-            <div class= "row">
-              <div class= "threeColumn"><h4> Where are the Hazards </h4></div>
-              <div class= "threeColumn"><h4> Severity of Hazards </h4></div>
-              <div class= "threeColumn"><h4> Type of Hazard </h4></div>
-            </div>
-            <div class = "row" style="height:400px;">
-              <div class="threeColumn" id= "roomDiv" ><canvas id="roomChart"> </canvas></div>
-              <div class="threeColumn" id="pieChart" ></div>
-              <div class="threeColumn" id="barChart" ></div>
-            </div>
-            <div id="markerDiv"> </div>
+            <div id="risk"></div>
+            <h3> Potential Danger</h3>
+            <div id="advice"></div>
+            <h3> How can it be Prevented?</h3>
+            <div id="awareness"></div>
+            <div id="extra"></div>
           </div>
+
           <div class="modal-footer">
-            <button id="btnPrint" type="button" class="btn btn-default" >Print</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
 
-  </div>
-</div>
+      </div>
+    </div>
 
-<script>
-  var panos = [
-    {
-      url: '/example/images/2.JPG',
-      desc: 'An unsafe kitchen',
-      target: {
-        longitude: 3.848,
-        latitude: -0.244,
-        offsetAng: '',
-        clickX: '',
-        clickY: '',
-        risk: 5,
-        markerType: '',
-        addMarkers:''
-      }
-    },
-    {
-      url: '/example/images/4.JPG',
-      desc: 'An unsafe kitchen',
-      target: {
-        longitude: 3.848,
-        latitude: -0.244,
-        offsetAng: '',
-        clickX: '',
-        clickY: '',
-        risk: 5,
-        markerType: '',
-        addMarkers:''
-      }
-    },
-    {
-      url: '/example/images/5.JPG',
-      desc: 'An unsafe kitchen',
-      target: {
-        longitude: 3.848,
-        latitude: -0.244,
-        offsetAng: '',
-        clickX: '',
-        clickY: '',
-        risk: 5,
-        markerType: '',
-        addMarkers:''
-      }
-    }
-  ];
+    <div id="poster" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div id="posterContent" class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div id="posterBody" class="modal-body">
+            <div class= "row" style="background-color: #345C8B; height:250px;">
+              <div class= "col-sm-6" style="padding-top:20px;">
+                <div class= "col-sm-3" style="padding-left:20px;"><img src="example/oven.png" style="height: 200px;" alt="oven"></div>
+                <div class= "col-sm-6" style="padding:0px; font-size:350%; text-align:left; "><b>Safety in the Kitchen</b></div>
+                <div class= "col-sm-3" style="padding:0px;"><img src="example/bleachDiag.png" style="height:200px;" alt="bleach"></div>
+              </div>
+              <div class= "col-sm-3">
+                <!-- <h3 style="text-align: center; color:white;"> Type of Hazards </h3> -->
+                <div id="pieChart" ></div>
+             </div>
+              <div class= "col-sm-3">
+                <!-- <h3 style="text-align: center; color:white;"> Severity of Hazards </h3> -->
+                <div id="barChart"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-container" id="row1" style="background-color:lavender;"></div>
+              <div class="col-sm-6" id="row2" style="background-color:lavenderblush;"></div>
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button id="btnPrint" type="button" class="btn btn-default" >Print</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+     </div>
+    </div>
 
-  var PSV = new PhotoSphereViewer({
-    container: 'photosphere',
-    panorama: panos[0].url,
-    caption: panos[0].desc,
-    loading_img: '/example/photosphere-logo.gif',
-    anim_speed: '-2rpm',
-    default_fov: 50,
-    fisheye: true,
-    move_speed: 1.1,
-    time_anim: false,
-    gyroscope: true,
-
-    markers: (function() {
-      var a = [];
-
-      a.push({
-        id: 'tea',
-        title:'Tea',
-        tooltip: 'A cup of tea on the edge of the kitchen work surface, on a tea towel which hangsover the edge of the surface',
-        longitude: 0.34,
-        latitude: -0.33,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'fire',
-        num: 5,
-      });
-      a.push({
-        id: 'pan',
-        title:'Pan',
-        tooltip: 'A pan of boiling water, on the front ring of the hob, with the handle accessible',
-        longitude: 0.156,
-        latitude: -0.313,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'fire',
-        num: 2,
-
-      });
-      a.push({
-        id: 'bleach',
-        title:'Bleach',
-        tooltip: 'Cleaning products on work surface',
-        longitude: 0.949,
-        latitude: -0.194,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'poison',
-        num: 3,
-
-      });
-      a.push({
-        id: 'washingPowder',
-        title:'Washing Powder',
-        tooltip: 'Washing machine liquid capsules left accessible on the washing machine',
-        longitude: 1.365,
-        latitude: -0.395,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'poison',
-        num: '',
-
-      });
-      a.push({
-        id: 'catFood',
-        title:'Cat Food',
-        tooltip: 'Cat food in bowl on the floor, dirty litter trays',
-        longitude: 3.033,
-        latitude: -0.878,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'choking',
-        num: 4,
-
-      });
-      a.push({
-        id: 'iron',
-        title:'Iron',
-        tooltip: 'Iron being stored on the radiator',
-        longitude: 4.35,
-        latitude: -0.248,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'fire',
-        num: 6,
-
-      });
-      a.push({
-        id: 'pills',
-        title:'Pills',
-        tooltip: 'Paracetamol left on the work surface.',
-        longitude: 5.83,
-        latitude: -0.296,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'poison',
-        num: 0,
-
-      });
-      a.push({
-        id: 'fridge',
-        title:'Fridge',
-        tooltip: 'Fridge magnets (ingestion and choking risk)',
-        longitude: 5.595,
-        latitude: -0.572,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'choking',
-        num: 7,
-
-      });
-      a.push({
-        id: 'gloves',
-        title:'Oven Gloves',
-        tooltip: 'Oven glove on the front ring, tea towel hanging from the oven door',
-        longitude: 6.141,
-        latitude: -0.32,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'fire',
-        num: 1,
-
-      });
-
-      a.push({
-        id: 'toys',
-        title:'Toys',
-        tooltip: 'Toys placed on the floor.',
-        longitude: 4.847,
-        latitude: -0.919,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'fire',
-        num: 8,
-
-      });
-      a.push({
-        id: 'knife',
-        title:'Knife',
-        tooltip: 'Knife placed by the edge of the counter.',
-        longitude: 1.032,
-        latitude: -0.272,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'fire',
-        num: 9,
-
-      });
-      a.push({
-        id: 'cupboard',
-        title:'Unlocked Cupboard',
-        tooltip: 'Cupboard containing cleaning products is not locked.',
-        longitude: 0.672,
-        latitude: -0.367,
-        image: '/example/whiteMarker.png',
-        width: 40,
-        height: 40,
-        pic: 'fire',
-        num: 10,
-      });
-
-      return a;
-    }()),
-    navbar: [
-      'autorotate', 'zoom', 'download', 'markers',
-      'spacer-1',
-      {
-        title: 'Change image',
-        className: 'custom-button',
-        content: '↻',
-        onClick: (function()
+    <script>
+      var panos = [
         {
-          return function()
-          {
+          url: '/example/images/2.JPG',
+          desc: 'The Kitchen',
+          target: {
+            longitude: 3.848,
+            latitude: -0.244,
+            offsetAng: '',
+            clickX: '',
+            clickY: '',
+            risk: 5,
+            markerType: '',
+            addMarkers:''
+          }
+        },
+        {
+          url: '/example/images/4.JPG',
+          desc: 'An unsafe kitchen',
+          target: {
+            longitude: 3.848,
+            latitude: -0.244,
+            offsetAng: '',
+            clickX: '',
+            clickY: '',
+            risk: 5,
+            markerType: '',
+            addMarkers:''
+          }
+        },
+        {
+          url: '/example/images/5.JPG',
+          desc: 'An unsafe kitchen',
+          target: {
+            longitude: 3.848,
+            latitude: -0.244,
+            offsetAng: '',
+            clickX: '',
+            clickY: '',
+            risk: 5,
+            markerType: '',
+            addMarkers:''
+          }
+        }
+      ];
 
-            for (a in PSV.hud.markers)
+      var PSV = new PhotoSphereViewer({
+        container: 'photosphere',
+        panorama: panos[0].url,
+        caption: panos[0].desc,
+        loading_img: '/example/photosphere-logo.gif',
+        anim_speed: '-2rpm',
+        default_fov: 50,
+        fisheye: true,
+        move_speed: 1.1,
+        time_anim: false,
+        gyroscope: true,
+
+        markers: (function() {
+          var a = [];
+          a.push({
+            id: 'tea',
+            title:'Tea',
+            tooltip: 'A cup of tea on the edge of the kitchen work surface, on a tea towel which hangsover the edge of the surface',
+            longitude: 0.34,
+            latitude: -0.33,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'fire',
+            num: 5,
+          });
+          a.push({
+            id: 'pan',
+            title:'Pan',
+            tooltip: 'A pan of boiling water, on the front ring of the hob, with the handle accessible',
+            longitude: 0.156,
+            latitude: -0.313,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'fire',
+            num: 2,
+
+          });
+          a.push({
+            id: 'bleach',
+            title:'Bleach',
+            tooltip: 'Cleaning products on work surface',
+            longitude: 0.949,
+            latitude: -0.194,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'poison',
+            num: 3,
+
+          });
+          a.push({
+            id: 'electrical',
+            title:'electrical',
+            tooltip: 'Cables could be pulled',
+            longitude: 1.365,
+            latitude: -0.395,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'electrical',
+            num: '',
+
+          });
+          a.push({
+            id: 'catFood',
+            title:'Cat Food',
+            tooltip: 'Cat food in bowl on the floor, dirty litter trays',
+            longitude: 3.033,
+            latitude: -0.878,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'choking',
+            num: 4,
+
+          });
+          a.push({
+            id: 'iron',
+            title:'Iron',
+            tooltip: 'Iron being stored on the radiator',
+            longitude: 4.35,
+            latitude: -0.248,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'fire',
+            num: 6,
+
+          });
+          a.push({
+            id: 'pills',
+            title:'Pills',
+            tooltip: 'Paracetamol left on the work surface.',
+            longitude: 5.83,
+            latitude: -0.296,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'poison',
+            num: 0,
+
+          });
+          a.push({
+            id: 'fridge',
+            title:'Fridge',
+            tooltip: 'Fridge magnets (ingestion and choking risk)',
+            longitude: 5.595,
+            latitude: -0.572,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'choking',
+            num: 7,
+
+          });
+          a.push({
+            id: 'gloves',
+            title:'Oven Gloves',
+            tooltip: 'Oven glove on the front ring, tea towel hanging from the oven door',
+            longitude: 6.141,
+            latitude: -0.32,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'fire',
+            num: 1,
+
+          });
+
+          a.push({
+            id: 'toys',
+            title:'Toys',
+            tooltip: 'Toys placed on the floor.',
+            longitude: 4.847,
+            latitude: -0.919,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'fire',
+            num: 8,
+
+          });
+          a.push({
+            id: 'knife',
+            title:'Knife',
+            tooltip: 'Knife placed by the edge of the counter.',
+            longitude: 1.032,
+            latitude: -0.272,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'fire',
+            num: 9,
+
+          });
+          a.push({
+            id: 'cupboard',
+            title:'Unlocked Cupboard',
+            tooltip: 'Cupboard containing cleaning products is not locked.',
+            longitude: 0.672,
+            latitude: -0.367,
+            image: '/example/whiteMarker.png',
+            width: 40,
+            height: 40,
+            pic: 'fire',
+            num: 10,
+          });
+          return a;
+        }()),
+        navbar: [
+          'autorotate', 'zoom', 'download', 'markers',
+          'spacer-1',
+          {
+            title: 'Change image',
+            className: 'custom-button',
+            content: '↻',
+            onClick: (function()
             {
-              PSV.showMarker(a)
+              return function()
+              {
+
+                for (a in PSV.hud.markers)
+                {
+                  PSV.showMarker(a)
+                }
+              }
+            }())
+          },
+          {
+            id: 'disabled',
+            title: 'This button is disabled',
+            content: '❌',
+            onClick: (function() {
+            return function() {
+
+              for (a in PSV.hud.markers)
+              {
+                PSV.hideMarker(a)
+              }
+            }
+          }())
+          },
+          {
+            id: 'hide',
+            title: 'Find the Hazards',
+            content: '◎',
+            onClick: (function() {
+            return function() {
+                PSV.showPanel('heya');
+            }
+          }())
+        },
+        {
+          id: 'Add',
+          title: 'Add Marker',
+          content: '+',
+          onClick: (function() {
+          return function() {
+            if (panos[0].target.addMarkers == '')
+            {
+              panos[0].target.addMarkers = 1;
+            }
+            else {
+              panos[0].target.addMarkers = '';
             }
           }
         }())
       },
       {
-        id: 'disabled',
-        title: 'This button is disabled',
-        content: '❌',
+        id: 'Generate Example Report',
+        title: 'Example Report',
+        content: '@',
         onClick: (function() {
         return function() {
 
+           $('#row1').empty();
+           $('#row2').empty();
+           var count = 0;
+           for (key in hazardDescriptionExample){
+
+             if (count < (Object.keys(hazardDescriptionExample).length)/2)
+             {
+               appendToRow('#row1', count ,key);
+             }
+             else{
+               //append to second row
+                appendToRow('#row2', count ,key);
+             }
+            count += 1;
+           };
+          //barChart(riskExample,'barChart');
+        //  pieChart(typeExample,'pieChart');
+          $('#poster').modal('show');
+        }
+      }())
+     },
+     {
+       id: 'submit',
+       title: 'Generate Report',
+       content: '▹▹',
+       onClick: (function() {
+         return function() {
+           console.log(hazardDescription);
+           $('#row1').empty();
+           $('#row2').empty();
+           var count = 0;
+           for (key in hazardDescription){
+
+             if (count < (Object.keys(hazardDescription).length)/2)
+             {
+               appendToRow('#row1', count ,key);
+             }
+             else{
+               //append to second row
+                appendToRow('#row2', count ,key);
+             }
+            count += 1;
+           };
+           if(Object.keys(hazardDescription).length % 2 != 0){
+           $('<div class="col-sm-12" style="background-color: #345C8B; height:180px;">').appendTo('#row2');
+         };
+         //barChart(risk,'barChart');
+         //pieChart(type,'pieChart');
+         $('#poster').modal('show');
+       }
+      }())
+
+      },
+          'caption',
+          'gyroscope',
+          'fullscreen'
+        ],
+        panel: {color: 'white'}
+      });
+
+      hazardDescriptionExample = {
+          tea: 'A cup of tea on the edge of the counter',
+          pan: 'A pan of boiling water on the front hob',
+          bleach: 'Cleaning products on the work surface',
+          catFood: 'Cat food and dirty litter trays on the floor',
+          iron: 'An iron placed on the radiator',
+          pills: 'Paracetamol left on the work surface',
+          fridge: 'Fridge magnets (choking risk)',
+          gloves: 'Oven gloves on the hob',
+          toys:'Toys left on the floor',
+          knife: 'A knife by the edge of the counter',
+          cupboard: 'An unlocked cupboard containing cleaning products',
+          electrical: 'An electrical cord capable of being pulled'
+      };
+      hazardDangersExample = {
+          tea:    ['Tea could easily be pulled and fall on a child',
+                      'Scalds can cause considerable pain, often need lengthy treatment and may result in lifelong scarring.'],
+          pan:    ['Young children are curious about cooking and will grab what they can reach'],
+          iron:   ['Contact burns account for 1/3 of burns to children.','Ovens, hobs, irons, hair straighteners and radiators can cause a deep burn on brief contact.'],
+          gloves: ['There were about 31,300 house fires in the UK in 2014/2015.', 'Cooking appliances caused 50% of these house.'],
+          pills: ['Every day, 15 young children are admitted to hospital with suspected poisoning','Medicines are the cause of over 70% of poisoning admissions and common painkillers are a main cause.'],
+          bleach: ['Bleach is poisonous and can cause death in serious cases'],
+          catFood: ['Biscuits can be a choking hazard to babies and young children.','Dirty cat litter can spread diseases.'],
+          fridge: ['Magnets and button batteries can be dangerous if swallowed.'],
+          toys: ['Toys on the floor can be a major trip hazard, potentially resulting in broken bones and head injuries.'],
+          knife: ['Children will play with knives if they have a chance. Can cause serious injuries.'],
+          cupboard: ['The cupboard is easily accesible by children who could easily access dangerous products and ingest them.'],
+          electrical: ['Electrical capable capable of being pulled, could cause electricution.']
+          };
+
+      hazardPreventionExample = {
+        tea:    ['Place hot drinks out of the reach of young children.','Think about a ‘safe tea’ zone in your house which everyone knows about and where you place all hot drinks.'],
+        pan:    ['Place pans on the back burners of the cooker','Don’t put children on the work surface','Teaching children not to climb on things in the kitchen reduces the risk of scalding.'],
+        iron:   ['Irons & hair straighteners stay very hot after use. Put them somewhere safe and away from children.','Fit safety gates to prevent children entering a room where an iron or hairstraightener may be in use or cooling down.'],
+        gloves: ['choose a place where tea /hand towels and oven gloves are kept away from the cooker.'],
+        pills: ['Keep all medicines in cupboards at or above adult eye level.','Keep medicines in their original container/blister pack.'],
+        bleach: ['Put all products and household chemicals out of reach of young children when you are using them.','Put all products and household chemicals away, in a cupboard with a child safety lock or in a cupboard at/above eye level.'],
+        catFood: ['Using safety gates to prevent children getting to areas where an animal is being fed, can prevent such ingestion risks.','Keep cat litter and young children separate from each other.'],
+        fridge: ['Keep magnets out of reach of young children.','Dispose of button batteries safely'],
+        toys: [],
+        knife: [],
+        cupboard: [],
+        electrical:['Hide away cables where possible, make sure all sockets are switched off when not in use.']
+        };
+
+        var hazardCoordsExample =      {pills: [5.83,-0.296],
+                                        gloves: [6.141,-0.32],
+                                        pan: [0.156,-0.313],
+                                        bleach: [0.949,-0.194],
+                                        catFood: [3.033, -0.878],
+                                        tea: [0.316, -0.2874],
+                                        iron: [4.33,-0.303],
+                                        fridge: [5.594,-0.6168],
+                                        toys: [4.917,-0.887],
+                                        knife: [1.0344,-0.241],
+                                        cupboard: [0.728,-0.350],
+                                        electrical: [1.398, -0.506]
+                                      };
+
+      var typeExample =              ['poison',
+                                      'fire',
+                                      'fire',
+                                      'poison',
+                                      'choking',
+                                      'fire',
+                                      'fire',
+                                      'choking',
+                                      'trip',
+                                      'cut',
+                                      'poison',
+                                      'electrical'];
+
+      var riskExample =              {pills:    '7',
+                                      gloves:   '8',
+                                      pan:      '8',
+                                      bleach:   '9',
+                                      catFood:  '5',
+                                      tea:      '7',
+                                      iron:     '10',
+                                      fridge:    '6',
+                                      toys:      '4',
+                                      knife:     '8',
+                                      cupboard:  '6',
+                                      electrical:'4'};
+
+
+      var hazardDescription = {};
+      var hazardPrevention =  {};
+      var hazardDangers =     {};
+      var type =              {};
+      var risk =              {};
+      var hazardCoords =      {};
+
+      var countMarkers = 0;
+      $('#closeModal').on('click', function(){
+        var description = document.getElementById('hazardDescription').value;
+        hazardDescription['#' + countMarkers] = [description];
+        var prevention = document.getElementById('prevention').value;
+        hazardPrevention['#' + countMarkers] = [prevention];
+        var dangers = document.getElementById('dangers').value;
+        hazardDangers['#' + countMarkers] = [dangers];
+        risk['#' + countMarkers] =  panos[0].target.risk;
+        type['#' + countMarkers] =  panos[0].target.markerType;
+        hazardCoords['#' + countMarkers] = [panos[0].target.clickX, panos[0].target.clickY];
+        createMarker(type['#' + countMarkers], countMarkers);
+        countMarkers += 1;
+      });
+
+      $('.modal').on('hidden.bs.modal', function(){
+          $(this).find('form')[0].reset();
+      });
+
+      $('#selectFire').on('click', function (e) {
+        panos[0].target.markerType = 'fire'});
+
+      $('#selectChoking').on('click', function (e) {
+        panos[0].target.markerType ='choking'});
+
+      $('#selectPoison').on('click', function (e) {
+        panos[0].target.markerType = 'poison'});
+
+      $('#selectCut').on('click', function (e) {
+        panos[0].target.markerType = 'cut'});
+
+      $('#selectTrip').on('click', function (e) {
+        panos[0].target.markerType = 'trip'});
+
+      $('#selectElectrical').on('click', function (e) {
+        panos[0].target.markerType = 'electrical'});
+
+      PSV.on('select-marker', function(marker){
+            if (marker.id[0] !== '#'){
+
+              var description = hazardDescriptionExample;
+              var riskNum = riskExample;
+              var dangers = hazardDangersExample;
+              var prevention = hazardPreventionExample;
+            }
+            else{
+              var description = hazardDescription;
+              var riskNum = risk;
+              var dangers = hazardDangers;
+              var prevention = hazardPrevention;
+            }
+            $('#titleHere').empty();
+            $('<h2>' + description[marker.id] + '</h2>').appendTo('#titleHere');
+            $('#markerIcon').empty();
+            $('<img src= \"example/' + marker.pic + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
+            $('#risk').empty();
+            $('<p><h3> Risk: ' + riskNum[marker.id] + '</h3>' ).appendTo('#risk');
+            $('#advice').empty();
+            $('<ul>').appendTo('#advice');
+            console.log(dangers);
+            for (i=0;i<dangers[marker.id].length;i++){
+              $('<li>' + dangers[marker.id][i] + '</li>').appendTo('#advice');
+            }
+            $('</ul>').appendTo('#advice');
+            $('#awareness').empty();
+            $('<ul>').appendTo('#awareness');
+            for (i=0;i<prevention[marker.id].length;i++){
+              $('<li>' + prevention[marker.id][i] + '</li>').appendTo('#awareness');
+            }
+            $('</ul>').appendTo('#awareness');
+            $('#marker').modal('show');
+      });
+
+      PSV.on('click', function(e) {
+        panos[0].target.clickX = e.longitude;
+        panos[0].target.clickY = e.latitude;
+        //cropPhotosphere();
+        if (panos[0].target.addMarkers == 1)
+        {
+        var modal = document.getElementById('clickModal');
+        modal.style.height = '400px';
+        panos[0].target.clickX = e.longitude;
+        panos[0].target.clickY = e.latitude;
+
+        var maxWidth = PSV.container.clientWidth;
+        var maxHeight =  PSV.container.clientHeight;
+        var clickX = 100 * (maxWidth/2 - e.client_x)/ maxWidth ;
+
+        if (e.client_y < (maxHeight - 1.5 *parseInt(modal.style.height))){
+          var clickY = 100 * (e.client_y)/ maxHeight ;
+        }
+        else{
+          var clickY = 100 * (e.client_y - 0.6 * parseInt(modal.style.height))/ maxHeight ;
+        }
+
+
+        modal.style.right = clickX+'%';
+        modal.style.top = clickY+'%';
+
+        $('#clickModal').modal('show');
+      }
+      });
+
+
+      $('#riskSlide').slider({
+      	formatter: function(value) {
+      		return 'Current value: ' + value;
+      	}
+      });
+      $("#riskSlide").on("slide", function(slideEvt) {
+      panos[0].target.risk = slideEvt.value;
+      });
+
+
+      function createMarker( type, countMarkers){
+        if (panos[0].target.risk < 3)
+        {
+          panos[0].target.risk = 3;
+        }
+        var size = 150 * (panos[0].target.risk)/10;
+        PSV.addMarker({
+           id: '#' + countMarkers,
+           tooltip: 'Generated marker',
+           longitude: panos[0].target.clickX,
+           latitude: panos[0].target.clickY,
+           pic: type,
+           image: '/example/redMarker.png',
+           width: size,
+           height: size,
+           anchor: 'bottom center',
+           number: countMarkers,
+           data: {
+             deletable: true
+           }
+         })
+       };
+
+      function cropPhotosphere(name,x,y){
+        var posterImage = document.getElementById( name );
+        var context = posterImage.getContext( "2d" );
+        var image = new Image();
+        posterImage.style.background = image; //'url( "andrewRoberts.svg" )';
+        var cropWidth = 0.3*Math.PI;
+        var cropHeight = cropWidth;
+
+        image.onload = function () {
+          context.canvas.height = 140;
+          context.canvas.width = context.canvas.height;
+          sourceX = (x - cropWidth/2)/(2 * Math.PI) * image.width;
+          sourceY = (0.5*Math.PI-(y + cropHeight/2))/(Math.PI) * image.height;
+          sourceCropW = cropWidth * (image.width/(2*Math.PI));
+          sourceCropH = cropHeight * (image.height/(Math.PI));
+          context.drawImage(image,sourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
+          if (sourceX < 0)
+          {
+            stitchSourceX = image.width + sourceX;
+            context.drawImage(image,stitchSourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
+          }
+          else if (sourceX + sourceCropW > image.width)
+          {
+            stitchSourceX = -image.width + sourceX;
+            context.drawImage(image,stitchSourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
+          }
+          $('#image'+ name).empty();
+          var img = posterImage.toDataURL("image/png");
+          document.getElementById('image' + name).innerHTML += '<img src="'+ img +'"/>';
+        }
+        image.src = "/example/images/2.JPG";
+
+      };
+
+      // Chart to show marker room location
+      // function roomCount(array){
+      //   $('<canvas id="roomChart"> </canvas>').appendTo('#roomDiv');
+      //   var kitchen = array.length;
+      //   var roomImage = document.getElementById( "roomChart" );
+      //   var context = roomImage.getContext( "2d" );
+      //   var image = new Image();
+      //   roomImage.style.background = image;
+      //
+      //   image.onload = function () {
+      //
+      //     context.canvas.height = 90;
+      //     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+      //     context.drawImage(image,0,0,context.canvas.width,context.canvas.height);
+      //     context.font = "30px Arial";
+      //     context.fillStyle = "red";
+      //     context.fillText("0",(context.canvas.width/4),(context.canvas.height/4));
+      //     context.fillText("0",(context.canvas.width * 2/3),(context.canvas.height/4));
+      //     context.fillText(kitchen + "",(context.canvas.width/4),(context.canvas.height * 3/4));
+      //     context.fillText("0",(context.canvas.width* 2/3),(context.canvas.height * 3/4));
+      //     $('#roomDiv').empty();
+      //     var img = roomImage.toDataURL("image/png");
+      //     document.getElementById('roomDiv').innerHTML += '<img id="roomPic" src="'+ img +'" />';
+      //
+      //   }
+      //   image.src = "/example/rooms.png";
+      // };
+
+
+
+      // Create PIE charts
+      function pieChart(array, div){
+          newArray = array;
+          var differentTypes = ['choking','cut','electrical','fire','poison','trip'];
+          var typeVal =[0,0,0,0,0,0];
+          newArray.sort();
+          pieArray=[];
+          for ( var i = 0; i < differentTypes.length; i++ ) {
+              for (var j=0; j<newArray.length;j++)
+              {
+                if ( newArray[j] == differentTypes[i] ) {
+                    typeVal[i] += 1;
+                }
+              }
+          };
+
+          colours= ['#eef291', '#489d9a', '#ff586c', '#bae9f9', '#ffa33e','#489d9a'];
+          pieArray=[['Type', 'Occurence',{ role: 'style' }]];
+
+          for (var i=0; i < differentTypes.length;i++) {
+            pieArray.push([differentTypes[i],typeVal[i],colours[i]]);
+          }
+
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+
+            var pieData = google.visualization.arrayToDataTable(pieArray);
+
+            var options = {
+              legend: 'none',
+              bar: {groupWidth: '50%'},
+              backgroundColor: { fill:'transparent' },
+              chartArea: {left: 0, top: 0, width: "90%", height: "70%"},
+              histogram: { bucketSize: 1,
+                           minValue: 0,
+                           maxValue: 10,
+                         },
+             hAxis : {
+               textStyle : {
+                 fontSize: 15, // or the number you want,
+                 color: '#FFFFFF'
+               }
+             }
+            };
+
+            var chartDiv = document.getElementById(div);
+            var pieChart = new google.visualization.ColumnChart(chartDiv);
+            google.visualization.events.addListener(pieChart, 'ready', function () {
+            chartDiv.innerHTML = '<img style="width:110%; height:100%;" src="' + pieChart.getImageURI() + '">';
+             });
+            pieChart.draw(pieData, options);
+          }
+      }
+
+      // Create Bar Charts
+      function barChart(array, div){
+        newArray = array;
+        var differentRisk = [0,1,2,3,4,5,6,7,8,9,10];
+        var riskVal =[0,0,0,0,0,0,0,0,0,0];
+        newArray.sort();
+        pieArray=[];
+        for ( var i = 0; i < differentRisk.length; i++ ) {
+            for (var j=0; j<newArray.length;j++)
+            {
+              if ( newArray[j] == differentRisk[i] ) {
+                  riskVal[i] += 1;
+              }
+            }
+        };
+        colours = ['#ffe5e5','#ffcccc','#ffb2b2','#ff9999','#ff7f7f','#ff6666','#ff4c4c', '#ff3232','#ff1919','#ff0000']
+        barArray=[['number', 'Count',{ role: 'style' }]];
+        for (var i=0; i < differentRisk.length;i++)
+        {
+          barArray.push([differentRisk[i],riskVal[i],colours[i]]);
+        }
+        google.charts.load('current', {packages:['corechart']});
+        google.charts.setOnLoadCallback(drawBar);
+          function drawBar() {
+          var barData = new google.visualization.arrayToDataTable( barArray );
+
+          var options = {
+            legend: 'none',
+            bar: {groupWidth: '50%'},
+            backgroundColor: { fill:'transparent' },
+            chartArea: {left: 0, top: 0, width: "90%", height: "70%"},
+            histogram: { bucketSize: 1,
+                         minValue: 0,
+                         maxValue: 10,
+                       },
+           hAxis : {
+             textStyle : {
+               fontSize: 15, // or the number you want,
+               color: '#FFFFFF'
+             }
+           }
+          };
+
+           var chartDiv = document.getElementById(div);
+           var barChart = new google.visualization.ColumnChart(chartDiv);
+           google.visualization.events.addListener(barChart, 'ready', function () {
+           chartDiv.innerHTML = '<img style="width:110%; height:100%;" src="' + barChart.getImageURI() + '">';
+            });
+
+           barChart.draw(barData, options);
+
+           };
+      }
+
+      function appendToRow(name, count, key){
+        console.log(key[0]);
+        if (key[0] !== '#'){
+          var description = hazardDescriptionExample;
+          var riskNum = riskExample;
+          var dangers = hazardDangersExample;
+          var prevention = hazardPreventionExample;
+          var coords = hazardCoordsExample;
+        }
+        else{
+          var description = hazardDescription;
+          var riskNum = risk;
+          var dangers = hazardDangers;
+          var prevention = hazardPrevention;
+          var coords = hazardCoords;
+        }
+        if ((count % 2) == 0)
+        {
+          var colour = '#4F74A0';
+        }
+        else{
+          var colour = '#345C8B';
+        }
+        console.log(coords);
+        console.log(prevention);
+        $('<div class="col-sm-12" style="background-color:'+ colour + '; height:220px;">' +
+          '<div class="col-sm-3 img" id="image' + count +'"><canvas id="'+ count + '"></canvas>' +
+          '</div>' +
+          '<div class="col-sm-9 " id="posterText" >' +
+            '<div class="col-sm-12 posterInfo">' + description[key] + '</div>' +
+            '<div class="col-sm-12">' +
+            '<div class="col-sm-2 posterTextLeft" >' +
+              '<b>Danger</b>' +
+              '</div>' +
+              '<div class="col-sm-10 posterTextRight">' +
+                dangers[key] +
+              '</div>' +
+            '</div>' +
+            '<div class="col-sm-12">' +
+
+              '<div class="col-sm-2 posterTextLeft" >' +
+                '<b>Prevention</b>' +
+              '</div>' +
+              '<div class="col-sm-10 posterTextRight" >' +
+                prevention[key] +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>').appendTo(name);
+        cropPhotosphere(count,coords[key][0],coords[key][1]);
+      };
+
+
+      $(window).resize(function() {
+          if(this.resizeTO) clearTimeout(this.resizeTO);
+          this.resizeTO = setTimeout(function() {
+              $(this).trigger('resizeEnd');
+          }, 500);
+      });
+      //redraw graph when window resize is completed
+      $(window).on('resizeEnd', function() {
+        barChart(riskExample,'barChart');
+        pieChart(typeExample,'pieChart');
+      });
+
+      PSV.hud.container.addEventListener( 'touchstart', function( e ){
+        panos[0].target.offsetAngstart = PSV.doControls.alpha;
+      });
+
+      PSV.hud.container.addEventListener( 'touchend', function( e ){
+        panos[0].target.offsetAngend = PSV.doControls.alpha;
+        PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+      });
+
+      PSV.on('panorama-loaded', function(){
+        PSV.mesh.rotateY(110);
+        PSV.render();
+      });
+
+      PSV.on('zoom-updated', function(){
+        var zoom = PSV.getZoomLevel();
+        if (zoom < PSV.config.default_fov){
+          for (m in PSV.hud.markers){
+            PSV.updateMarker(
+            { id: m,
+              width: 30 + 10* (zoom/ PSV.config.default_fov) ,
+              height:30 + 10* (zoom/ PSV.config.default_fov)
+            })
+          }
+
+        }
+      });
+
+      PSV.on('over-marker', function(marker) {
+        PSV.updateMarker(
+        { id: marker.id,
+          width: 1.5 * marker.width,
+          height: 1.5 * marker.height
+        })
+
+      });
+
+      PSV.on('leave-marker', function(marker) {
+        PSV.updateMarker(
+        { id: marker.id,
+          width: marker.width/1.5,
+          height: marker.height/1.5
+        })
+
+      });
+
+      function loadPhotograph( photoId ) {
+          console.log(photoId.length);
+          let photosphere = panos.find( panos => panos.url == photoId );
+          PSV.config[ "panorama" ] = photosphere.url;
+          PSV.setCaption( photosphere.desc );
+          PSV.load();
           for (a in PSV.hud.markers)
           {
             PSV.hideMarker(a)
           }
-        }
-      }())
-      },
-      {
-        id: 'hide',
-        title: 'Find the Hazards',
-        content: '◎',
-        onClick: (function() {
-        return function() {
-            PSV.showPanel('heya');
-        }
-      }())
-    },
-    {
-      id: 'Add',
-      title: 'Add Marker',
-      content: '+',
-      onClick: (function() {
-      return function() {
-        if (panos[0].target.addMarkers == '')
-        {
-          panos[0].target.addMarkers = 1;
-        }
-        else {
-          panos[0].target.addMarkers = '';
-        }
       }
-    }())
-  },
-  {
-    id: 'Generate Example Report',
-    title: 'Example Report',
-    content: '@',
-    onClick: (function() {
-    return function() {
-
-      $('#markerDiv').empty();
-      $('<div class="row"><div class="standardColumn tableHead" >Hazard Name</div><div class="thinColumn tableHead">Type</div><div class="thinColumn tableHead">Risk</div><div class="standardColumn tableHead">Danger</div><div class="standardColumn tableHead">Prevention</div><div class="fatColumn tableHead">Extra Information</div> </div><div style="height:50px;"></div>').appendTo('#markerDiv');
-      for (i= 0;i< hazardDescriptionExample.length;i++){
-        $('<div class="row"><div style="height:50px;"></div><div class="hazardColumn" ><b>' + hazardDescriptionExample[i] + '</b></div><div class="thinColumn" >' + '<img src= \"example/' + typeExample[i] + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> '+'</div> <div class="thinColumn">' + riskExample[i] +
-        ' </div><div class="dangerColumn">'+ hazardDangersExample[i] + '</div><div class="preventionColumn">' + hazardPreventionExample[i] + '</div> <div id="image' + i +'" class="fatColumn"><canvas id="' + i + '"> </canvas></div></div>').appendTo('#markerDiv');
-        cropPhotosphere(i,hazardCoordsExample[i][0],hazardCoordsExample[i][1]);
-    };
-      barChart(riskExample,'barChart');
-      pieChart(typeExample,'pieChart');
-      roomCount(typeExample);
-      $('#poster').modal('show');
-    }
-  }())
- },
-{
-id: 'submit',
-title: 'Generate Report',
-content: '▹▹',
-onClick: (function() {
-return function() {
-
-  $('#markerDiv').empty();
-  $('<div class="row"><div class="standardColumn tableHead" >Hazard Name</div><div class="thinColumn tableHead">Type</div><div class="thinColumn tableHead">Risk</div><div class="standardColumn tableHead">Danger</div><div class="standardColumn tableHead">Prevention</div><div class="fatColumn tableHead">Extra Information</div> </div><div style="height:50px;"></div>').appendTo('#markerDiv');
-  for (i= 0;i< hazardDescription.length;i++){
-    $('<div class="row"><div style="height:50px;"></div><div class="hazardColumn" ><b>' + hazardDescription[i] + '</b></div><div class="thinColumn" >' + '<img src= \"example/' + type[i] + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> '+'</div> <div class="thinColumn">' + risk[i] +
-    ' </div><div class="dangerColumn">'+ hazardDangers[i] + '</div><div class="preventionColumn">' + hazardPrevention[i] + '</div> <div id="image' + i +'" class="fatColumn"><canvas id="' + i + '"> </canvas></div></div>').appendTo('#markerDiv');
-    cropPhotosphere(i,hazardCoords[i][0],hazardCoords[i][1]);
-};
-  barChart(risk,'barChart');
-  pieChart(type,'pieChart');
-  roomCount(type);
-  $('#poster').modal('show');
-}
-}())
-
-},
-      'caption',
-      'gyroscope',
-      'fullscreen'
-    ],
-    panel: {color: 'white'}
-  });
-
-  var hazardDescriptionExample = ['Paracetamol left on the work surface',
-                                  'Oven glove on the front ring, tea towel hanging from the over door',
-                                  'A pan of boiling water, on the front ring of the hob, with the handle accessible',
-                                  'Cleaning products on work surface',
-                                  'Cat food in bowl on the floor, dirty litter trays',
-                                  'A cup of tea on the edge of the kitchen work surface, on a tea towel which hangsover the edge of the surface',
-                                  'Iron being stored on the radiator',
-                                  'Fridge magnets (ingestion and choking risk)',
-                                  'Toys left on the floor.',
-                                  'Knife placed by the edge of the counter',
-                                  'Unlocked cupboard containing cleaning products',
-                                  'Electrical cord capable of being pulled'];
-
-  var hazardPreventionExample =  ['Keep all medicines in cupboards above eye level. Keep medicines in their original container',
-                                  'Choose a place where tea /hand towels and oven gloves are kept away from the cooker.',
-                                  'Place pans on the back burners of the cooker. Don’t put children on the work surface. Teaching children not to climb on things in the kitchen reduces the risk of scalding.',
-                                  'Put all products and household chemicals out of reach of young children when you are using them. Put all products and household chemicals away, in a cupboard with a child safety lock or in a cupboard at/above eye level.',
-                                  'Using safety gates to prevent children getting to areas where an animal is being fed, can prevent such ingestion risks. Keep cat litter and young children separate from each other.',
-                                  'Place hot drinks out of the reach of young children. Think about a ‘safe tea’ zone in your house which everyone knows about and where you place all hot drinks.',
-                                  'Irons and hair straighteners stay very hot after use. Put them somewhere safe and away from children. Fit safety gates to prevent children entering a room where an iron or hairstraightener may be in use or cooling down. Correct first aid after a burn injury, no matter how minor, can greatly improve the long-term  effects of the injury.',
-                                  'Keep magnets out of reach of young children. Dispose of button batteries safely.',
-                                  'Make sure toys are cleared up immediately after use. Designate a specific safe playing area.',
-                                  'Store knives away immediately after use. Closely monitor children during cooking',
-                                  'Lock any cupboards with dangerous products in, or store at eye level.',
-                                  'Hide away cables where possible, make sure all sockets are switched off when not in use.'];
-
-  var hazardDangersExample =     ['Everyday, 15 young children are admitted to hospital with suspected poisoning. Risk of death',
-                                  'There were about 31,300 house fires in the UK in 2014/2015. Cooking appliances caused 50% of these house.',
-                                  'Young children are curious about cooking and will grab what they can reach.',
-                                  'Household cleaning products account for 20% of all admissions to hospital due to poisoning.',
-                                  'Cat or dog food itself is not poisonous but biscuits can be a choking hazard to babies and young children. Dirty cat litter can spread diseases.',
-                                  'Over half of  burns to young children are due to hot drink scalds. Although scalds rarely kill they cause considerable pain, often need lengthy treatment and may result in lifelong scarring.',
-                                  'Contact burns account for 1/3 of burns to children. Ovens, hobs, irons, hair straighteners and radiators can cause a deep burn on brief contact.',
-                                  'Magnets and button batteries can be dangerous if swallowed.',
-                                  'Toys on the floor can be a major trip hazard, potentially resulting in broken bones and head injuries.',
-                                  'Children are naturally curious and will play with knives if they have a chance. Can cause serious injuries.',
-                                  'The cupboard is easily accesible by children who could easily access dangerous products and ingest them.',
-                                  'Electrical capable capable of being pulled, could cause electricution.'];
-
-  var typeExample =              ['poison',
-                                  'fire',
-                                  'fire',
-                                  'poison',
-                                  'choking',
-                                  'fire',
-                                  'fire',
-                                  'choking',
-                                  'trip',
-                                  'cut',
-                                  'poison',
-                                  'electrical'];
-
-  var riskExample =              ['7','8','8','9','5','7','10','6','4','8','6','4'];
-
-  var hazardCoordsExample =      [[5.83,-0.296],
-                                  [6.141,-0.32],
-                                  [ 0.156,-0.313],
-                                  [  0.949,-0.194],
-                                  [ 3.033, -0.878],
-                                  [0.316, -0.2874],
-                                  [4.33,-0.303],
-                                  [5.594,-0.6168],
-                                  [4.917,-0.887],
-                                  [1.0344,-0.241],
-                                  [0.728,-0.350],
-                                  [1.398, -0.506]
-                                 ];
-
-
-var hazardDescription = [];
-var hazardPrevention =  [];
-var hazardDangers =     [];
-var type =              [];
-var risk =              [];
-var hazardCoords =      [];
-
-var countMarkers = 0;
-$('#closeModal').on('click', function(){
-  var description = document.getElementById('hazardDescription').value;
-  hazardDescription.push(description);
-  var prevention = document.getElementById('prevention').value;
-  hazardPrevention.push(prevention);
-  var dangers = document.getElementById('dangers').value;
-  hazardDangers.push(dangers);
-  risk.push(panos[0].target.risk);
-  type.push(panos[0].target.markerType);
-  hazardCoords.push([panos[0].target.clickX, panos[0].target.clickY]);
-  countMarkers += 1;
-  createMarker(type[type.length-1], countMarkers);
-});
-
-$('.modal').on('hidden.bs.modal', function(){
-    $(this).find('form')[0].reset();
-});
-
-$('#selectFire').on('click', function (e) {
-  panos[0].target.markerType = 'fire'});
-
-$('#selectChoking').on('click', function (e) {
-  panos[0].target.markerType ='choking'});
-
-$('#selectPoison').on('click', function (e) {
-  panos[0].target.markerType = 'poison'});
-
-$('#selectCut').on('click', function (e) {
-  panos[0].target.markerType = 'cut'});
-
-$('#selectTrip').on('click', function (e) {
-  panos[0].target.markerType = 'trip'});
-
-$('#selectElectrical').on('click', function (e) {
-  panos[0].target.markerType = 'electrical'});
-
-PSV.on('select-marker', function(marker)
-{
-      if (marker.image == '/example/whiteMarker.png')
-      {
-        $('#titleHere').empty();
-        $('<h2>' + hazardDescriptionExample[marker.num] + '</h2>').appendTo('#titleHere');
-
-        $('#markerIcon').empty();
-        $('<img src= \"example/' + marker.pic + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
-        $('#awareness').empty();
-        $('#risk').empty();
-        $('<p> <b>Risk: </b>' + riskExample[marker.num] + '</p>').appendTo('#risk');
-        $('<p>' + hazardPreventionExample[marker.num] + '</p>').appendTo('#awareness');
-        $('#advice').empty();
-        $('<p>' + hazardDangersExample[marker.num] + '</p>').appendTo('#advice');
-      }
-      else {
-
-      $('#titleHere').empty();
-      $('<h2>' + hazardDescription[marker.number - 1] + '</h2>').appendTo('#titleHere');
-
-      $('#markerIcon').empty();
-      $('<img src= \"example/' + marker.pic + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
-      $('#awareness').empty();
-      $('#risk').empty();
-      $('<p> <b>Risk: </b>' + risk[marker.number -1] + '</p>').appendTo('#risk');
-      $('<p>' + hazardPrevention[marker.number -1] + '</p>').appendTo('#awareness');
-      $('#advice').empty();
-      $('<p>' + hazardDangers[marker.number - 1] + '</p>').appendTo('#advice');
-    }
-
-      $('#marker').modal('show');
-});
-
-  PSV.on('click', function(e) {
-    panos[0].target.clickX = e.longitude;
-    panos[0].target.clickY = e.latitude;
-    //cropPhotosphere();
-    if (panos[0].target.addMarkers == 1)
-    {
-    var modal = document.getElementById('clickModal');
-    modal.style.height = '400px';
-    panos[0].target.clickX = e.longitude;
-    panos[0].target.clickY = e.latitude;
-
-    var maxWidth = PSV.container.clientWidth;
-    var maxHeight =  PSV.container.clientHeight;
-    var clickX = 100 * (maxWidth/2 - e.client_x)/ maxWidth ;
-
-    if (e.client_y < (maxHeight - 1.5 *parseInt(modal.style.height))){
-      var clickY = 100 * (e.client_y)/ maxHeight ;
-    }
-    else{
-      var clickY = 100 * (e.client_y - 0.6 * parseInt(modal.style.height))/ maxHeight ;
-    }
-
-
-    modal.style.right = clickX+'%';
-    modal.style.top = clickY+'%';
-
-    $('#clickModal').modal('show');
-  }
-  });
-
-
-  $('#riskSlide').slider({
-  	formatter: function(value) {
-  		return 'Current value: ' + value;
-  	}
-  });
-  $("#riskSlide").on("slide", function(slideEvt) {
-  panos[0].target.risk = slideEvt.value;
-  });
-
-
-function createMarker( type, countMarkers){
-  if (panos[0].target.risk < 3)
-  {
-    panos[0].target.risk = 3;
-  }
-  var size = 150 * (panos[0].target.risk)/10;
-  PSV.addMarker({
-     id: '#' + countMarkers,
-     tooltip: 'Generated marker',
-     longitude: panos[0].target.clickX,
-     latitude: panos[0].target.clickY,
-     pic: type,
-     image: '/example/' + type + '.png',
-     width: size,
-     height: size,
-     anchor: 'bottom center',
-     number: countMarkers,
-     data: {
-       deletable: true
-     }
-})
-}
-
-function cropPhotosphere(name,x,y){
-  var posterImage = document.getElementById( name );
-  var context = posterImage.getContext( "2d" );
-  var image = new Image();
-  posterImage.style.background = image; //'url( "andrewRoberts.svg" )';
-  var cropWidth = 0.3*Math.PI;
-  var cropHeight = cropWidth * (context.canvas.height/context.canvas.width);
-
-  image.onload = function () {
-
-    sourceX = (x - cropWidth/2)/(2 * Math.PI) * image.width;
-    sourceY = (0.5*Math.PI-(y + cropHeight/2))/(Math.PI) * image.height;
-    sourceCropW = cropWidth * (image.width/(2*Math.PI));
-    sourceCropH = cropHeight * (image.height/(Math.PI));
-    context.drawImage(image,sourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
-    if (sourceX < 0)
-    {
-      stitchSourceX = image.width + sourceX;
-      context.drawImage(image,stitchSourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
-    }
-    else if (sourceX + sourceCropW > image.width)
-    {
-      stitchSourceX = -image.width + sourceX;
-      context.drawImage(image,stitchSourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
-    }
-    $('#image'+ name).empty();
-    var img = posterImage.toDataURL("image/png");
-    document.getElementById('image' + name).innerHTML += '<img src="'+ img +'"/>';
-  }
-  image.src = "/example/images/2.JPG";
-
-};
-
-// Chart to show marker room location
-function roomCount(array){
-$('<canvas id="roomChart"> </canvas>').appendTo('#roomDiv');
-var kitchen = array.length;
-var roomImage = document.getElementById( "roomChart" );
-var context = roomImage.getContext( "2d" );
-var image = new Image();
-roomImage.style.background = image;
-image.onload = function () {
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-  context.drawImage(image,0,0,context.canvas.width,context.canvas.height);
-  context.font = "30px Arial";
-  context.fillStyle = "red";
-  context.fillText("0",(context.canvas.width/4),(context.canvas.height/4));
-  context.fillText("0",(context.canvas.width * 2/3),(context.canvas.height/4));
-  context.fillText(kitchen + "",(context.canvas.width/4),(context.canvas.height * 3/4));
-  context.fillText("0",(context.canvas.width* 2/3),(context.canvas.height * 3/4));
-  $('#roomDiv').empty();
-  var img = roomImage.toDataURL("image/png");
-  document.getElementById('roomDiv').innerHTML += '<img id="roomPic" src="'+ img +'" />';
-}
-image.src = "/example/rooms.png";
-};
-
-// Create PIE charts
-function pieChart(array, div){
-    newArray = array;
-    var a = [], b = [], prev;
-    newArray.sort();
-    pieArray=[];
-    for ( var i = 0; i < newArray.length; i++ ) {
-        if ( newArray[i] !== prev ) {
-            a.push(newArray[i]);
-            b.push(1);
-        } else {
-            b[b.length-1]++;
-        }
-        prev = newArray[i];
-
-    }
-    colours= ['#eef291', '#489d9a', '#ff586c', '#bae9f9', '#ffa33e','#489d9a'];
-    pieArray=[['Type', 'Occurence',{ role: 'style' }]];
-    for (var i=0; i < a.length;i++)
-    {
-      pieArray.push([a[i],b[i],colours[i]]);
-    }
-
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-
-      var pieData = google.visualization.arrayToDataTable(pieArray);
-
-      var options = {
-        legend: 'none',
-        bar: {groupWidth: '90%'},
-        chartArea: {left: 0, top: 0, width: "90%", height: "80%"},
-        histogram: { bucketSize: 1,
-                     minValue: 0,
-                     maxValue: 10,
-                   },
-       hAxis : {
-         textStyle : {
-           fontSize: 20 // or the number you want
-         }
-       }
-      };
-
-      var chartDiv = document.getElementById(div);
-      var pieChart = new google.visualization.ColumnChart(chartDiv);
-      google.visualization.events.addListener(pieChart, 'ready', function () {
-      chartDiv.innerHTML = '<img src="' + pieChart.getImageURI() + '">';
-       });
-      pieChart.draw(pieData, options);
-    }
-}
-
-// Create Bar Charts
-function barChart(array, div){
-  newArray = array;
-  var c = [], d = [], prev = 0;
-  if (newArray[0].length > 2)
-  {
-    newArray.sort();
-  }
-  else {
-    newArray.sort(function(a,b){return a-b});
-  }
-  barArray=[];
-  for ( var i = 0; i < newArray.length; i++ ) {
-      if ( newArray[i] !== prev ) {
-          c.push(newArray[i]);
-          d.push(1);
-      } else {
-          d[d.length-1]++;
-      }
-      prev = newArray[i];
-
-  }
-  colours = ['#ffe5e5','#ffcccc','#ffb2b2','#ff9999','#ff7f7f','#ff6666','#ff4c4c', '#ff3232','#ff1919','#ff0000']
-  barArray=[['number', 'Count',{ role: 'style' }]];
-  for (var i=0; i < c.length;i++)
-  {
-    barArray.push([c[i],d[i],colours[i]]);
-  }
-  google.charts.load('current', {packages:['corechart']});
-  google.charts.setOnLoadCallback(drawBar);
-    function drawBar() {
-    var barData = new google.visualization.arrayToDataTable( barArray );
-     var options = {
-       legend: 'none',
-       bar: {groupWidth: '90%'},
-       chartArea: {left: 0, top: 0, width: "90%", height: "80%"},
-       histogram: { bucketSize: 1,
-                    minValue: 0,
-                    maxValue: 10},
-      hAxis : {
-        textStyle : {
-          fontSize: 20 // or the number you want
-        }
-      }
-     };
-     var chartDiv = document.getElementById(div);
-     var barChart = new google.visualization.ColumnChart(chartDiv);
-     google.visualization.events.addListener(barChart, 'ready', function () {
-     chartDiv.innerHTML = '<img src="' + barChart.getImageURI() + '">';
-      });
-
-     barChart.draw(barData, options);
-
-     };
-}
-
-$(window).resize(function() {
-    if(this.resizeTO) clearTimeout(this.resizeTO);
-    this.resizeTO = setTimeout(function() {
-        $(this).trigger('resizeEnd');
-    }, 500);
-});
-//redraw graph when window resize is completed
-$(window).on('resizeEnd', function() {
-  barChart(riskExample,'barChart');
-  pieChart(typeExample,'pieChart');
-});
-
-PSV.hud.container.addEventListener( 'touchstart', function( e )
-{
-  panos[0].target.offsetAngstart = PSV.doControls.alpha;
-});
-
-PSV.hud.container.addEventListener( 'touchend', function( e )
-{
-  panos[0].target.offsetAngend = PSV.doControls.alpha;
-  PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
-});
-
-PSV.on('panorama-loaded', function()
-{
-  PSV.mesh.rotateY(110);
-  PSV.render();
-});
-
-PSV.on('zoom-updated', function()
-{
-  var zoom = PSV.getZoomLevel();
-  if (zoom < PSV.config.default_fov){
-    for (m in PSV.hud.markers)
-    {
-      PSV.updateMarker(
-      { id: m,
-        width: 30 + 10* (zoom/ PSV.config.default_fov) ,
-        height:30 + 10* (zoom/ PSV.config.default_fov)
-      })
-    }
-
-  }
-});
-
-  PSV.on('over-marker', function(marker) {
-    PSV.updateMarker(
-    { id: marker.id,
-      width: 1.5 * marker.width,
-      height: 1.5 * marker.height
-    })
-
-  });
-
-  PSV.on('leave-marker', function(marker) {
-    PSV.updateMarker(
-    { id: marker.id,
-      width: marker.width/1.5,
-      height: marker.height/1.5
-    })
-
-  });
-
-  function loadPhotograph( photoId ) {
-      let photosphere = panos.find( panos => panos.url == photoId );
-      PSV.config[ "panorama" ] = photosphere.url;
-      PSV.setCaption( photosphere.desc );
-      PSV.load();
-  }
-
-// Add printing functionality
-  document.getElementById("btnPrint").onclick = function() {
-      printElement(document.getElementById("posterContent"));
-      window.print();
-  }
-
-  function printElement(elem, append, delimiter) {
-      var domClone = elem.cloneNode(true);
-
-      var $printSection = document.getElementById("printSection");
-
-      if (!$printSection) {
-          var $printSection = document.createElement("div");
-          $printSection.id = "printSection";
-          document.body.appendChild($printSection);
+      function loadPhotographNew( photoId ) {
+          console.log(photoId.length);
+          let photosphere = panos.find( panos => panos.desc == 'Added photo' );
+          PSV.config[ "panorama" ] = photosphere.url;
+          PSV.setCaption( photosphere.desc );
+          PSV.load();
       }
 
-      if (append !== true) {
-          $printSection.innerHTML = "";
+
+      // Add printing functionality
+      document.getElementById("btnPrint").onclick = function() {
+          printElement(document.getElementById("posterBody"));
+          window.print();
       }
 
-      else if (append === true) {
-          if (typeof(delimiter) === "string") {
-              $printSection.innerHTML += delimiter;
+      function printElement(elem, append, delimiter) {
+          var domClone = elem.cloneNode(true);
+
+          var $printSection = document.getElementById("printSection");
+
+          if (!$printSection) {
+              var $printSection = document.createElement("div");
+              $printSection.id = "printSection";
+              document.body.appendChild($printSection);
           }
-          else if (typeof(delimiter) === "object") {
-              $printSection.appendChlid(delimiter);
+
+          if (append !== true) {
+              $printSection.innerHTML = "";
           }
+
+          else if (append === true) {
+              if (typeof(delimiter) === "string") {
+                  $printSection.innerHTML += delimiter;
+              }
+              else if (typeof(delimiter) === "object") {
+                  $printSection.appendChlid(delimiter);
+              }
+          }
+
+          $printSection.appendChild(domClone);
       }
 
-      $printSection.appendChild(domClone);
-  }
+      function previewFile(){
+              var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+             var reader  = new FileReader();
+
+             reader.onloadend = function () {
+               panos.push({
+                 url: reader.result,
+                 desc: 'Added photo',
+                 target: {
+                   longitude: 3.848,
+                   latitude: -0.244,
+                   offsetAng: '',
+                   clickX: '',
+                   clickY: '',
+                   risk: 5,
+                   markerType: '',
+                   addMarkers:''
+                 }
+               })
+               $('<input id="roomIcon" type="image" src="example/whiteMarker.PNG" onclick="loadPhotographNew( \'' + reader.result +' \' );" />').appendTo('#icons');
+                 console.log(panos);
+             }
+
+             if (file) {
+                 reader.readAsDataURL(file); //reads the data as a URL
+             } else {
+                 preview.src = "";
+             }
+        }
+
+          //calls the function named previewFile()
 
 
-</script>
-
-</body>
+    </script>
+  </body>
 </html>
