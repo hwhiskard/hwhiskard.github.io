@@ -380,7 +380,7 @@
     <script>
       var panos = [
         {
-          url: '/example/images/2.JPG',
+          url: '/example/images/2.jpg',
           desc: 'The Kitchen',
           target: {
             longitude: 3.848,
@@ -394,7 +394,7 @@
           }
         },
         {
-          url: '/example/images/4.JPG',
+          url: '/example/images/4.jpg',
           desc: 'An unsafe kitchen',
           target: {
             longitude: 3.848,
@@ -408,7 +408,7 @@
           }
         },
         {
-          url: '/example/images/5.JPG',
+          url: '/example/images/5.jpg',
           desc: 'An unsafe kitchen',
           target: {
             longitude: 3.848,
@@ -867,7 +867,7 @@
             $('#titleHere').empty();
             $('<h2>' + description[marker.id] + '</h2>').appendTo('#titleHere');
             $('#markerIcon').empty();
-            $('<img src= \"example/' + marker.pic + '.PNG\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
+            $('<img src= \"example/' + marker.pic + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
             $('#risk').empty();
             $('<p><h3> Risk: ' + riskNum[marker.id] + '</h3>' ).appendTo('#risk');
             $('#advice').empty();
@@ -980,7 +980,7 @@
           var img = posterImage.toDataURL("image/png");
           document.getElementById('image' + name).innerHTML += '<img src="'+ img +'"/>';
         }
-        image.src = "/example/images/2.JPG";
+        image.src = "/example/images/2.jpg";
 
       };
 
@@ -1307,7 +1307,7 @@
                    addMarkers:''
                  }
                })
-               $('<input id="roomIcon" type="image" src="example/whiteMarker.PNG" onclick="loadPhotographNew( \'' + reader.result +' \' );" />').appendTo('#icons');
+               $('<input id="roomIcon" type="image" src="example/whiteMarker.png" onclick="loadPhotographNew( \'' + reader.result +' \' );" />').appendTo('#icons');
                  console.log(panos);
              }
 
