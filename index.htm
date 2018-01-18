@@ -715,6 +715,16 @@
       },
           'caption',
           'gyroscope',
+          {
+            id: 'Generate Example Report',
+            title: 'Example Report',
+            content: '@',
+            onClick: (function() {
+            return function() {
+              window.open("https://hwhiskard.github.io/indexGame.htm","_self")
+            }
+          }())
+         },
           'fullscreen'
         ],
         panel: {color: 'white'}
