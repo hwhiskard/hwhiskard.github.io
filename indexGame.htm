@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/dist/photo-sphere-viewer.css">
+  <link rel="stylesheet" href="bootstrap-slider.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="jquery-3.2.1.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+  <script src="bootstrap-slider.js"></script>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    #photosphere {
+      width: 100%;
+      height: 90%;
+    }
+    #topBar{
+      width: 100%;
+      height: 80px;
+      background-color: #5495ff;
+    }
+    #clockDiv{
+      height: 50%;
+      margin: 0 auto;
+
+    }
+    #minuteDiv{
+      width: 40%;
+      height: 100%;
+      margin: auto 5px;
+      float: left;
+      vertical-align: middle;
+      color: white;
+      font-size: 150%;
+      text-align: right;
+    }
+    #secondDiv{
+      width: 40%;
+      height: 100%;
+      margin: auto 5px;
+      float: right;
+      vertical-align: middle;
+      color: white;
+      font-size: 150%;
+    }
+    #markerCounter{
+      float: right;
+      margin-top: 10px;
+      position: relative;
+      text-align: center;
+      color: white;
+      font-size: 3em;
+    }
+    #gameInstructions {
+      text-align: center;
+      color: white;
+      font-size: 200%;
+    }
+    #ex1Slider .slider-selection {
+	background: #BABABA;
+    }
+    #endResults{
+      margin: 0;
+      padding: 0;
+    }
+    #restart{
+      margin-top: 5px;
+
+    }
+    #remainingTime{
+      color: white;
+      margin-top: 2px;
+      margin-bottom:0px;
+      text-align: center;
+    }
+
+    .modal-header,.modal-body,.modal-footer{
+      background-color: #5495ff;
+      color: white;
+    }
+
+    .minutes{
+      margin-top: 0px;
+      text-align: right;
+      font-size: 150%;
+    }
+    .seconds{
+      margin-top: 0px;
+      font-size: 150%;
+    }
+    .psv-button.custom-button {
+      font-size: 22px;
+      line-height: 20px;
+    }
+    .modal {
+  text-align: center;
+  padding: 0!important;
+
+
+}
+.modal-content  {
+  border-radius: 2rem 2rem 2rem 2rem;
+}
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+
+
+}
+
+.modal-footer{
+  border-radius: 0 0 2rem 2rem;
+}
+
+.modal-header{
+  border-radius: 2rem 2rem 0 0;
+}
+.modal-dialog {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: 50%;
+ margin: auto;
+  font-size: 150%;
+  color: white;
+}
+.modal-title {
+  font-size: 100%;
+  color: white;
+}
+.btn-group-justified{
+  height: 200px;
+}
+.markerIcon{
+  width: 80%;
+  float: center;
+}
+.posterInfo{
+  margin-top: 10px;
+  text-align: center;
+  vertical-align: top;
+}
+.posterTextLeft{
+  font-size: 1em;
+  padding-left: 25px !important;
+  vertical-align: top;
+  margin-top:7px;
+}
+
+.posterTextRight{
+  padding-left: 5px;
+  vertical-align: top;
+  margin-top:7px;
+  padding-right: 5px !important;
+}
+
+.correctDiv{
+  background-color:#00cc00;
+  height: 20%;
+}
+.incorrectDiv{
+  background-color:#cc0000;
+  height: 20%;
+}
+.restartText{
+  margin-top: 15px;
+  color: white;
+  font-size: 2em;
+  text-align: left;
+  margin-left: 5px;
+};
+
+
+  </style>
+</head>
+<body>
+<div id="topBar">
+  <div id="restart" class= "col-sm-4">
+    <div class= "col-sm-2">
+      <a href="#" class="btn" data-dismiss="modal" onClick="restartGame()"><img class="markerIcon" src="/example/restartButton.png" style="height:50px; width:50px;"></a>
+    </div>
+    <div class= "col-sm-6 restartText"> Restart </div>
+  </div>
+  <div id="clockDiv" class= "col-sm-4">
+    <div class= "col-sm-12">
+      <h3 id="remainingTime">Time Remaining </h3>
+      <div id ="minuteDiv">
+        <span class="minutes"></span>
+      </div>
+      <div id ="secondDiv" >
+        <span class="seconds"></span>
+      </div>
+  </div>
+  </div>
+  <div id= "markerCounter" class= "col-sm-4">
+    Markers found: 0/11
+  </div>
+</div>
+
+<div id="photosphere"></div>
+
+<div id="marker" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header" >
+      <div id="markerIcon"></div>
+      <div id="titleHere"></div>
+      </div>
+
+        <div class="modal-body">
+        <div id="risk"></div>
+        <h3> Potential Danger</h3>
+        <div id="advice"></div>
+        <h3> How can it be Prevented?</h3>
+        <div id="awareness"></div>
+        <div id="extra"></div>
+        </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="modal fade" id="gameInstructions">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" id="startTitle">
+        <h2 class="modal-title">Find the Hazards</h2>
+      </div>
+      <div class="modal-body" style="border-radius: 0 0 2rem 2rem; ">
+        <div class="form-group" id="submit">
+             <h4 class="modal-title">Enter your name</h4>
+             <textarea class="form-control" id="playerName" style="font-size:100%; text-align:center;" rows="1"></textarea>
+             <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal" style="margin-top: 10px;"  onClick="submitName()">Submit</button>
+        </div>
+        <!-- <p>You have 3 minutes to find all of the hazards in the room. There are 11 in total.</p>
+        <button type="button" style="background-color: #0D69FB" class="btn-block" data-dismiss="modal" onClick="startClock()">Begin</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="gameOver">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div id="endMessage"></div>
+        <div id="endResults"></div>
+        <div class="btn-group btn-group-justified">
+        </br>
+          <button type="button" style="background-color: #0D69FB " class="btn-block" data-dismiss="modal" onClick="reviewMarkers()">Review Hazards</button>
+          <button type="button" style="background-color: #0D69FB" class="btn-block" data-dismiss="modal" onClick="restartGame()">Restart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="quizResult">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" id='quizMessage' style="border-radius: 2rem 2rem 2rem 2rem; ">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="markerType">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title">What type of hazard is it?</h5>
+      </div>
+      <div class="btn-group btn-group-justified" id="quizButtons">
+          <a href="#" id='selectPoison' class="btn btn-primary" data-dismiss="modal" onClick="isCorrect('poison')">Poison <br/>  <img class="markerIcon" src="/example/poison.png" alt="Poison"></a>
+          <a href="#" id='selectChoking' class="btn btn-primary" data-dismiss="modal" onClick="isCorrect('choking')">Choking <br/>  <img class="markerIcon" src="/example/choking.png" alt="Choking"></a>
+          <a href="#" id='selectFire' class="btn btn-primary" data-dismiss="modal" onClick="isCorrect('fire')">Burn <br/>  <img class="markerIcon" src="/example/fire.png" alt="Fire" ></a>
+          <a href="#" id='selectCut' class="btn btn-primary" data-dismiss="modal" onClick="isCorrect('cut')">Cut <br/>  <img class="markerIcon" src="/example/cut.png" alt="Cut" ></a>
+          <a href="#" id='selectTrip' class="btn btn-primary" data-dismiss="modal" onClick="isCorrect('trip')">Trip <br/>  <img class="markerIcon" src="/example/trip.png" alt="Trip" ></a>
+          <a href="#" id='selectElectrical' class="btn btn-primary" data-dismiss="modal" onClick="isCorrect('electrical')">Electrical <br/>  <img class="markerIcon" src="/example/electrical.png" alt="Electrical" ></a>
+     </div>
+     <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+<script src="/bower_components/three.js-master/build/three.js"></script>
+<script src="/bower_components/D.js/lib/D.js"></script>
+<script src="/bower_components/uEvent-master/uevent.js"></script>
+<script src="/bower_components/doT-master-1/doT.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/CanvasRenderer.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/Projector.js"></script>
+<script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+<script src="/dist/photo-sphere-viewer.js"></script>
+<script src="/bower_components/three.js-master/examples/js/controls/DeviceOrientationControls.js"></script>
+<script src="/bower_components/three.js-master/examples/js/renderers/CSS3DRenderer.js"></script>
+<script src='/threex.htmlmixer-master/threex.htmlmixer.js'></script>
+
+<script>
+  $('#gameInstructions').modal('show');
+  var panos = [
+    {
+      url: '/example/images/2.jpg',
+      desc: 'An unsafe kitchen',
+      target: {
+        longitude: 3.848,
+        latitude: -0.244,
+        offsetAng: '',
+        clickX: '',
+        clickY: '',
+        risk: 5,
+        addMarkers:''
+      }
+    }
+  ];
+
+  var PSV = new PhotoSphereViewer({
+    container: 'photosphere',
+    panorama: panos[0].url,
+    caption: panos[0].desc,
+    loading_img: '/example/photosphere-logo.gif',
+    anim_speed: '-2rpm',
+    default_fov: 50,
+    fisheye: true,
+    move_speed: 1.1,
+    time_anim: false,
+    gyroscope: true,
+
+    markers: (function() {
+      var a = [];
+
+      a.push({
+        id: 'tea',
+        title:'Tea',
+        tooltip: 'A cup of tea on the edge of the kitchen work surface, on a tea towel which hangsover the edge of the surface',
+        longitude: 0.34,
+        latitude: -0.33,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+      });
+      a.push({
+        id: 'pan',
+        title:'Pan',
+        tooltip: 'A pan of boiling water, on the front ring of the hob, with the handle accessible',
+        longitude: 0.156,
+        latitude: -0.313,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+      a.push({
+        id: 'bleach',
+        title:'Bleach',
+        tooltip: 'Cleaning products on work surface',
+        longitude: 0.949,
+        latitude: -0.194,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
+
+      });
+      a.push({
+        id: 'electrical',
+        title:'electrical',
+        tooltip: 'cables',
+        longitude: 1.365,
+        latitude: -0.395,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'electrical'
+      });
+
+      a.push({
+        id: 'catFood',
+        title:'Cat Food',
+        tooltip: 'Cat food in bowl on the floor, dirty litter trays',
+        longitude: 3.033,
+        latitude: -0.878,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'choking'
+
+      });
+      a.push({
+        id: 'iron',
+        title:'Iron',
+        tooltip: 'Iron being stored on the radiator',
+        longitude: 4.35,
+        latitude: -0.248,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+
+      });
+      a.push({
+        id: 'pills',
+        title:'Pills',
+        tooltip: 'Paracetamol left on the work surface.',
+        longitude: 5.83,
+        latitude: -0.296,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
+
+      });
+      a.push({
+        id: 'fridge',
+        title:'Fridge',
+        tooltip: 'Fridge magnets (ingestion and choking risk)',
+        longitude: 5.595,
+        latitude: -0.572,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'choking'
+
+      });
+      a.push({
+        id: 'gloves',
+        title:'Oven Gloves',
+        tooltip: 'Oven glove on the front ring, tea towel hanging from the oven door',
+        longitude: 6.141,
+        latitude: -0.32,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'fire'
+      });
+
+      a.push({
+        id: 'toys',
+        title:'Toys',
+        tooltip: 'Toys placed on the floor.',
+        longitude: 4.847,
+        latitude: -0.919,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'trip'
+      });
+
+      a.push({
+        id: 'knife',
+        title:'Knife',
+        tooltip: 'Knife placed by the edge of the counter.',
+        longitude: 1.032,
+        latitude: -0.272,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'cut'
+
+      });
+      a.push({
+        id: 'cupboard',
+        title:'Unlocked Cupboard',
+        tooltip: 'Cupboard containing cleaning products is not locked.',
+        longitude: 0.672,
+        latitude: -0.367,
+        image: '/example/whiteMarker.png',
+        width: 40,
+        height: 40,
+        pic: 'poison'
+      });
+
+      return a;
+    }()),
+    panel: {color: 'white'}
+  });
+PSV.hideNavbar();
+
+hazardDescriptionExample = {
+    tea: 'A cup of tea on the edge of the counter',
+    pan: 'A pan of boiling water on the front ring of the hob',
+    bleach: 'Cleaning products on the work surface',
+    catFood: 'Cat food in bowl on the floor and dirty litter trays',
+    iron: 'Iron placed on the radiator',
+    pills: 'Paracetamol left on the work surface',
+    fridge: 'Fridge magnets (choking risk)',
+    gloves: 'Oven gloves on the hob',
+    toys:'Toys left on the floor',
+    knife: 'Knife by the edge of the counter',
+    cupboard: 'Unlocked cupboard containing cleaning products',
+    electrical: 'Electrical cord capable of being pulled'
+};
+hazardDangersExample = {
+    tea:    ['Tea could easily be pulled and fall on a child',
+                'Scalds can cause considerable pain, often need lengthy treatment and may result in lifelong scarring.'],
+    pan:    ['Young children are curious about cooking and will grab what they can reach'],
+    iron:   ['Contact burns account for 1/3 of burns to children.','Ovens, hobs, irons, hair straighteners and radiators can cause a deep burn on brief contact.'],
+    gloves: ['There were about 31,300 house fires in the UK in 2014/2015.', 'Cooking appliances caused 50% of these house.'],
+    pills: ['Every day, 15 young children are admitted to hospital with suspected poisoning','Medicines are the cause of over 70% of poisoning admissions and common painkillers are a main cause.'],
+    bleach: ['Bleach is poisonous and can cause death in serious cases'],
+    catFood: ['Biscuits can be a choking hazard to babies and young children.','Dirty cat litter can spread diseases.'],
+    fridge: ['Magnets and button batteries can be dangerous if swallowed.'],
+    toys: ['Toys on the floor can be a major trip hazard, potentially resulting in broken bones and head injuries.'],
+    knife: ['Children will play with knives if they have a chance. Can cause serious injuries.'],
+    cupboard: ['The cupboard is easily accesible by children who could easily access dangerous products and ingest them.'],
+    electrical: ['Electrical capable capable of being pulled, could cause electricution.']
+    };
+
+hazardPreventionExample = {
+  tea:    ['Place hot drinks out of the reach of young children.','Think about a ‘safe tea’ zone in your house which everyone knows about and where you place all hot drinks.'],
+  pan:    ['Place pans on the back burners of the cooker','Don’t put children on the work surface','Teaching children not to climb on things in the kitchen reduces the risk of scalding.','Correct first aid after a scald injury, no matter how minor, can greatly improve the long-term  effects of the injury.'],
+  iron:   ['Irons & hair straighteners stay very hot after use. Put them somewhere safe and away from children.','Fit safety gates to prevent children entering a room where an iron or hairstraightener may be in use or cooling down.','Correct first aid after a burn injury, no matter how minor, can greatly improve the long-term  effects of the injury.'],
+  gloves: ['Prevention – choose a place where tea /hand towels and oven gloves are kept away from the cooker.'],
+  pills: ['Keep all medicines in cupboards at or above adult eye level.','Keep medicines in their original container/blister pack.'],
+  bleach: ['Put all products and household chemicals out of reach of young children when you are using them.','Put all products and household chemicals away, in a cupboard with a child safety lock or in a cupboard at/above eye level.'],
+  catFood: ['Using safety gates to prevent children getting to areas where an animal is being fed, can prevent such ingestion risks.','Keep cat litter and young children separate from each other.'],
+  fridge: ['Keep magnets out of reach of young children.','Dispose of button batteries safely'],
+  toys: ['Make sure toys are tidied after use.','Designate special play areas.'],
+  knife: ['Keep knifes in drawers out of children\'s reach.'],
+  cupboard: ['Keep cupboards containing cleaning products lock or store at eye level.'],
+  electrical:['Hide away cables where possible, make sure all sockets are switched off when not in use.']
+  };
+
+  var hazardCoordsExample =      {pills: [5.83,-0.296],
+                                  gloves: [6.141,-0.32],
+                                  pan: [0.156,-0.313],
+                                  bleach: [0.949,-0.194],
+                                  catFood: [3.033, -0.878],
+                                  tea: [0.316, -0.2874],
+                                  iron: [4.33,-0.303],
+                                  fridge: [5.594,-0.6168],
+                                  toys: [4.917,-0.887],
+                                  knife: [1.0344,-0.241],
+                                  cupboard: [0.728,-0.350],
+                                  electrical: [1.398, -0.506]
+                                };
+
+var hazardClashPoints =        {pills:      [[5.748589619,-0.274291578],[5.834588211,-0.258817709],[5.839060859,-0.315361638],[5.741526614,-0.33926209]],
+                                gloves:     [[6.089038905,-0.307736669],[6.193639815,-0.287682812],[2*Math.PI,-0.385748596],[6.1814355,-0.461308074]],
+                                pan:        [[0.055173737,-0.285073867],[0.181753613,-0.284341684],[0.195952482,-0.375680637],[0.056503166,-0.381389406]],
+                                bleach:     [[0.912705589,-0.095055075],[0.967185447,-0.096817288],[0.977286743,-0.25865427],[0.916397203,-0.263473233]],
+                                catFood:    [[2.951105966,-0.815804521],[3.177273398,-0.827659497],[3.189090519,-0.922691028],[2.90849407,-0.906879647]],
+                                tea:        [[0.278233618,-0.255741378],[0.337882966,-0.250774903],[0.441003402,-0.337805629],[0.362708119,-0.564273216],[0.259037823,-0.424860351]],
+                                iron:       [[4.301356923,-0.195659123],[4.380989866,-0.208819709],[4.366891944,-0.369022755],[4.256370576,-0.363936411]],
+                                fridge:     [[5.49787557,-0.41411837],[5.729829938,-0.44896747],[5.730445921,-0.706536158],[5.466376415,-0.64195753]],
+                                toys:       [[4.82155735,-0.776151492],[5.02042109,-0.757253921],[5.137873044,-0.871031214],[4.82453215,-0.964398641]],
+                                knife:      [[1.011828782,-0.223779473],[1.047582864,-0.231031979],[1.050662034,-0.282132127],[1.007921729,-0.292383778]],
+                                cupboard:   [[0.635439229,-0.334413408],[0.839073017,-0.277362564],[0.855655149,-0.584188706],[0.630465909,-0.690752274]],
+                                electrical: [[1.35430421,-0.182767832],[1.372634067,-0.143350713],[1.438182671,-0.181011395],[1.408535862,-0.384724073],[1.429203856,-0.561722946],[1.371734338,-0.513921246],[1.339500093,-0.325064098]]
+                              };
+
+gameValues = {
+  playerName:'',
+  correctMarkers:[],
+  incorrectMarkers:['tea','electrical','pan','iron','gloves','pills','bleach','catFood','fridge','toys','knife','cupboard'],
+  currentMarker:'',
+  markersFound: 0,
+  effect:''
+};
+
+markerSoundLinks = {      pills: "/example/pillsTitle.mp3",
+                          gloves: "/example/glovesTitle.mp3",
+                          pan: "/example/panTitle.mp3",
+                          bleach: "/example/bleachTitle.mp3",
+                          catFood: "/example/catFoodTitle.mp3",
+                          tea: "/example/teaTitle.mp3",
+                          iron: "/example/ironTitle.mp3",
+                          fridge: "/example/fridgeTitle.mp3",
+                          toys: "/example/toysTitle.mp3",
+                          knife: "/example/knifeTitle.mp3",
+                          cupboard: "/example/cupboardTitle.mp3",
+                          electrical: "/example/electricalTitle.mp3"
+                        };
+
+soundEffects = {      pan: "/example/boilingWater.mp3",
+                      tea: "/example/teaSound.mp3",
+                      iron: "/example/ironBurn.mp3",
+                      toys: "/example/toysEffect.mp3",
+                      knife: "/example/knifeEffect.mp3",
+                      cupboard: "/example/cupboardEffect.mp3",
+                      electrical: "/example/electricalEffect.mp3",
+                      gloves: "/example/glovesEffect.mp3",
+                      catFood: "/example/catFoodEffect.mp3"
+                }
+PSV.on('select-marker', function(marker){
+      $('#titleHere').empty();
+      $('<h2>' + hazardDescriptionExample[marker.id] + '</h2>').appendTo('#titleHere');
+      $('#markerIcon').empty();
+      $('<img src= \"example/' + marker.pic + '.png\" height=\"100\" width=\"100\" style=\"float:right\"> ').appendTo('#markerIcon');
+      $('#advice').empty();
+      $('<ul>').appendTo('#advice');
+      for (i=0;i<hazardDangersExample[marker.id].length;i++){
+        $('<li>' + hazardDangersExample[marker.id][i] + '</li>').appendTo('#advice');
+      }
+      $('</ul>').appendTo('#advice');
+      $('#awareness').empty();
+      $('<ul>').appendTo('#awareness');
+      for (i=0;i<hazardPreventionExample[marker.id].length;i++){
+        $('<li>' + hazardPreventionExample[marker.id][i] + '</li>').appendTo('#awareness');
+      }
+      $('</ul>').appendTo('#awareness');
+
+      $('#marker').modal('show');
+      if (typeof markerSoundLinks[marker.id] !== 'undefined'){
+        var snd =  new Audio(markerSoundLinks[marker.id]);
+        snd.play();
+      }
+});
+
+
+  PSV.on('panorama-loaded', function(){
+    PSV.mesh.rotateY(110);
+    PSV.render();
+    for (a in PSV.hud.markers)
+    {
+      PSV.hideMarker(a)
+    }
+  });
+
+  PSV.on('click', function(e) {
+    var count =0;
+    var name = '';
+    var trueCount=0;
+    console.log(e.longitude,e.latitude);
+    for (a in PSV.hud.markers){
+      if (inside([e.longitude,e.latitude],hazardClashPoints[a]) == true)
+      {
+        trueCount+=1;
+        gameValues.currentMarker = a;
+      }
+      // if(PSV.hud.markers[a].longitude < e.longitude + 0.05  &&
+      //    PSV.hud.markers[a].longitude > e.longitude - 0.05 &&
+      //    PSV.hud.markers[a].latitude < e.latitude + 0.05   &&
+      //    PSV.hud.markers[a].latitude > e.latitude - 0.05 ){
+      //    count +=1;
+      //
+      //  }
+    }
+    if (trueCount > 0){
+      $('#markerType').modal('show');
+    }
+    else{
+    }
+
+  });
+
+function isCorrect(type){
+  if(type == PSV.hud.markers[gameValues.currentMarker].pic){
+    if (gameValues.correctMarkers.includes(gameValues.currentMarker) == false)
+    {
+      gameValues.markersFound += 1;
+      gameValues.correctMarkers.push(gameValues.currentMarker);
+      PSV.updateMarker(
+      { id: gameValues.currentMarker,
+        image: "/example/greenMarker.png"
+      })
+      PSV.showMarker(gameValues.currentMarker);
+      $('#quizResult').modal('show');
+      $('#quizMessage').empty();
+      $('<h4> Correct! </h4>').appendTo('#quizMessage');
+      // Set a timeout to hide the element again
+      setTimeout(function(){
+          $('#quizResult').modal('hide');
+      }, 800);
+    }
+    var snd = new Audio("/example/correctSound.mp3");
+    snd.play();
+    $('#markerCounter').empty();
+    $('<p> Markers found: ' + gameValues.markersFound + '/12 </p>').appendTo('#markerCounter');
+  }
+  else{
+    $('#quizResult').modal('show');
+    $('#quizMessage').empty();
+    $('<h4> Unlucky! </h4>').appendTo('#quizMessage');
+    var snd = new Audio("/example/incorrectSound.mp3");
+    snd.play();
+    // Set a timeout to hide the element again
+    setTimeout(function(){
+        $('#quizResult').modal('hide');
+    }, 800);
+  }
+  isComplete();
+}
+
+
+function isComplete(){
+  if(gameValues.markersFound == Object.keys(PSV.hud.markers).length)  //Object.keys(PSV.hud.markers).length -1))
+  {
+    postResults('win');
+  }
+  else{
+
+  }
+};
+
+
+PSV.on('zoom-updated', function()
+{
+  var zoom = PSV.getZoomLevel();
+  if (zoom < PSV.config.default_fov){
+    for (m in PSV.hud.markers)
+    {
+      PSV.updateMarker(
+      { id: m,
+        width: 30 + 10* (zoom/ PSV.config.default_fov) ,
+        height:30 + 10* (zoom/ PSV.config.default_fov)
+      })
+    }
+
+  }
+});
+
+  PSV.on('over-marker', function(marker) {
+    PSV.updateMarker(
+    { id: marker.id,
+      width: 1.5* marker.width,
+      height: 1.5 * marker.height
+    })
+    if (marker.id == 'pan' || marker.id == 'tea' || marker.id == 'iron' || marker.id == 'toys' || marker.id == 'knife'
+    || marker.id == 'cupboard' || marker.id == 'electrical' || marker.id == 'gloves' || marker.id == 'catFood')
+    {
+      gameValues.effect = new Audio(soundEffects[marker.id]);
+      gameValues.effect.play();
+    }
+  });
+
+  PSV.on('leave-marker', function(marker) {
+    PSV.updateMarker(
+    { id: marker.id,
+      width: marker.width/1.5,
+      height: marker.height/1.5
+    })
+    gameValues.effect.pause();
+    gameValues.effect.currentTime = 0;
+
+  });
+
+  function getTimeRemaining(endtime) {
+    var t = Date.parse(endtime) - Date.parse(new Date());
+    var seconds = Math.floor((t / 1000) % 60);
+    var minutes = Math.floor((t / 1000 / 60) % 60);
+    return {
+      'total': t,
+      'minutes': minutes,
+      'seconds': seconds
+    };
+  }
+
+  function initializeClock(id, endtime) {
+    var clock = document.getElementById(id);
+    var minutesSpan = clock.querySelector('.minutes');
+    var secondsSpan = clock.querySelector('.seconds');
+
+    function updateClock() {
+      var t = getTimeRemaining(endtime);
+      minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+      secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+      if (t.total <= 0) {
+        clearInterval(timeinterval);
+        postResults('lose');
+      }
+    }
+
+    updateClock();
+    var timeinterval = setInterval(updateClock, 1000);
+  }
+
+  function startClock(){
+  var deadline = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
+  initializeClock('clockDiv', deadline);
+  };
+
+
+
+  PSV.hud.container.addEventListener( 'touchstart', function( e )
+  {
+    panos[0].target.offsetAngstart = PSV.doControls.alpha;
+  });
+
+  PSV.hud.container.addEventListener( 'touchend', function( e )
+  {
+    panos[0].target.offsetAngend = PSV.doControls.alpha;
+    PSV.doControls.alphaOffsetAngle += - panos[0].target.offsetAngend + panos[0].target.offsetAngstart;
+  });
+
+  function findIncorrect(fullArray, correctValues){
+    for (i=0; i < correctValues.length; i++)
+    {
+      var found = fullArray.indexOf(correctValues[i]);
+
+       while (found !== -1) {
+           fullArray.splice(found, 1);
+           found = fullArray.indexOf(correctValues);
+      }
+    }
+    gameValues.incorrectMarkers = fullArray;
+  }
+
+  function postResults(endType){
+
+    $('#endMessage').empty();
+    $('#endResults').empty();
+    if(endType =='win'){
+      $('<h2 class="modal-title"> Congratulations! </h2><h2 class="modal-title"> You got ' + gameValues.markersFound + '/'+ Object.keys(hazardPreventionExample).length + ' correct </h2>').appendTo('#endMessage');
+    }
+    else{
+      $('<h2 class="modal-title"> Game Over! </h2><h2 class="modal-title"> You got ' + gameValues.markersFound + '/'+ Object.keys(hazardPreventionExample).length + ' correct </h2>').appendTo('#endMessage');
+    }
+
+    findIncorrect(gameValues.incorrectMarkers, gameValues.correctMarkers);
+    if(gameValues.incorrectMarkers.length > 0){
+      $('<div class="incorrectDiv"><h3>Hazards you missed</h3></div>').appendTo('#endResults')
+      for (i= 0;i< gameValues.incorrectMarkers.length;i++){
+
+        appendToRow('#endResults',i,gameValues.incorrectMarkers,'incorrect');
+      PSV.updateMarker(
+      { id: gameValues.incorrectMarkers[i],
+        image: "/example/redMarker.png"
+      })
+      };
+
+    };
+
+    if(typeof gameValues.correctMarkers[0] !== 'undefined'){
+      $('<div class="correctDiv"><h3 class="gameResult">Hazards you found</h3></div>').appendTo('#endResults')
+        for (i= 0;i< gameValues.correctMarkers.length;i++){
+        appendToRow('#endResults',i,gameValues.correctMarkers,'correct');
+
+      };
+    }
+
+    if(endType =='win')
+    {
+      setTimeout(function(){
+          $('#gameOver').modal('show');
+      }, 1000);
+    }
+    else{
+      if(typeof gameValues.incorrectMarkers[0] !== 'undefined')
+      {
+      $('#gameOver').modal('show');
+      }
+    }
+
+
+  }
+
+  function appendToRow(name, i,arr,val){
+    if (val == 'incorrect'){
+      var colour = '#ff3333';
+    }
+    else{
+      var colour = '#33ff33';
+    }
+    var identifier = i + val;
+    $('<div class="col-sm-12" style="background-color:'+ colour + '; height:150px;">' +
+        '<div class="col-sm-3 img" id="image' + i +'"><canvas id="'+ identifier + '"></canvas>' +
+        '</div>' +
+        '<div class="col-sm-9 " id="posterText" >' +
+          '<div class="col-sm-12 posterInfo">' + hazardDescriptionExample[arr[i]] + '</div>' +
+        '</div>' +
+      '</div>').appendTo(name);
+
+    cropPhotosphere(identifier,hazardCoordsExample[arr[i]][0],hazardCoordsExample[arr[i]][1]);
+
+  };
+
+  function cropPhotosphere(name,x,y){
+    var posterImage = document.getElementById( name );
+    var context = posterImage.getContext( "2d" );
+    var image = new Image();
+    posterImage.style.background = image; //'url( "andrewRoberts.svg" )';
+    var cropWidth = 0.3*Math.PI;
+    var cropHeight = cropWidth;
+    image.onload = function () {
+      context.canvas.height = 140;
+      context.canvas.width = context.canvas.height;
+      sourceX = (x - cropWidth/2)/(2 * Math.PI) * image.width;
+      sourceY = (0.5*Math.PI-(y + cropHeight/2))/(Math.PI) * image.height;
+      sourceCropW = cropWidth * (image.width/(2*Math.PI));
+      sourceCropH = cropHeight * (image.height/(Math.PI));
+      context.drawImage(image,sourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
+      if (sourceX < 0)
+      {
+        stitchSourceX = image.width + sourceX;
+        context.drawImage(image,stitchSourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
+      }
+      else if (sourceX + sourceCropW > image.width)
+      {
+        stitchSourceX = -image.width + sourceX;
+        context.drawImage(image,stitchSourceX,sourceY, sourceCropW, sourceCropH, 0, 0,context.canvas.width,context.canvas.height);
+      }
+      $('#image'+ name).empty();
+      var img = posterImage.toDataURL("image/png");
+      document.getElementById('image' + name).innerHTML += '<img src="'+ img +'"/>';
+    }
+    image.src = "/example/images/2.jpg";
+
+  };
+
+  function reviewMarkers(){
+    for (a in PSV.hud.markers)
+    {
+      PSV.showMarker(a)
+    };
+
+    PSV.render();
+  }
+
+  function restartGame(){
+    for (a in PSV.hud.markers)
+    {
+      PSV.hideMarker(a)
+    }
+    $('#markerCounter').empty();
+    $('<p> Markers found: ' + 0 + '/12 </p>').appendTo('#markerCounter');
+    gameValues.markersFound = 0;
+    gameValues.correctMarkers = [];
+    gameValues.incorrectMarkers = ['tea','electrical','pan','iron','gloves','pills','bleach','catFood','fridge','toys','knife','cupboard'];
+    startClock()
+  }
+
+  function submitName(){
+    gameValues.playerName  = document.getElementById('playerName').value;
+    console.log(gameValues.playerName);
+    $('#startTitle').empty();
+    $('<h2 class="modal-title">Hello ' + gameValues.playerName + '</h2>').appendTo('#startTitle');
+    $('#submit').empty();
+    $('<p>You have 2 minutes to find all of the hazards in the room. There are 11 in total.</p>'
+    + '<button type="button" style="background-color: #0D69FB" class="btn btn-primary btn-lg btn-block" id="beginButton" data-dismiss="modal" onClick="startClock()">Begin</button>'
+      ).appendTo('#submit');
+  }
+
+  document.getElementById('playerName').onkeydown = function(e){
+     if(e.keyCode == 13){
+      submitName()
+     }
+  };
+
+  function inside(point, vs) {
+      // ray-casting algorithm based on
+      // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+      var x = point[0], y = point[1];
+
+      var inside = false;
+      for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+          var xi = vs[i][0], yi = vs[i][1];
+          var xj = vs[j][0], yj = vs[j][1];
+
+          var intersect = ((yi > y) != (yj > y))
+              && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+          if (intersect) inside = !inside;
+      }
+
+      return inside;
+  };
+
+</script>
+
+</body>
+</html>
