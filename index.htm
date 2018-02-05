@@ -393,8 +393,8 @@
           }
         },
         {
-          url: '/example/images/4.jpg',
-          desc: 'An unsafe kitchen',
+          url: '/example/images/bathRoom.jpg',
+          desc: 'The Bathroom',
           target: {
             longitude: 3.848,
             latitude: -0.244,
@@ -407,8 +407,8 @@
           }
         },
         {
-          url: '/example/images/5.JPG',
-          desc: 'An unsafe kitchen',
+          url: '/example/images/livingRoom.jpg',
+          desc: 'The Livingroom',
           target: {
             longitude: 3.848,
             latitude: -0.244,
@@ -1245,7 +1245,6 @@
       });
 
       function loadPhotograph( photoId ) {
-          console.log(photoId.length);
           let photosphere = panos.find( panos => panos.url == photoId );
           PSV.config[ "panorama" ] = photosphere.url;
           PSV.setCaption( photosphere.desc );
